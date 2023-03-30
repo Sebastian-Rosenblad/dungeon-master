@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import { BestiaryV } from './views/bestiary/bestiary';
+import { ScenariosV } from './views/scenarios/scenarios';
+
+enum Views {
+  Scenarios,
+  Cultures,
+  Bestiary
+}
 
 function App() {
+  const [view, setView] = useState(Views.Scenarios);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <nav>
+        <span><button onClick={() => { setView(Views.Scenarios); }}>Scenarios</button> | </span>
+        <span><button onClick={() => { setView(Views.Cultures); }}>Cultures</button> | </span>
+        <span><button onClick={() => { setView(Views.Bestiary); }}>Bestiary</button></span>
+      </nav>
+      {view === Views.Scenarios && <ScenariosV />}
+      {view === Views.Bestiary && <BestiaryV />}
     </div>
   );
 }

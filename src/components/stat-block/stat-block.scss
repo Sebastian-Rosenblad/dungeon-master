@@ -1,0 +1,29 @@
+.stat-block {
+  max-width: 1000px;
+  margin: 10px 10px 0px 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.3);
+  .stat-block--display {
+    .stat-block--display--title {
+      margin: 0px;
+    }
+    .stat-block--display--subtitle {
+      margin-top: 0px;
+    }
+    .stat-block--display--description {
+      text-align: left;
+    }
+    .stat-block--display--content {
+      text-align: left;
+      column-count: 2;
+      p:first-child {
+        margin-top: 0px;
+      }
+    }
+  }
+  .stat-block--buttons {
+
+  }
+}
