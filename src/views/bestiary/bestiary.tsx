@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./bestiary.scss";
 import { StatBlockC } from "../../components/stat-block/stat-block";
 import { state_bestiary, NewStatBlock } from "../../database/bestiary-functions";
 import { StatBlockM } from "../../models/stat-block.models";
@@ -20,7 +21,7 @@ export function BestiaryV() {
     }));
   }
 
-  return <article>
+  return <article className="bestiary">
     <section className="bestiary-header">
       <h1>Bestiary</h1>
     </section>

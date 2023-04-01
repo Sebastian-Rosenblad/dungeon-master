@@ -3,7 +3,7 @@ export interface ScenarioM {
   intro: string;
   scenes: Array<SceneM>;
 }
-interface SceneM {
+export interface SceneM {
   name: string;
   text: Array<string>;
 }
