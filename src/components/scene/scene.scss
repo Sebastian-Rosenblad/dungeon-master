@@ -1,0 +1,29 @@
+.scene {
+  position: relative;
+  margin-top: 10px;
+  padding: 10px;
+  box-shadow: 0px 1px 2px #333;
+  .scene--hide-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  .scene-title {
+    margin: 0px;
+  }
+  .scene-content {
+    display: flex;
+    flex-direction: column;
+    input, textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+  }
+  p, li {
+    text-align: left;
+  }
+}

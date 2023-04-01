@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./scenarios.scss";
 import { NewScenario, state_scenarios } from "../../database/scenario-functions";
 import { ScenarioM } from "../../models/scenario.models";
 import { ScenarioV } from "../scenario/scenario";
@@ -19,13 +20,13 @@ export function ScenariosV() {
     setScenario(scenario);
   }
 
-  return <article>
+  return <article className="scenarios">
     {!scenario && <span><section className="scenarios-header">
       <h1>Scenarios</h1>
     </section>
     <section className="scenarios-body">
       {scenarios.map((scenario: ScenarioM, i: number) =>
-        <p onClick={() => { viewScenario(scenario); }}>{scenario.name}</p>
+        <h2 key={"scenario-" + i} className="scenario" onClick={() => { viewScenario(scenario); }}>{scenario.name}</h2>
       )}
     </section>
     <section className="scenarios-footer">

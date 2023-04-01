@@ -1,0 +1,23 @@
+.scenarios {
+  max-width: 1000px;
+  margin: 0px auto;
+  .scenarios-body {
+    display: flex;
+    flex-direction: column;
+    .scenario {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0px 1px 3px rgba(0,0,0,0.3);
+      cursor: pointer;
+      &:hover {
+        background-color: #333;
+        color: #eee;
+      }
+    }
+  }
+  .scenarios-footer {
+    margin: 10px;
+  }
+}
