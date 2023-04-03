@@ -1,5 +1,5 @@
 import { StatBlockC } from "../components/stat-block/stat-block";
-import { bestiary_db } from "../database/bestiary";
+import { bestiary_db } from "../database/bestiary.db";
 
 export function parseText(text: string, id?: string) {
   if (id && text.includes("[bestiary]")) {

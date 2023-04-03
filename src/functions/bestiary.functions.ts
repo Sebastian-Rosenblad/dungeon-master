@@ -1,5 +1,5 @@
 import { StatBlockM } from "../models/stat-block.models";
-import { bestiary_db } from "./bestiary";
+import { bestiary_db } from "../database/bestiary.db";
 
 export let state_bestiary: Array<StatBlockM> = JSON.parse(JSON.stringify(bestiary_db));
 
@@ -9,6 +9,7 @@ let indexes: Array<{ i: number, key: string }>;
 export function NewStatBlock(): StatBlockM {
   return {
     name: "New entry",
+    tags: [],
     size: "",
     type: "",
     alignment: "",
@@ -32,6 +33,7 @@ export function ParseStatBlock(text: string): StatBlockM {
   SetIndexes();
   let statBlock: StatBlockM = {
     name: GetString("name"),
+    tags: [],
     size: GetString("size").toLowerCase(),
     type: GetString("type").toLowerCase(),
     alignment: GetString("alignment").toLowerCase(),

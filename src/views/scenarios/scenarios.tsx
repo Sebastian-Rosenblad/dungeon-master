@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./scenarios.scss";
-import { NewScenario, state_scenarios } from "../../database/scenario-functions";
+import { NewScenario, state_scenarios } from "../../functions/scenario.functions";
 import { ScenarioM } from "../../models/scenario.models";
-import { ScenarioV } from "../scenario/scenario";
+import { ScenarioV } from "./scenario/scenario";
 
 export function ScenariosV() {
   const [scenarios, setScenarios] = useState(state_scenarios);

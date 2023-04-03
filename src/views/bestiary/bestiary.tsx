@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./bestiary.scss";
 import { StatBlockC } from "../../components/stat-block/stat-block";
-import { state_bestiary, NewStatBlock } from "../../database/bestiary-functions";
+import { state_bestiary, NewStatBlock } from "../../functions/bestiary.functions";
 import { StatBlockM } from "../../models/stat-block.models";
 
 export function BestiaryV() {
@@ -9,7 +9,7 @@ export function BestiaryV() {
 
   useEffect(() => {
     console.clear()
-    console.log(JSON.stringify(bestiary));
+    console.log('import{StatBlockM}from"../models/stat-block.models";export const bestiary_db:Array<StatBlockM>=' + JSON.stringify(bestiary) + ';');
   });
   
   function addEntry() {
@@ -21,17 +21,22 @@ export function BestiaryV() {
     }));
   }
 
-  return <article className="bestiary">
-    <section className="bestiary-header">
-      <h1>Bestiary</h1>
-    </section>
-    <section className="bestiary-body">
+  return <div className="bestiary">
+    <h1 className="bestiary--title">Bestiary</h1>
+    <div className="bestiary--content">
       {bestiary.map((entry: StatBlockM, i: number) =>
-        <StatBlockC id={i} statBlock={entry} update={(statBlock: StatBlockM) => { updateEntry(statBlock, i); }} key={"entry-" + i} />)
-      }
-    </section>
-    <section className="bestiary-footer">
+        <div className="bestiary--content--entry">
+          <StatBlockC
+            key={"entry-" + i}
+            id={i}
+            statBlock={entry}
+            update={(statBlock: StatBlockM) => { updateEntry(statBlock, i); }}
+          />
+        </div>
+      )}
+    </div>
+    <div className="bestiary--buttons">
       <button onClick={addEntry}>Add entry</button>
-    </section>
-  </article>;
+    </div>
+  </div>;
 }

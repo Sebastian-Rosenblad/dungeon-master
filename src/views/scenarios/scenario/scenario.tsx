@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./scenario.scss";
-import { ScenarioM, SceneM } from "../../models/scenario.models";
-import { SceneC } from "../../components/scene/scene";
+import { ScenarioM, SceneM } from "../../../models/scenario.models";
+import { SceneC } from "../../../components/scene/scene";
 
 export function ScenarioV(props: {scenario: ScenarioM}) {
   const [scenario, setScenario] = useState(props.scenario);

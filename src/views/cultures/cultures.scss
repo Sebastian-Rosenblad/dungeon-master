@@ -1,0 +1,30 @@
+.cultures {
+  max-width: 800px;
+  margin: 0px auto;
+  p {
+    text-align: left;
+  }
+  .cultures--title {
+    margin: 10px 0px 0px 0px;
+  }
+  .cultures--list {
+    display: flex;
+    flex-direction: column;
+    .cultures--list--culture {
+      width: 100%;
+      margin: 10px 0px 0px 0px;
+      padding: 10px 20px;
+      background-color: #fff;
+      cursor: pointer;
+      box-sizing: border-box;
+      box-shadow: 0px 1px 2px #999;
+      &:hover {
+        background-color: #333;
+        color: #eee;
+      }
+    }
+  }
+  .cultures--buttons {
+    margin: 10px 0px;
+  }
+}

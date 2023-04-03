@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./stat-block.scss";
-import { ParseStatBlock } from "../../database/bestiary-functions";
+import { ParseStatBlock } from "../../functions/bestiary.functions";
 import { StatBlockM } from "../../models/stat-block.models";
 import { parseText } from "../../assets/parse-text";
 
@@ -111,8 +111,8 @@ export function StatBlockC(props: any) {
         <button onClick={parseInput}>Parse</button>
       </div>
     </div>}
-    <div className="stat-block--buttons">
-      {!hiding && props.update && <button onClick={toggleEdit}>{editing ? "Save" : "Edit"}</button>}
-    </div>
+    {!hiding && props.update && <div className="stat-block--buttons">
+      <button onClick={toggleEdit}>{editing ? "Save" : "Edit"}</button>
+    </div>}
   </div>;
 }

@@ -1,5 +1,5 @@
 import { ScenarioM } from "../models/scenario.models";
-import { scenarios_db } from "./scenarios";
+import { scenarios_db } from "../database/scenarios.db";
 
 export let state_scenarios: Array<ScenarioM> = JSON.parse(JSON.stringify(scenarios_db));
 

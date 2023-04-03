@@ -1,6 +1,7 @@
 export interface StatBlockM {
   name: string;
   description?: string;
+  tags: Array<string>;
   size: string;
   type: string;
   alignment: string;
