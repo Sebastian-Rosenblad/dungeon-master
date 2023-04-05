@@ -1,5 +1,6 @@
 import { StatBlockM } from "../models/stat-block.models";
 import { bestiary_db } from "../database/bestiary.db";
+import { RandomID } from "../assets/randomizer";
 
 export let state_bestiary: Array<StatBlockM> = JSON.parse(JSON.stringify(bestiary_db));
 
@@ -8,6 +9,7 @@ let indexes: Array<{ i: number, key: string }>;
 
 export function NewStatBlock(): StatBlockM {
   return {
+    id: RandomID(),
     name: "New entry",
     tags: [],
     size: "",
@@ -32,6 +34,7 @@ export function ParseStatBlock(text: string): StatBlockM {
   text2parse = text;
   SetIndexes();
   let statBlock: StatBlockM = {
+    id: "",
     name: GetString("name"),
     tags: [],
     size: GetString("size").toLowerCase(),

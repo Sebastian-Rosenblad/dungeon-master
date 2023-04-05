@@ -40,5 +40,8 @@ export function parseText(text: string, id?: string) {
       return "";
     })}</p>
   }
+  if (id && text.includes("\n")) {
+    return text.split("\n").filter(t => t.length > 0).map((t, i:number) => <p key={id + "-p-" + i}>{t}</p>);
+  }
   return <p>{text}</p>;
 }

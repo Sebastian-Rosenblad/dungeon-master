@@ -1,21 +1,44 @@
 .scenario {
-  max-width: 800px;
-  margin: 0px auto;
-  .scenario-header {
+  &--edit {
+    &--row {
+      &-input, &-textarea {
+        margin-top: 10px;
+      }
+      &-input {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      input, textarea {
+        width: 100%;
+      }
+      textarea {
+        height: 100px;
+        resize: vertical;
+      }
+    }
+    &--body {
+
+    }
+    &--footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+  }
+  &--display {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
-    input, textarea {
-      box-sizing: border-box;
+    &--title {
+      text-align: center;
     }
-    textarea {
-      resize: vertical;
+    &--title, &--intro {
+      margin-top: 10px;
     }
   }
-  .scenario--save-button {
-    margin: 10px;
-  }
-  .scenario-description {
-    text-align: left;
+  &--footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
   }
 }

@@ -5,12 +5,12 @@ import { ScenarioM } from "../../models/scenario.models";
 import { ScenarioV } from "./scenario/scenario";
 
 export function ScenariosV() {
-  const [scenarios, setScenarios] = useState(state_scenarios);
+  const [scenarios, setScenarios] = useState<Array<ScenarioM>>(state_scenarios);
   const [scenario, setScenario] = useState<ScenarioM | undefined>(undefined);
 
   useEffect(() => {
     console.clear()
-    console.log(JSON.stringify(scenarios));
+    console.log('import{ScenarioM}from"../models/scenario.models";export const scenarios_db:Array<ScenarioM>=' + JSON.stringify(scenarios) + ';');
   });
 
   function addScenario() {
@@ -19,19 +19,33 @@ export function ScenariosV() {
   function viewScenario(scenario: ScenarioM) {
     setScenario(scenario);
   }
+  function updateScenario(new_scenario: ScenarioM) {
+    const index: number = scenarios.findIndex(s => s.id === new_scenario.id);
+    if (index >= 0) {
+      const new_scenarios: Array<ScenarioM> = JSON.parse(JSON.stringify(scenarios));
+      new_scenarios[index] = new_scenario;
+      setScenarios(new_scenarios);
+    }
+  }
 
-  return <article className="scenarios">
-    {!scenario && <span><section className="scenarios-header">
-      <h1>Scenarios</h1>
-    </section>
-    <section className="scenarios-body">
-      {scenarios.map((scenario: ScenarioM, i: number) =>
-        <h2 key={"scenario-" + i} className="scenario" onClick={() => { viewScenario(scenario); }}>{scenario.name}</h2>
-      )}
-    </section>
-    <section className="scenarios-footer">
-      <button onClick={addScenario}>Add scenario</button>
-    </section></span>}
-    {scenario && <ScenarioV scenario={scenario} />}
-  </article>;
+  return <div className="scenarios">
+    {!scenario && <div>
+      <h1 className="scenarios--header">Scenarios</h1>
+      <div className="scenarios--body">
+        {scenarios.map((scenario: ScenarioM, i: number) =>
+          <div key={"scenario-" + i} className="scenarios--body--scenario">
+            <button
+              onClick={() => { viewScenario(scenario); }}
+            >{scenario.name}</button>
+          </div>
+        )}
+      </div>
+      <div className="scenarios--footer">
+        <button onClick={addScenario}>Add scenario</button>
+      </div>
+    </div>}
+    {scenario &&
+      <ScenarioV scenario={scenario} updateScenario={(new_scenario: ScenarioM) => { updateScenario(new_scenario); }} />
+    }
+  </div>;
 }

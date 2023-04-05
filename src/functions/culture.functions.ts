@@ -8,7 +8,6 @@ export function NewCulture(): CultureM {
   return {
     id: RandomID(),
     name: "New culture",
-    texts: [],
-    bestiary_tags: []
+    chapters: []
   };
 }

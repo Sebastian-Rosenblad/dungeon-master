@@ -1,4 +1,5 @@
 export interface StatBlockM {
+  id: string;
   name: string;
   description?: string;
   tags: Array<string>;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './App.scss';
 import { BestiaryV } from './views/bestiary/bestiary';
 import { CulturesV } from './views/cultures/cultures';
@@ -14,11 +14,11 @@ function App() {
   const [view, setView] = useState(Views.Scenarios);
   
   return (
-    <div className="App">
-      <nav>
-        <span><button onClick={() => { setView(Views.Scenarios); }}>Scenarios</button> | </span>
-        <span><button onClick={() => { setView(Views.Cultures); }}>Cultures</button> | </span>
-        <span><button onClick={() => { setView(Views.Bestiary); }}>Bestiary</button></span>
+    <div className='App'>
+      <nav className='App--navigation'>
+        <button onClick={() => { setView(Views.Scenarios); }}>Scenarios</button>
+        <button onClick={() => { setView(Views.Cultures); }}>Cultures</button>
+        <button onClick={() => { setView(Views.Bestiary); }}>Bestiary</button>
       </nav>
       {view === Views.Scenarios && <ScenariosV />}
       {view === Views.Cultures && <CulturesV />}

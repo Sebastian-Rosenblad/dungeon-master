@@ -1,107 +1,91 @@
 import { useState } from "react";
 import "./culture.scss";
 import { parseText } from "../../../assets/parse-text";
-import { state_bestiary } from "../../../functions/bestiary.functions";
 import { CultureM } from "../../../models/culture.model";
-import { StatBlockC } from "../../../components/stat-block/stat-block";
-import { StatBlockM } from "../../../models/stat-block.models";
+
+interface Chapter { name: string; texts: string; }
+interface ChapterI { name: string; texts: Array<string>; }
 
 export function CultureV(props: any) {
-  const [culture, setCulture] = useState<CultureM>(props.culture);
-  const [bestiaryTags, setBestiaryTags] = useState(props.culture.bestiary_tags.join(", "));
+  const [name, setName] = useState<string>(props.culture.name);
+  const [chapters, setChapters] = useState<Array<Chapter>>(props.culture.chapters.map((chapter: ChapterI) => { return {name:chapter.name,texts:chapter.texts.join("\n\n")}; }));
   const [editing, setEditing] = useState(false);
 
   function updateName(e: React.ChangeEvent<HTMLInputElement>) {
-    const name: string = e.target.value.trim();
-    setCulture({
-      id: culture.id,
-      name: name,
-      texts: culture.texts,
-      bestiary_tags: culture.bestiary_tags
-    });
+    setName(e.target.value.trim());
   }
-  function addText() {
-    setCulture({
-      id: culture.id,
-      name: culture.name,
-      texts: [...culture.texts, ""],
-      bestiary_tags: culture.bestiary_tags
-    });
+  function addChapter() {
+    setChapters([...chapters, {name:"New chapter",texts:""}]);
   }
-  function updateTexts(e: React.ChangeEvent<HTMLTextAreaElement>, i: number) {
-    const texts: Array<string> = culture.texts;
-    texts[i] = e.target.value;
-    setCulture({
-      id: culture.id,
-      name: culture.name,
-      texts: texts,
-      bestiary_tags: culture.bestiary_tags
-    });
+  function updateChapterName(e: React.ChangeEvent<HTMLInputElement>, i: number) {
+    const new_chapters: Array<Chapter> = JSON.parse(JSON.stringify(chapters));
+    new_chapters[i].name = e.target.value.trim();
+    setChapters(new_chapters);
   }
-  function updateTags(e: React.ChangeEvent<HTMLInputElement>) {
-    const tags: string = e.target.value;
-    setBestiaryTags(tags);
+  function updateChapterText(e: React.ChangeEvent<HTMLTextAreaElement>, i: number) {
+    const new_chapters: Array<Chapter> = JSON.parse(JSON.stringify(chapters));
+    new_chapters[i].texts = e.target.value;
+    setChapters(new_chapters);
   }
   function toggleEditing() {
     if (editing) {
-      const save_culture = culture;
-      save_culture.bestiary_tags = bestiaryTags.split(",").map((tag: string) => tag.trim());
-      props.updateCulture(save_culture);
+      props.updateCulture({
+        id: props.culture.id,
+        name: name,
+        chapters: chapters.map(chapter => {
+          return {
+            name: chapter.name,
+            texts: chapter.texts.split("\n").filter(text => text.length > 0).map(text => text.trim())
+          } as ChapterI;
+        })
+      } as CultureM);
     }
     setEditing(!editing);
   }
 
-  const stat_blocks: Array<StatBlockM> = state_bestiary.filter(entry => entry.tags.some(value => culture.bestiary_tags.includes(value)));
-
   return <div className="culture">
     {!editing && <div className="culture--display">
-      <h1 className="culture--display--title">{culture.name}</h1>
-      <h2 className="culture--display--subtitle">Description</h2>
-      <div className="culture--display--texts">
-        {culture.texts.map((text: string, i: number) =>
-          <span key={"culture--text-" + i} className="culture--display--text">
-            {parseText(text)}
-          </span>
-        )}
-      </div>
-      <h2 className="culture--display--subtitle">Bestiary</h2>
-      <div className="culture--display--besiary">
-        {stat_blocks.map((stat_block: StatBlockM, i: number) => 
-          <div key={"culture--stat-block-" + i} className="culture--display--stat-block">
-            <StatBlockC id={"culture--stat-block-" + i} statBlock={stat_block}/>
-          </div>
-        )}
-      </div>
+      <h1 className="culture--display--title">{name}</h1>
+      {chapters.map((chapter, i) =>
+        <div key={"culture-chapter-" + i} className="culture--display--chapter">
+          <h2>{chapter.name}</h2>
+          {chapter.texts.split("\n").filter(text => text.length > 0).map((text, j) =>
+            <p key={"culture-chapter-" + i + "-text-" + j}>{parseText(text.trim())}</p>
+          )}
+        </div>
+      )}
     </div>}
     {editing && <div className="culture--edit">
-      <div className="culture--edit--input-row">
-        <label>Name</label>
-        <input
-          type="text"
-          value={culture.name}
-          onChange={(e) => { updateName(e) }}
-        ></input>
-      </div>
-      <div className="culture--edit--textarea-row">
-        <label>Paragraphs</label>
-        {culture.texts.map((text: string, i: number) =>
-          <textarea
-            key={"culture--edit--text-" + i}
-            value={culture.texts[i]}
-            onChange={(e) => { updateTexts(e, i) }}
-          ></textarea>
-        )}
-        <div className="culture--edit--add-text">
-          <button onClick={addText}>Add text</button>
+      <div className="culture--edit--block">
+        <div className="culture--edit--block--input">
+          <label>Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => { updateName(e) }}
+          ></input>
         </div>
       </div>
-      <div className="culture--edit--input-row">
-        <label>Bestiary tags</label>
-        <input
-          type="text"
-          value={bestiaryTags}
-          onChange={(e) => { updateTags(e) }}
-        ></input>
+      {chapters.map((chapter, i) =>
+        <div key={"culture-edit-chapter" + i} className="culture--edit--block">
+          <div className="culture--edit--block--input">
+            <label>Chapter</label>
+            <input
+              type="text"
+              value={chapter.name}
+              onChange={(e) => { updateChapterName(e, i) }}
+            ></input>
+          </div>
+          <div className="culture--edit--block--textarea">
+            <textarea
+              value={chapter.texts}
+              onChange={(e) => { updateChapterText(e, i) }}
+            ></textarea>
+          </div>
+        </div>
+      )}
+      <div className="culture--edit--block culture--buttons">
+        <button onClick={addChapter}>Add chapter</button>
       </div>
     </div>}
     {!!props.updateCulture && <div className="culture--buttons">

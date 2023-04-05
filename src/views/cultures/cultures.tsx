@@ -24,9 +24,9 @@ export function CulturesV() {
       setCulture(undefined);
   }
   function updateCulture(new_culture: CultureM) {
-    const index: number = cultures.map(culture => culture.id).indexOf(new_culture.id);
+    const index: number = cultures.findIndex(c => c.id === new_culture.id);
     if (index >= 0) {
-      const new_cultures = cultures;
+      const new_cultures = JSON.parse(JSON.stringify(cultures));
       new_cultures[index] = new_culture;
       setCultures(new_cultures);
     }

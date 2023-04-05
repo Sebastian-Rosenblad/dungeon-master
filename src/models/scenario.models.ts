@@ -1,4 +1,5 @@
 export interface ScenarioM {
+  id: string;
   name: string;
   intro: string;
   scenes: Array<SceneM>;
