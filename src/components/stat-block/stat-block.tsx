@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./stat-block.scss";
 import { ParseStatBlock } from "../../functions/bestiary.functions";
 import { StatBlockM } from "../../models/stat-block.models";
-import { parseText } from "../../assets/parse-text";
+import { ParseText } from "../../assets/parse-text";
 
 export function StatBlockC(props: any) {
   const id: string = props.id;
@@ -52,7 +52,7 @@ export function StatBlockC(props: any) {
       {!hiding && <span>
         <p className="stat-block--display--subtitle">({statBlock.size} {statBlock.type}, {statBlock.alignment})</p>
         {statBlock.description && <span className="stat-block--display--description">
-          {statBlock.description.split("<br/>").map((d, i) => parseText(d, id + "-description-" + i))}
+          {statBlock.description.split("<br/>").map((d, i) => ParseText(d, id + "-description-" + i))}
         </span>}
         <div className="stat-block--display--content">
           <p>

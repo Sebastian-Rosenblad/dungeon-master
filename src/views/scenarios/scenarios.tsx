@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./scenarios.scss";
-import { NewScenario, state_scenarios } from "../../functions/scenario.functions";
+import { state_scenarios, set_scenarios, NewScenario } from "../../functions/scenario.functions";
 import { ScenarioM } from "../../models/scenario.models";
 import { ScenarioV } from "./scenario/scenario";
 
@@ -9,15 +9,18 @@ export function ScenariosV() {
   const [scenario, setScenario] = useState<ScenarioM | undefined>(undefined);
 
   useEffect(() => {
-    console.clear()
-    console.log('import{ScenarioM}from"../models/scenario.models";export const scenarios_db:Array<ScenarioM>=' + JSON.stringify(scenarios) + ';');
+    set_scenarios(scenarios);
   });
 
   function addScenario() {
     setScenarios([...scenarios, NewScenario()]);
   }
-  function viewScenario(scenario: ScenarioM) {
-    setScenario(scenario);
+  function viewScenario(id: string) {
+    const index: number = scenarios.findIndex(s => s.id === id);
+    if (index >= 0)
+      setScenario(scenarios[index]);
+    else
+      setScenario(undefined);
   }
   function updateScenario(new_scenario: ScenarioM) {
     const index: number = scenarios.findIndex(s => s.id === new_scenario.id);
@@ -32,11 +35,11 @@ export function ScenariosV() {
     {!scenario && <div>
       <h1 className="scenarios--header">Scenarios</h1>
       <div className="scenarios--body">
-        {scenarios.map((scenario: ScenarioM, i: number) =>
-          <div key={"scenario-" + i} className="scenarios--body--scenario">
-            <button
-              onClick={() => { viewScenario(scenario); }}
-            >{scenario.name}</button>
+        {scenarios.map((scenario: ScenarioM) =>
+          <div key={"scenario-" + scenario.id} className="scenarios--body--scenario">
+            <button onClick={() => { viewScenario(scenario.id); }}>
+              {scenario.name}
+            </button>
           </div>
         )}
       </div>
@@ -44,8 +47,16 @@ export function ScenariosV() {
         <button onClick={addScenario}>Add scenario</button>
       </div>
     </div>}
-    {scenario &&
-      <ScenarioV scenario={scenario} updateScenario={(new_scenario: ScenarioM) => { updateScenario(new_scenario); }} />
-    }
+    {!!scenario && <div>
+      <div className="scenarios--buttons">
+        <button onClick={() => { viewScenario(""); }}>Back to all scenarios</button>
+      </div>
+      <div className="scenarios--scenario">
+        <ScenarioV
+          scenario={scenario}
+          updateScenario={(new_scenario: ScenarioM) => { updateScenario(new_scenario); }}
+        />
+      </div>
+    </div>}
   </div>;
 }

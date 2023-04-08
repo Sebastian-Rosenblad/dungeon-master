@@ -2,84 +2,75 @@ import { useState } from "react";
 import "./scenario.scss";
 import { ScenarioM, SceneM } from "../../../models/scenario.models";
 import { SceneC } from "../../../components/scene/scene";
-import { parseText } from "../../../assets/parse-text";
+import { ParseText } from "../../../assets/parse-text";
 
-export function ScenarioV(props: any) {
-  const [scenario, setScenario] = useState<ScenarioM>(props.scenario);
+export function ScenarioV(props: {
+  scenario: ScenarioM,
+  updateScenario: (new_scenario: ScenarioM) => void
+}) {
+  const [name, setName] = useState<string>(props.scenario.name);
+  const [description, setDescription] = useState<string>(props.scenario.description.join("\n\n"));
   const [editing, setEditing] = useState(false);
 
-  function updateScenario(key: string, value: any) {
-    setScenario({
-      id: scenario.id,
-      name: key === "name" ? value : scenario.name,
-      intro: key === "intro" ? value : scenario.intro,
-      scenes: key === "scenes" ? value : scenario.scenes
-    });
-  }
-  const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateScenario("name", e.target.value);
-  }
-  const updateIntro = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    updateScenario("intro", e.target.value);
+  function saveScenario(scenes: Array<SceneM>) {
+    props.updateScenario({
+      id: props.scenario.id,
+      name: name,
+      description: description.split("\n").filter(d => d.length > 0).map(d => d.trim()),
+      scenes: scenes
+    } as ScenarioM);
   }
   function addScene() {
-    updateScenario("scenes", [...scenario.scenes, {
-      name: "New scene",
-      text: []
-    }]);
+    saveScenario([...props.scenario.scenes, {name:"New scene",text:[""]}]);
   }
   function updateScene(new_scene: SceneM, index: number) {
-    const new_scenes = JSON.parse(JSON.stringify(scenario.scenes));
-    new_scenes[index] = new_scene;
-    updateScenario("scenes", new_scenes);
+    saveScenario([...props.scenario.scenes.slice(0, index), new_scene, ...props.scenario.scenes.slice(index + 1)]);
   }
-  
-  const toggleEdit = () => {
+  function toggleEdit() {
     if (editing)
-      props.updateScenario(scenario);
+      saveScenario(props.scenario.scenes);
     setEditing(!editing);
   }
 
   return <div className="scenario">
-    {editing && <div className="scenario--edit">
-      <div className="scenario--edit--row">
-        <div className="scenario--edit--row-input">
-          <label>Name</label>
-          <input
-            type="text"
-            value={scenario.name}
-            onChange={updateName}
-          ></input>
-        </div>
-        <div className="scenario--edit--row-textarea">
-          <textarea
-            value={scenario.intro}
-            onChange={updateIntro}
-          ></textarea>
-        </div>
-      </div>
-      <div className="scenario--edit--body">
-        {scenario.scenes.map((scene: SceneM, i: number) =>
-          <SceneC key={"scene-" + i} id={i} scene={scene} edit={true} update={(new_scene: SceneM) => { updateScene(new_scene, i); }} />
-        )}
-      </div>
-      <div className="scenario--edit--footer">
-        <button onClick={addScene}>Add scene</button>
-      </div>
-    </div>}
     {!editing && <div className="scenario--display">
-      <h1 className="scenario--display--title">{scenario.name}</h1>
-      <p className="scenario--display--intro">{parseText(scenario.intro)}</p>
-      {scenario.scenes.map((scene: SceneM, i: number) =>
-        <SceneC
-          key={scenario.id + "-scene-" + i}
-          scene={scene}
-          scenarioID={scenario.id}
-        />
+      <h1>{name}</h1>
+      {description.split("\n").filter((text: string) => text.length > 0).map((text: string, i: number) =>
+        <div key={props.scenario.id + "-description-" + i}>{ParseText(text.trim(), props.scenario.id + "-description-" + i)}</div>
       )}
     </div>}
-    <div className="scenario--footer">
-      <button onClick={toggleEdit}>{editing ? "Save" : "Edit"}</button>
+    {editing && <div className="scenario--edit">
+      <div className="scenario--edit--input">
+        <label>Name</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => { setName(e.target.value) }}
+        ></input>
+      </div>
+      <div className="scenario--edit--textarea">
+        <textarea
+          value={description}
+          onChange={(e) => { setDescription(e.target.value) }}
+        ></textarea>
+      </div>
+    </div>}
+    <div className="scenario--buttons">
+      <button className="button-small" onClick={toggleEdit}>{editing ? "Save" : "Edit"}</button>
+    </div>
+    <div className="scenario--scenes">
+      {props.scenario.scenes.map((scene: SceneM, i: number) =>
+        <div key={props.scenario.id + "-scene-" + i} className="scenario--scenes--scene">
+          <SceneC
+            sceneID={props.scenario.id + "-scene-" + i}
+            scene={scene}
+            updateScene={(new_scene: SceneM) => { updateScene(new_scene, i); }}
+          />
+        </div>
+      )}
+      <div className="scenario--scenes--buttons">
+        <button onClick={addScene}>Add scene</button>
+      </div>
     </div>
   </div>;
 }

@@ -1,27 +1,31 @@
 .cultures {
-  max-width: 800px;
-  margin: 0px auto;
-  .cultures--title {
-    margin: 10px 0px 0px 0px;
+  &--header {
+    margin-top: 10px;
+    text-align: center;
   }
-  .cultures--list {
+  &--body {
     display: flex;
     flex-direction: column;
-    .cultures--list--culture {
+    gap: 5px;
+    margin-top: 10px;
+    &--culture {
       width: 100%;
-      margin: 10px 0px 0px 0px;
-      padding: 10px 20px;
-      background-color: #fff;
-      cursor: pointer;
-      box-sizing: border-box;
-      box-shadow: 0px 1px 2px #999;
-      &:hover {
-        background-color: #333;
-        color: #eee;
+      button {
+        width: 100%;
       }
     }
   }
-  .cultures--buttons {
-    margin: 10px 0px;
+  &--footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  &--culture {
+    margin-top: 10px;
+  }
+  &--buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
   }
 }

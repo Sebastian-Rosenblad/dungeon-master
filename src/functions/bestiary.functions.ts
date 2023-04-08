@@ -1,8 +1,14 @@
-import { StatBlockM } from "../models/stat-block.models";
 import { bestiary_db } from "../database/bestiary.db";
 import { RandomID } from "../assets/randomizer";
+import { StatBlockM } from "../models/stat-block.models";
 
-export let state_bestiary: Array<StatBlockM> = JSON.parse(JSON.stringify(bestiary_db));
+const STORAGE_KEY = "dm-bestiary";
+const storage_string: string = localStorage.getItem(STORAGE_KEY) || "";
+export let state_bestiary: Array<StatBlockM> = JSON.parse(/*storage_string.length > 0 ? storage_string : */JSON.stringify(bestiary_db));
+export function set_bestiary(bestiary: Array<StatBlockM>) {
+  state_bestiary = bestiary;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(bestiary));
+}
 
 let text2parse: string;
 let indexes: Array<{ i: number, key: string }>;

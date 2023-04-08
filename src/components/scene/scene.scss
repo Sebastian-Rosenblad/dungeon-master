@@ -1,29 +1,35 @@
 .scene {
   position: relative;
-  margin-top: 10px;
-  padding: 10px;
-  box-shadow: 0px 1px 2px #333;
-  .scene--hide-button {
+  padding: 5px 10px;
+  border: 1px solid;
+  &--hide-button {
     position: absolute;
     top: 5px;
     right: 5px;
   }
-  .scene-title {
-    margin: 0px;
+  &--title {
+    text-align: center;
   }
-  .scene-content {
-    display: flex;
-    flex-direction: column;
-    input, textarea {
-      width: 100%;
-      box-sizing: border-box;
+  &--content {
+    &--display {
+      &--text {
+        margin-top: 10px;
+      }
     }
-    textarea {
-      height: 100px;
-      resize: vertical;
+    &--edit {
+      &--input {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      &--textarea {
+        margin-top: 5px;
+      }
     }
-  }
-  p, li {
-    text-align: left;
+    &--buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 5px;
+    }
   }
 }
