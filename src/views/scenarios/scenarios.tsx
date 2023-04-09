@@ -55,7 +55,7 @@ export function ScenariosV() {
       <div className="scenarios--scenario">
         <ScenarioV
           scenario={scenario}
-          updateScenario={(new_scenario: ScenarioM) => { updateScenario(new_scenario); }}
+          update={(new_scenario: ScenarioM) => { updateScenario(new_scenario); }}
         />
       </div>
     </div>}

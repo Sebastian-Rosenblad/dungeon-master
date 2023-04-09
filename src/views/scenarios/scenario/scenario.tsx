@@ -6,14 +6,14 @@ import { ParseText } from "../../../assets/parse-text";
 
 export function ScenarioV(props: {
   scenario: ScenarioM,
-  updateScenario: (new_scenario: ScenarioM) => void
+  update: (new_scenario: ScenarioM) => void
 }) {
   const [name, setName] = useState<string>(props.scenario.name);
   const [description, setDescription] = useState<string>(props.scenario.description.join("\n\n"));
   const [editing, setEditing] = useState(false);
 
   function saveScenario(scenes: Array<SceneM>) {
-    props.updateScenario({
+    props.update({
       id: props.scenario.id,
       name: name,
       description: description.split("\n").filter(d => d.length > 0).map(d => d.trim()),
@@ -25,6 +25,10 @@ export function ScenarioV(props: {
   }
   function updateScene(new_scene: SceneM, index: number) {
     saveScenario([...props.scenario.scenes.slice(0, index), new_scene, ...props.scenario.scenes.slice(index + 1)]);
+  }
+  function moveSceneUp(index: number) {
+    if (index > 0 && index < props.scenario.scenes.length)
+      saveScenario([...props.scenario.scenes.slice(0, index - 1), props.scenario.scenes[index], props.scenario.scenes[index - 1], ...props.scenario.scenes.slice(index + 1)]);
   }
   function toggleEdit() {
     if (editing)
@@ -64,7 +68,8 @@ export function ScenarioV(props: {
           <SceneC
             sceneID={props.scenario.id + "-scene-" + i}
             scene={scene}
-            updateScene={(new_scene: SceneM) => { updateScene(new_scene, i); }}
+            update={(new_scene: SceneM) => { updateScene(new_scene, i); }}
+            moveUp={() => { moveSceneUp(i); }}
           />
         </div>
       )}

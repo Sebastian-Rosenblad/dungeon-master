@@ -6,14 +6,14 @@ import { ParseText } from "../../../assets/parse-text";
 
 export function CultureV(props: {
   culture: CultureM,
-  updateCulture: (new_culture: CultureM) => void
+  update: (new_culture: CultureM) => void
 }) {
   const [name, setName] = useState<string>(props.culture.name);
   const [description, setDescription] = useState<string>(props.culture.description.join("\n\n"));
   const [editing, setEditing] = useState(false);
 
   function saveCulture(chapters: Array<ChapterM>) {
-    props.updateCulture({
+    props.update({
       id: props.culture.id,
       name: name,
       description: description.split("\n").filter(d => d.length > 0).map(d => d.trim()),
@@ -25,6 +25,10 @@ export function CultureV(props: {
   }
   function updateChapter(new_chapter: ChapterM, index: number) {
     saveCulture([...props.culture.chapters.slice(0, index), new_chapter, ...props.culture.chapters.slice(index + 1)]);
+  }
+  function moveChapterUp(index: number) {
+    if (index > 0 && index < props.culture.chapters.length)
+      saveCulture([...props.culture.chapters.slice(0, index - 1), props.culture.chapters[index], props.culture.chapters[index - 1], ...props.culture.chapters.slice(index + 1)]);
   }
   function toggleEdit() {
     if (editing)
@@ -64,7 +68,8 @@ export function CultureV(props: {
           <ChapterC
             chapterID={props.culture.id + "-chapter-" + i}
             chapter={chapter}
-            updateChapter={(new_chapter: ChapterM) => { updateChapter(new_chapter, i); }}
+            update={(new_chapter: ChapterM) => { updateChapter(new_chapter, i); }}
+            moveUp={() => { moveChapterUp(i); }}
           />
         </div>
       )}

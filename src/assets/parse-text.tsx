@@ -4,6 +4,12 @@ import { state_armory } from "../functions/armory.functions";
 import { state_bestiary } from "../functions/bestiary.functions";
 
 export function ParseText(text: string, id?: string) {
+  if (text.includes("[img]")) {
+    const options = text.slice(5).split(";");
+    if (options.length > 3)
+      return <span><img src={"./images/" + options[0]} alt={options[1]} className={options[2]}/><p>{options[3]}</p></span>
+    return <img src={"./images/" + options[0]} alt={options[1]} className={options[2]}/>
+  }
   if (id && text.includes("[item]")) {
     const view_item = state_armory.find(item => item.name === text.split("[item]").join(""));
     if (view_item)
@@ -18,17 +24,17 @@ export function ParseText(text: string, id?: string) {
       </div>)}</div>;
     return <p>{ text.split("[item_tags]").join("") }</p>;
   }
-  if (id && text.includes("[bestiary]")) {
+  if (text.includes("[bestiary]")) {
     const stat_block = state_bestiary.find(entry => entry.name === text.split("[bestiary]").join(""));
     if (stat_block)
-      return <StatBlockC id={id} statBlock={stat_block}/>
+      return <StatBlockC statBlock={stat_block}/>
     return <p>{ text.split("[bestiary]").join("") }</p>;
   }
   if (id && text.includes("[bestiary_tags]")) {
     const entries = state_bestiary.filter(entry => entry.tags.includes(text.split("[bestiary_tags]").join("")));
     if (entries.length > 0)
       return <div className="parsed-bestiary-list">{entries.map((entry, i) => <div key={id + "-entry-" + i}>
-        <StatBlockC id={id} statBlock={entry}/>
+        <StatBlockC statBlock={entry}/>
       </div>)}</div>;
     return <p>{ text.split("[bestiary_tags]").join("") }</p>;
   }

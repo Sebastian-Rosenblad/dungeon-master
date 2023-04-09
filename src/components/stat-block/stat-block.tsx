@@ -4,19 +4,22 @@ import { StatBlockM } from "../../models/stat-block.models";
 import { StatBlockEditC } from "./stat-block--edit";
 import { StatBlockDisplayC } from "./stat-block--display";
 
-export function StatBlockC(props: any) {
-  const [statBlock, setStatBlock] = useState<StatBlockM>(props.statBlock);
+export function StatBlockC(props: {
+  statBlock: StatBlockM;
+  update?: (new_stat_block: StatBlockM) => void;
+}) {
+  const [statBlock, setStatBlock] = useState(props.statBlock);
   const [editing, setEditing] = useState(false);
   const [hiding, setHiding] = useState(true);
 
   function toggleEdit() {
-    if (editing)
+    if (editing && props.update)
       props.update(statBlock);
     setEditing(!editing);
   }
   function toggleHide() {
     setHiding(!hiding);
-    if (editing)
+    if (editing && props.update)
       props.update(statBlock);
     setEditing(false);
   }

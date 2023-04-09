@@ -49,7 +49,32 @@ textarea {
   }
 }
 
-.parsed-bestiary-list {
+img {
+  &.fullwidth {
+    max-width: 100%;
+    margin-top: 10px;
+    &.small {
+      max-width: 50%;
+      margin-left: 25%;
+      margin-right: 25%;
+    }
+  }
+  &.right-portrait {
+    max-width: 20%;
+    margin-left: 10px;
+    float: right;
+  }
+  &.left-portrait {
+    max-width: 20%;
+    margin-right: 10px;
+    float: left;
+  }
+  &.large {
+    max-width: 30%;
+  }
+}
+
+.parsed-bestiary-list, .parsed-armory-list {
   display: flex;
   flex-direction: column;
   gap: 5px;

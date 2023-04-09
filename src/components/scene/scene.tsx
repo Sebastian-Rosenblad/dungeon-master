@@ -5,8 +5,9 @@ import { ParseText } from "../../assets/parse-text";
 
 export function SceneC(props: {
   sceneID: string;
-  scene: SceneM,
-  updateScene: (new_scene: SceneM) => void
+  scene: SceneM;
+  update: (new_scene: SceneM) => void;
+  moveUp: () => void;
 }) {
   const [name, setName] = useState(props.scene.name);
   const [text, setText] = useState(props.scene.text.join("\n\n"));
@@ -15,7 +16,7 @@ export function SceneC(props: {
 
   function toggleEdit() {
     if (editing)
-      props.updateScene({
+      props.update({
         name: name,
         text: text.split("\n").filter(t => t.length > 0).map(t => t.trim())
       });
@@ -24,6 +25,7 @@ export function SceneC(props: {
   
   return <div className="scene">
     <button className="scene--hide-button button-small" onClick={() => { setHiding(!hiding); }}>{hiding ? "Show" : "Hide"}</button>
+    {hiding && props.moveUp && <button className="scene--move-up button-small" onClick={() => { props.moveUp(); }}>Move up</button>}
     {!editing && <h3 className="scene--title">{props.scene.name}</h3>}
     {!hiding && <div className="scene--content">
       {!editing && <div className="scene--content--display">

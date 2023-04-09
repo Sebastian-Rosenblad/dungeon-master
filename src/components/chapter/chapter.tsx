@@ -5,8 +5,9 @@ import { ParseText } from "../../assets/parse-text";
 
 export function ChapterC(props: {
   chapterID: string;
-  chapter: ChapterM,
-  updateChapter: (new_chapter: ChapterM) => void
+  chapter: ChapterM;
+  update: (new_chapter: ChapterM) => void;
+  moveUp: () => void
 }) {
   const [name, setName] = useState(props.chapter.name);
   const [text, setText] = useState(props.chapter.text.join("\n\n"));
@@ -15,7 +16,7 @@ export function ChapterC(props: {
 
   function toggleEdit() {
     if (editing)
-      props.updateChapter({
+      props.update({
         name: name,
         text: text.split("\n").filter(t => t.length > 0).map(t => t.trim())
       });
@@ -24,6 +25,7 @@ export function ChapterC(props: {
 
   return <div className="chapter">
     <button className="chapter--hide-button button-small" onClick={() => { setHiding(!hiding); }}>{hiding ? "Show" : "Hide"}</button>
+    {hiding && props.moveUp && <button className="chapter--move-up button-small" onClick={() => { props.moveUp(); }}>Move up</button>}
     {!editing && <h3 className="chapter--title">{props.chapter.name}</h3>}
     {!hiding && <div className="chapter--content">
       {!editing && <div className="chapter--content--display">

@@ -55,7 +55,7 @@ export function CulturesV() {
       <div className="cultures--culture">
         <CultureV
           culture={culture}
-          updateCulture={(new_culture: CultureM) => { updateCulture(new_culture); }}
+          update={(new_culture: CultureM) => { updateCulture(new_culture); }}
         />
       </div>
     </div>}

@@ -37,7 +37,7 @@ export function ArmoryV() {
       )}
     </div>
     <div className="armory--footer">
-      <button onClick={addItem}>Add entry</button>
+      <button onClick={addItem}>Add item</button>
     </div>
   </div>;
 }
