@@ -29,6 +29,7 @@ export function ScenariosV() {
       new_scenarios[index] = new_scenario;
       setScenarios(new_scenarios);
     }
+    setScenario(new_scenario);
   }
 
   return <div className="scenarios">

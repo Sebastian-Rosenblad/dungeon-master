@@ -9,6 +9,9 @@ export function set_cultures(cultures: Array<CultureM>) {
   state_cultures = cultures;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(cultures));
 }
+export function cultures_string(): string {
+  return 'import{CultureM}from"../models/culture.model";export const culture_db:Array<CultureM>=' + JSON.stringify(state_cultures) + ';';
+}
 
 export function NewCulture(): CultureM {
   return {

@@ -1,12 +1,36 @@
+import { ItemC } from "../components/item/item";
 import { StatBlockC } from "../components/stat-block/stat-block";
-import { bestiary_db } from "../database/bestiary.db";
+import { state_armory } from "../functions/armory.functions";
+import { state_bestiary } from "../functions/bestiary.functions";
 
 export function ParseText(text: string, id?: string) {
+  if (id && text.includes("[item]")) {
+    const view_item = state_armory.find(item => item.name === text.split("[item]").join(""));
+    if (view_item)
+      return <ItemC itemID={id} item={view_item}/>
+    return <p>{ text.split("[item]").join("") }</p>;
+  }
+  if (id && text.includes("[item_tags]")) {
+    const items = state_armory.filter(item => item.tags.includes(text.split("[item_tags]").join("")));
+    if (items.length > 0)
+      return <div className="parsed-armory-list">{items.map((item, i) => <div key={id + "-item-" + i}>
+        <ItemC itemID={id} item={item}/>
+      </div>)}</div>;
+    return <p>{ text.split("[item_tags]").join("") }</p>;
+  }
   if (id && text.includes("[bestiary]")) {
-    const stat_block = bestiary_db.find(entry => entry.name === text.split("[bestiary]").join(""));
+    const stat_block = state_bestiary.find(entry => entry.name === text.split("[bestiary]").join(""));
     if (stat_block)
       return <StatBlockC id={id} statBlock={stat_block}/>
-    return <span><p>{ text.split("[bestiary]").join("") }</p></span>;
+    return <p>{ text.split("[bestiary]").join("") }</p>;
+  }
+  if (id && text.includes("[bestiary_tags]")) {
+    const entries = state_bestiary.filter(entry => entry.tags.includes(text.split("[bestiary_tags]").join("")));
+    if (entries.length > 0)
+      return <div className="parsed-bestiary-list">{entries.map((entry, i) => <div key={id + "-entry-" + i}>
+        <StatBlockC id={id} statBlock={entry}/>
+      </div>)}</div>;
+    return <p>{ text.split("[bestiary_tags]").join("") }</p>;
   }
   if (id && text.includes("<ul>")) {
     let ulist: string = text.split(/(?:<ul>|<\/ul>)/)[1];
@@ -23,22 +47,22 @@ export function ParseText(text: string, id?: string) {
     return <p>{bolds.map((bold: string, i: number) => {
       if (bold.length > 0) {
         if (i % 2 === 1)
-          return <b key={id + "-b-" + i}>{bold}</b>
-        return bold;
+          return <b key={id + "-b-" + i}>{bold}</b>;
+        return <span key={id + "-b-" + i}>{bold}</span>;
       }
       return "";
-    })}</p>
+    })}</p>;
   }
   if (text.includes("<i>")) {
     let italics: Array<string> = text.split(/(?:<i>|<\/i>)/);
     return <p>{italics.map((italic: string, i: number) => {
       if (italic.length > 0) {
         if (i % 2 === 1)
-          return <i key={id + "-i-" + i}>{italic}</i>
-        return italic;
+          return <i key={id + "-i-" + i}>{italic}</i>;
+        return <span key={id + "-i-" + i}>{italic}</span>;
       }
       return "";
-    })}</p>
+    })}</p>;
   }
   return <p>{text}</p>;
 }

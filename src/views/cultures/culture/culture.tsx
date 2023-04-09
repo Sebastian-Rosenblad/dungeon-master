@@ -33,35 +33,36 @@ export function CultureV(props: {
   }
 
   return <div className="culture">
-  {!editing && <div className="culture--display">
-    <h1>{name}</h1>
-    {description.split("\n").filter((text: string) => text.length > 0).map((text: string, i: number) =>
-      <div key={props.culture.id + "-description-" + i}>{ParseText(text.trim(), props.culture.id + "-description-" + i)}</div>
-    )}
-  </div>}
-  {editing && <div className="culture--edit">
-    <div className="culture--edit--input">
-      <label>Name</label>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => { setName(e.target.value) }}
-      ></input>
+    {!editing && <div className="culture--display">
+      <h1>{name}</h1>
+      {description.split("\n").filter((text: string) => text.length > 0).map((text: string, i: number) =>
+        <div key={props.culture.id + "-description-" + i}>{ParseText(text.trim(), props.culture.id + "-description-" + i)}</div>
+      )}
+    </div>}
+    {editing && <div className="culture--edit">
+      <div className="culture--edit--input">
+        <label>Name</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => { setName(e.target.value) }}
+        ></input>
+      </div>
+      <div className="culture--edit--textarea">
+        <textarea
+          value={description}
+          onChange={(e) => { setDescription(e.target.value) }}
+        ></textarea>
+      </div>
+    </div>}
+    <div className="culture--buttons">
+      <button className="button-small" onClick={toggleEdit}>{editing ? "Save" : "Edit"}</button>
     </div>
-    <div className="culture--edit--textarea">
-      <textarea
-        value={description}
-        onChange={(e) => { setDescription(e.target.value) }}
-      ></textarea>
-    </div>
-  </div>}
-  <div className="culture--buttons">
-    <button className="button-small" onClick={toggleEdit}>{editing ? "Save" : "Edit"}</button>
-  </div>
     <div className="culture--chapters">
       {props.culture.chapters.map((chapter: ChapterM, i: number) =>
-        <div className="culture--chapters--chapter">
+        <div key={props.culture.id + "-chapter-" + i} className="culture--chapters--chapter">
           <ChapterC
+            chapterID={props.culture.id + "-chapter-" + i}
             chapter={chapter}
             updateChapter={(new_chapter: ChapterM) => { updateChapter(new_chapter, i); }}
           />
@@ -71,5 +72,5 @@ export function CultureV(props: {
         <button onClick={addChapter}>Add chapter</button>
       </div>
     </div>
-</div>;
+  </div>;
 }

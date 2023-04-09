@@ -21,6 +21,7 @@ export function SceneC(props: {
       });
     setEditing(!editing);
   }
+  
   return <div className="scene">
     <button className="scene--hide-button button-small" onClick={() => { setHiding(!hiding); }}>{hiding ? "Show" : "Hide"}</button>
     {!editing && <h3 className="scene--title">{props.scene.name}</h3>}

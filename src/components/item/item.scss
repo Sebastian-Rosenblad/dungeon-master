@@ -1,9 +1,9 @@
 @import '../../assets/colors.scss';
 
-.chapter {
+.item {
   position: relative;
   padding: 5px 10px;
-  background-color: $chapter-color;
+  background-color: $item-color;
   border: 1px solid;
   &--hide-button {
     position: absolute;

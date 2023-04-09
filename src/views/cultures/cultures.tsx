@@ -29,6 +29,7 @@ export function CulturesV() {
       new_cultures[index] = new_culture;
       setCultures(new_cultures);
     }
+    setCulture(new_culture);
   }
 
   return <div className="cultures">

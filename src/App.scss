@@ -40,11 +40,17 @@ textarea {
 }
 
 .App {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0px auto;
   &--navigation {
     display: flex;
     justify-content: center;
     gap: 10px;
   }
+}
+
+.parsed-bestiary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

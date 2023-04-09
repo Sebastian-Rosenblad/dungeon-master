@@ -1,6 +1,9 @@
+@import '../../assets/colors.scss';
+
 .scene {
   position: relative;
   padding: 5px 10px;
+  background-color: $scene-color;
   border: 1px solid;
   &--hide-button {
     position: absolute;

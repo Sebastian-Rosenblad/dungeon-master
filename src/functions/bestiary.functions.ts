@@ -4,10 +4,13 @@ import { StatBlockM } from "../models/stat-block.models";
 
 const STORAGE_KEY = "dm-bestiary";
 const storage_string: string = localStorage.getItem(STORAGE_KEY) || "";
-export let state_bestiary: Array<StatBlockM> = JSON.parse(/*storage_string.length > 0 ? storage_string : */JSON.stringify(bestiary_db));
+export let state_bestiary: Array<StatBlockM> = JSON.parse(storage_string.length > 0 ? storage_string : JSON.stringify(bestiary_db));
 export function set_bestiary(bestiary: Array<StatBlockM>) {
   state_bestiary = bestiary;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(bestiary));
+}
+export function bestiary_string(): string {
+  return 'import{StatBlockM}from"../models/stat-block.models";export const bestiary_db:Array<StatBlockM>=' + JSON.stringify(state_bestiary) + ';';
 }
 
 let text2parse: string;
@@ -108,6 +111,39 @@ export function ParseStatBlock(text: string): StatBlockM {
     statBlock.spells = GetSpells();
   }
   return statBlock;
+}
+export function StringifyStatBlock(statBlock: StatBlockM): string {
+  let _t = statBlock.name + " (" + statBlock.size + " " + statBlock.type + ", " + statBlock.alignment + ")\n\n";
+  if (statBlock.description) _t += "Description: " + statBlock.description + "\n\n";
+  _t += "Armor Class: " + statBlock.armor + (statBlock.armor_source ? " (" + statBlock.armor_source + ")\n" : "\n");
+  _t += "Hit Points: " + statBlock.health + " (" + statBlock.health_source + ")\n";
+  _t += "Speed: " + statBlock.speed.join(", ") + "\n\n";
+  _t += "STR: " + statBlock.attribute.strength + " () | ";
+  _t += "DEX: " + statBlock.attribute.dexterity + " () | ";
+  _t += "CON: " + statBlock.attribute.constitution + " () | ";
+  _t += "INT: " + statBlock.attribute.intelligence + " () | ";
+  _t += "WIS: " + statBlock.attribute.wisdom + " () | ";
+  _t += "CHA: " + statBlock.attribute.charisma + " ()\n\n";
+  if (statBlock.saving_throws) _t += "Saving Throws: " + statBlock.saving_throws.join(", ") + "\n";
+  if (statBlock.skills) _t += "Skills: " + statBlock.skills.join(", ") + "\n";
+  if (statBlock.senses) _t += "Senses: " + statBlock.senses.join(", ") + "\n";
+  if (statBlock.vulnerabilities) _t += "Damage Vulnerabilities: " + statBlock.vulnerabilities.join(", ") + "\n";
+  if (statBlock.resistances) _t += "Damage Resistances: " + statBlock.resistances.join(", ") + "\n";
+  if (statBlock.immunities) _t += "Damage Immunities: " + statBlock.immunities.join(", ") + "\n";
+  if (statBlock.condition_immunities) _t += "Condition Immunities: " + statBlock.condition_immunities.join(", ") + "\n";
+  if (statBlock.languages) _t += "Languages: " + statBlock.languages.join(", ") + "\n";
+  _t += "Challenge: " + statBlock.challenge + " ()\n\n";
+  if (statBlock.traits) _t += "Traits:\n" + statBlock.traits
+    .map(item => item.name + ": " + item.description).join("\n") + "\n\n";
+  if (statBlock.spellcaster && statBlock.spells) _t += "Spellcasting: " + statBlock.spellcaster + "\n" + statBlock.spells
+    .map(item => item.level + ": " + item.spells.join(", ")).join("\n") + "\n\n";
+  if (statBlock.actions) _t += "Actions:\n" + statBlock.actions
+    .map(item => item.name + ": " + item.description).join("\n") + "\n\n";
+  if (statBlock.bonus_action) _t += "Bonus Actions:\n" + statBlock.bonus_action
+    .map(item => item.name + ": " + item.description).join("\n") + "\n\n";
+  if (statBlock.reactions) _t += "Reactions:\n" + statBlock.reactions
+    .map(item => item.name + ": " + item.description).join("\n") + "\n\n";
+  return _t;
 }
 function SetIndexes() {
   indexes = [
@@ -212,7 +248,7 @@ function GetSpellcaster(): string {
       let start: number = indexes[i].i, end: number = i + 1 >= indexes.length ? -1 : indexes[i + 1].i;
       const segment = text2parse.slice(start, end).trim();
       start = segment.indexOf(":") + 1;
-      end = segment.slice(start).indexOf(":") + start;
+      end = segment.slice(start).indexOf(":") + start + 1;
       return segment.slice(start, end).trim();
     }
   }

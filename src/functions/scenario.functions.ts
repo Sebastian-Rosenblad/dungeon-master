@@ -9,6 +9,9 @@ export function set_scenarios(scenarios: Array<ScenarioM>) {
   state_scenarios = scenarios;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(scenarios));
 }
+export function scenarios_string(): string {
+  return 'import{ScenarioM}from"../models/scenario.models";export const scenario_db:Array<ScenarioM>=' + JSON.stringify(state_scenarios) + ';';
+}
 
 export function NewScenario(): ScenarioM {
   return {
