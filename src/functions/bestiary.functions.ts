@@ -66,6 +66,9 @@ export function ParseStatBlock(text: string): StatBlockM {
   let _str = GetString("description");
   if (_str)
     statBlock.description = _str.slice(_str.indexOf(":") + 1).trim();
+  _str = GetString("img");
+  if (_str)
+    statBlock.img = _str.slice(_str.indexOf(":") + 1).trim();
   _str = GetNumberSource("armor");
   if (_str)
     statBlock.armor_source = _str;
@@ -115,6 +118,7 @@ export function ParseStatBlock(text: string): StatBlockM {
 export function StringifyStatBlock(statBlock: StatBlockM): string {
   let _t = statBlock.name + " (" + statBlock.size + " " + statBlock.type + ", " + statBlock.alignment + ")\n\n";
   if (statBlock.description) _t += "Description: " + statBlock.description + "\n\n";
+  if (statBlock.img) _t += "Image: " + statBlock.img + "\n\n";
   _t += "Armor Class: " + statBlock.armor + (statBlock.armor_source ? " (" + statBlock.armor_source + ")\n" : "\n");
   _t += "Hit Points: " + statBlock.health + " (" + statBlock.health_source + ")\n";
   _t += "Speed: " + statBlock.speed.join(", ") + "\n\n";
@@ -154,6 +158,7 @@ function SetIndexes() {
   indexes.push({ i: indexes[2].i + text2parse.slice(indexes[2].i).indexOf(",") + 1, key: "alignment" });
   const items = [
     { search: "Description:", key: "description" },
+    { search: "Image:", key: "img" },
     { search: "Armor Class:", key: "armor" },
     { search: "Hit Points:", key: "health" },
     { search: "Speed:", key: "speed" },

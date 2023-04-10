@@ -38,7 +38,7 @@ export function CulturesV() {
       <div className="cultures--body">
         {cultures.map((culture: CultureM) =>
           <div key={"culture-" + culture.id} className="cultures--body--culture">
-            <button onClick={() => { viewCulture(culture.id); }}>
+            <button className="button-large" onClick={() => { viewCulture(culture.id); }}>
               {culture.name}
             </button>
           </div>

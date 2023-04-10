@@ -2,6 +2,7 @@ export interface StatBlockM {
   id: string;
   name: string;
   description?: string;
+  img?: string;
   tags: Array<string>;
   size: string;
   type: string;

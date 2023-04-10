@@ -19,7 +19,14 @@
       margin-bottom: 10px;
     }
     &--description{
+      display: flex;
+      align-items: flex-start;
       p, .item {
+        margin-bottom: 10px;
+      }
+      img {
+        max-width: 20%;
+        margin-left: 10px;
         margin-bottom: 10px;
       }
     }

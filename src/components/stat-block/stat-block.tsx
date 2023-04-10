@@ -26,7 +26,7 @@ export function StatBlockC(props: {
   
   return <div className="stat-block">
     <button className="stat-block--hide-button button-small" onClick={toggleHide}>{hiding ? "Show" : "Hide"}</button>
-    {!editing && <h1 className="stat-block--header">{statBlock.name}</h1>}
+    {!editing && <h3 className="stat-block--header">{statBlock.name}</h3>}
     {!hiding && !editing &&
       <StatBlockDisplayC statBlock={statBlock} />
     }

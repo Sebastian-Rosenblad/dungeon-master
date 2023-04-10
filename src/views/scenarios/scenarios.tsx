@@ -38,7 +38,7 @@ export function ScenariosV() {
       <div className="scenarios--body">
         {scenarios.map((scenario: ScenarioM) =>
           <div key={"scenario-" + scenario.id} className="scenarios--body--scenario">
-            <button onClick={() => { viewScenario(scenario.id); }}>
+            <button className="button-large" onClick={() => { viewScenario(scenario.id); }}>
               {scenario.name}
             </button>
           </div>
