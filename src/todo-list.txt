@@ -1,0 +1,25 @@
+--- New Features ---
+
+View: NPCs (view, component, and database), identical? to items
+Component: Icon list
+  - Show, Move up, Move down, & Copy
+  - Used in several components (chapter, item, npc, scene, stat-block)
+Component: Tracker
+  - Modular options to track (example: ["success#0f0", "fail#f00"])
+  - Result texts for each outcome (example: ["Xochitl attack you", "Xochitl shoos you away", "Xhochitl reveals a secret path", "Xochitl guides you"])
+Mode: Play a scenario
+  - Disables all text editing
+  - Enables the input of players and important character stats for easy access
+Mode: Run an encounter
+  - Initiative tracker
+  - Monster health tracker
+API: ChatGPT integration
+
+--- Updates ---
+
+Component: Stat-block
+  - When editing, add separate input-fields for each category
+Model: Items
+  - Add image option
+Function: Parse text
+  - Enable both <b> and <i> tags in same paragraph
