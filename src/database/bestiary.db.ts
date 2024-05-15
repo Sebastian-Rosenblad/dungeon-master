@@ -1,1 +1,0 @@
-import{StatBlockM}from"../models/stat-block.models";export const bestiary_db:Array<StatBlockM>=[];
