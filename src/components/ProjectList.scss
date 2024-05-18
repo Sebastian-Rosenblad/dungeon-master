@@ -1,0 +1,11 @@
+@import '../assets/styles/variables.scss';
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: $large-gap;
+  &--row {
+    display: flex;
+    justify-content: space-between;
+  }
+}

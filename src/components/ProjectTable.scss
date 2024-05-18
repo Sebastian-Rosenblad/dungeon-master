@@ -1,0 +1,80 @@
+@import '../assets/styles/variables.scss';
+
+.project-table {
+  width: 100%;
+
+  &--head, &--body {
+    &--row {
+      display: flex;
+      align-items: center;
+      gap: $large-gap;
+      border-bottom: 1px solid $gray;
+      box-sizing: border-box;
+
+      &:nth-child(even) {
+        background-color: $lighter-gray;
+      }
+
+      &--thumbnail, &--title, &--description, &--articles {
+        display: flex;
+        align-items: center;
+        padding: $text-padding;
+      }
+      
+      &--thumbnail {
+        flex: 0 0 80px;
+        justify-content: center;
+        img {
+          width: 60px;
+          height: 45px;
+          border-radius: $border-radius;
+        }
+      }
+  
+      &--title {
+        flex: 0 0 200px;
+      }
+  
+      &--description {
+        flex: 1;
+      }
+  
+      &--articles {
+        flex: 0 0 100px;
+        justify-content: center;
+      }
+    }
+  }
+  &--head {
+    p {
+      font-weight: 700;
+    }
+
+    .sortable-column {
+      display: flex;
+      align-items: center;
+      gap: $small-gap;
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $light-gray;
+      }
+      .icon {
+        width: 16px;
+        height: 16px;
+        fill: $dark-gray;
+      }
+    }
+  }
+  &--body {
+    &--row {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $light-gray;
+      }
+    }
+  }
+}

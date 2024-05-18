@@ -5,35 +5,30 @@ import axios from 'axios';
 interface ProjectState {
   projects: ProjectM[];
 }
-
 const initialState: ProjectState = {
   projects: [],
 };
 
+const baseURL = process.env.REACT_APP_API_BASE_URL;
+
 export const fetchProjects = createAsyncThunk('projects/fetchProjects', async (_, { rejectWithValue }) => {
   // Try fetching from the API endpoint
-  try {
-    const response = await axios.get<ProjectM[]>('https://api.example.com/projects');
-    return response.data;
-  } catch (error) {
-    console.error('Fetching from API failed', error);
+  if (baseURL) {
+    try {
+      const response = await axios.get<ProjectM[]>(`${baseURL}/projects`);
+      return response.data;
+    } catch (error) {
+      console.error('Fetching from API failed', error);
+    }
   }
   // Try fetching from localStorage
-  try {
-    const projects = localStorage.getItem('anciny--dungeon-master--projects');
-    if (projects) return JSON.parse(projects) as ProjectM[];
-  } catch (error) {
-    console.error('Fetching from localStorage failed', error);
-  }
+  const projects = localStorage.getItem('anciny--dungeon-master--projects');
+  if (projects) return JSON.parse(projects) as ProjectM[];
   // Try fetching from the JSON file
-  try {
-    const response = await fetch('/projects.json');
-    if (response.ok) {
-      const data = await response.json();
-      return data as ProjectM[];
-    }
-  } catch (error) {
-    console.error('Fetching from JSON file failed', error);
+  const response = await fetch('/projects.json');
+  if (response.ok) {
+    const data = await response.json();
+    return data as ProjectM[];
   }
   // Fallback to an empty array if all else fails
   return rejectWithValue([]);
@@ -46,7 +41,6 @@ const projectSlice = createSlice({
     setProjects(state, action: PayloadAction<ProjectM[]>) {
       state.projects = action.payload;
     },
-    // Additional reducers can be added here
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProjects.fulfilled, (state, action: PayloadAction<ProjectM[]>) => {

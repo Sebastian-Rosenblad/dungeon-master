@@ -1,3 +1,34 @@
+@import 'variables';
+
 body {
   margin: 0px;
+}
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $large-gap;
+  margin: $side-margin;
+}
+
+h1, h2, h3, p, th, td, button, input, label, textarea {
+  font-family: 'open sans', sans-serif;
+  margin: 0px;
+}
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+p, button, input, label, textarea {
+  font-size: 1rem;
+}
+button {
+  cursor: pointer;
 }
