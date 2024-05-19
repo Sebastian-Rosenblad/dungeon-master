@@ -7,6 +7,7 @@ interface ProjectTablePropsM {
   sortColumn: "title" | "articles";
   sortDirection: "asc" | "desc";
   onSort: (column: "title" | "articles", direction: "asc" | "desc") => void;
+  onProjectClick: (project: ProjectM) => void;
 }
 
 export function ProjectTableC(props: ProjectTablePropsM): JSX.Element {
@@ -54,7 +55,7 @@ export function ProjectTableC(props: ProjectTablePropsM): JSX.Element {
       </div>
     </div>
     <div className="project-table--body">
-      {projects.map(project => <div key={project.id} className="project-table--body--row">
+      {projects.map(project => <div key={project.id} className="project-table--body--row" onClick={() => props.onProjectClick(project)}>
         <div className="project-table--body--row--thumbnail">
           <img src={`./images/${project.thumbnail}.png`} alt={project.title} onError={handleImgError} />
         </div>

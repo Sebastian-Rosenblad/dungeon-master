@@ -4,14 +4,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchProjects, setProjects } from "../features/projects/project-slice";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { InputTextC } from "./shared/InputText";
+import { useNavigate } from "react-router-dom";
 import { ProjectTableC } from "./ProjectTable";
 import { PaginationC } from "./shared/Pagination";
+import { InputTextC } from "./shared/InputText";
 import { ProjectM } from "../models/project.model";
 import { generateUniqueId } from "../utils/generateUniqueId";
 
 export function ProjectListC(): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const projects: ProjectM[] = useSelector((state: RootState) => state.projects.projects);
   const [search, setSearch] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<"title" | "articles">("title");
@@ -34,6 +36,7 @@ export function ProjectListC(): JSX.Element {
     };
     const updatedProjects: ProjectM[] = [...projects, newProject];
     dispatch(setProjects(updatedProjects));
+    navigate(`/project/${newProject.id}`);
   }
   function getFilteredProjects(): ProjectM[] {
     return projects
@@ -51,6 +54,9 @@ export function ProjectListC(): JSX.Element {
     setSortColumn(column);
     setSortDirection(direction);
   }
+  function handleProjectClick(project: ProjectM): void {
+    navigate(`/project/${project.id}`);
+  }
 
   return <div className="project-list">
     <div className="project-list--row">
@@ -67,6 +73,7 @@ export function ProjectListC(): JSX.Element {
         sortColumn={sortColumn}
         sortDirection={sortDirection}
         onSort={updateSort}
+        onProjectClick={handleProjectClick}
       />
     </div>
     <div className="project-list--row">

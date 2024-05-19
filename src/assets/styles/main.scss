@@ -32,3 +32,14 @@ p, button, input, label, textarea {
 button {
   cursor: pointer;
 }
+
+.icon {
+  width: 22px;
+  height: 22px;
+  fill: $dark-gray;
+}
+.icon-small {
+  width: 16px;
+  height: 16px;
+  fill: $dark-gray;
+}

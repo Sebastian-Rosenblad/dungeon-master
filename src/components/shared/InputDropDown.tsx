@@ -7,9 +7,7 @@ interface InputDropDownPropsM {
   onChange: (value: string) => void;
 }
 
-export function InputDropDownC(props: InputDropDownPropsM): JSX.Element {
-  const { label, options, value, onChange } = props;
-
+export function InputDropDownC({ label, options, value, onChange }: InputDropDownPropsM): JSX.Element {
   return <div className="input-drop-down">
     <label>{label}</label>
     <select value={value} onChange={e => onChange(e.target.value)}>

@@ -7,8 +7,7 @@ interface InputTextPropsM {
   onChange: (value: string) => void;
 }
 
-export function InputTextC(props: InputTextPropsM): JSX.Element {
-  const { label, placeholder, value, onChange } = props;
+export function InputTextC({ label, placeholder, value, onChange }: InputTextPropsM): JSX.Element {
 
   return <div className="input-text">
     {label && <label>{label}</label>}

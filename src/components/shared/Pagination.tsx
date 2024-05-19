@@ -6,8 +6,7 @@ interface PaginationPropsM {
   onPageChange: (page: number) => void;
 }
 
-export function PaginationC(props: PaginationPropsM): JSX.Element {
-  const { page, totalPages, onPageChange } = props;
+export function PaginationC({ page, totalPages, onPageChange }: PaginationPropsM): JSX.Element {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return <div className="pagination">
