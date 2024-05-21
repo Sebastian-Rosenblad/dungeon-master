@@ -71,11 +71,14 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
     setProjects(state, action: PayloadAction<ProjectM[]>) {
-      localStorage.setItem(localKey, JSON.stringify(action.payload));
       state.projects = action.payload;
+      localStorage.setItem(localKey, JSON.stringify(action.payload));
     },
     setCurrentProject(state, action: PayloadAction<ProjectM | undefined>) {
       state.currentProject = action.payload;
+      const newProjects = state.projects.map(p => p.id === action.payload?.id ? action.payload : p);
+      state.projects = newProjects;
+      localStorage.setItem(localKey, JSON.stringify(newProjects));
     },
   },
   extraReducers: (builder) => {

@@ -3,7 +3,7 @@ import { ProjectListC } from "../components/ProjectList";
 
 export function HomePageP(): JSX.Element {
   return <div className="page">
-    <h1>My projects</h1>
+    <h2>My projects</h2>
     <ProjectListC />
   </div>;
 }

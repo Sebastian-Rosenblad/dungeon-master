@@ -25,5 +25,5 @@ export function ProjectPageP(): JSX.Element {
       <EditableTextareaC text={project.description} label="Description" onSave={description => dispatch(setCurrentProject({ ...project, description }))} />
       <p>Articles: {project.articles.length}</p>
     </div>
-);
+  );
 }

@@ -5,9 +5,10 @@ import { RootState } from "../store/store";
 import { fetchProjects, setProjects } from "../features/projects/project-slice";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
+import { InputSearchC } from "./shared/InputSearch";
 import { ProjectTableC } from "./ProjectTable";
 import { PaginationC } from "./shared/Pagination";
-import { InputTextC } from "./shared/InputText";
+import { ButtonC } from "./shared/Button";
 import { ProjectM } from "../models/project.model";
 import { generateUniqueId } from "../utils/generateUniqueId";
 
@@ -60,12 +61,12 @@ export function ProjectListC(): JSX.Element {
 
   return <div className="project-list">
     <div className="project-list--row">
-      <InputTextC
+      <InputSearchC
         value={search}
         onChange={setSearch}
         placeholder="Search projects"
       />
-      <button onClick={createNewProject}>Create New Project</button>
+      <ButtonC icon="add" label="New" onClick={createNewProject} />
     </div>
     <div className="project-list--row">
       <ProjectTableC
@@ -76,7 +77,7 @@ export function ProjectListC(): JSX.Element {
         onProjectClick={handleProjectClick}
       />
     </div>
-    <div className="project-list--row">
+    <div className="project-list--row center">
       <PaginationC
         page={page}
         totalPages={Math.ceil(projects.length / projectsPerPage)}

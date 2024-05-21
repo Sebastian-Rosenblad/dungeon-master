@@ -1,0 +1,19 @@
+@import "../../assets/styles/variables.scss";
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: $large-gap;
+  padding: $large-text-padding;
+  background-color: $light-blue;
+  border: none;
+  border-radius: $larger-border-radius;
+  box-shadow: $small-box-shadow;
+  cursor: pointer;
+  &:hover {
+    background-color: $lighter-blue;
+  }
+  span {
+    padding-top: 1px;
+  }
+}

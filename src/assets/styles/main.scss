@@ -2,12 +2,29 @@
 
 body {
   margin: 0px;
+  background-color: $light-gray;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: $large-gap;
+  padding: $site-padding;
+  nav {
+    display: flex;
+    a {
+      color: $black;
+      text-decoration: none;
+      border-radius: $border-radius;
+    }
+  }
 }
 .page {
   display: flex;
   flex-direction: column;
   gap: $large-gap;
-  margin: $side-margin;
+  padding: $page-padding;
+  background-color: $white;
+  border-radius: $large-border-radius;
 }
 
 h1, h2, h3, p, th, td, button, input, label, textarea {
@@ -23,7 +40,7 @@ h2 {
   font-weight: 700;
 }
 h3 {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
 }
 p, button, input, label, textarea {
@@ -39,7 +56,7 @@ button {
   fill: $dark-gray;
 }
 .icon-small {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   fill: $dark-gray;
 }
