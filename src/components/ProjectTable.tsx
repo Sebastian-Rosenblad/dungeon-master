@@ -57,7 +57,7 @@ export function ProjectTableC(props: ProjectTablePropsM): JSX.Element {
     <div className="project-table--body">
       {projects.map(project => <div key={project.id} className="project-table--body--row" onClick={() => props.onProjectClick(project)}>
         <div className="project-table--body--row--thumbnail">
-          <img src={`./images/${project.thumbnail}.png`} alt={project.title} onError={handleImgError} />
+          <img src={`./images/${project.thumbnail}`} alt={project.title} onError={handleImgError} />
         </div>
         <h3 className="project-table--body--row--title">{project.title}</h3>
         <p className="project-table--body--row--description">{project.description}</p>

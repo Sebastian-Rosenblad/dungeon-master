@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./ProjectPage.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchProjectById, setCurrentProject } from "../features/projects/project-slice";
@@ -6,6 +7,7 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import { useNavigate, useParams } from "react-router-dom";
 import { EditableTextC } from "../components/shared/EditableText";
 import { EditableTextareaC } from "../components/shared/EditableTextarea";
+import { ImageSelectC } from "../components/shared/ImageSelect";
 
 export function ProjectPageP(): JSX.Element {
   const { projectId } = useParams<{ projectId: string }>();
@@ -17,13 +19,22 @@ export function ProjectPageP(): JSX.Element {
     if (projectId) {
       dispatch(fetchProjectById(projectId));
     }
+    return () => {
+      dispatch(setCurrentProject(undefined));
+    };
   }, [dispatch, projectId]);
 
   return !project ? (<div className="page"><p>Loading...</p></div>) : (
     <div className="page">
-      <EditableTextC text={project.title} tag="h1" onSave={title => dispatch(setCurrentProject({ ...project, title }))} />
-      <EditableTextareaC text={project.description} label="Description" onSave={description => dispatch(setCurrentProject({ ...project, description }))} />
-      <p>Articles: {project.articles.length}</p>
+      <div className="project-header">
+        <div className="project-header--left">
+          <ImageSelectC value={project.thumbnail} onChange={thumbnail => dispatch(setCurrentProject({ ...project, thumbnail }))} />
+        </div>
+        <div className="project-header--right">
+          <EditableTextC text={project.title} tag="h2" onSave={title => dispatch(setCurrentProject({ ...project, title }))} />
+          <EditableTextareaC text={project.description} placeholder="Click to add a description" onSave={description => dispatch(setCurrentProject({ ...project, description }))} />
+        </div>
+      </div>
     </div>
   );
 }

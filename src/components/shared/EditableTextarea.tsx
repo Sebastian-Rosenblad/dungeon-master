@@ -1,13 +1,14 @@
 import React from "react";
 import "./EditableTextarea.scss";
+import { ButtonIconC } from "./ButtonIcon";
 
 interface EditableTextareaProps {
   text: string;
-  label?: string;
+  placeholder?: string;
   onSave: (text: string) => void;
 }
 
-export function EditableTextareaC({ text, label, onSave }: EditableTextareaProps): JSX.Element {
+export function EditableTextareaC({ text, placeholder, onSave }: EditableTextareaProps): JSX.Element {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
   const [value, setValue] = React.useState<string>(text);
 
@@ -23,19 +24,16 @@ export function EditableTextareaC({ text, label, onSave }: EditableTextareaProps
   return <div className="editable-textarea">
     {isEditing ? (
       <div className="editable-textarea--editing">
-        {label && <label>{label}</label>}
-        <textarea value={value} onChange={e => setValue(e.target.value)} />
-        <svg className="icon" onClick={handleSave}>
-          <use xlinkHref="#icon-edit-save" />
-        </svg>
-        <svg className="icon" onClick={handleCancel}>
-          <use xlinkHref="#icon-edit-cancel" />
-        </svg>
+        <textarea value={value} onChange={e => setValue(e.target.value)} className="editable-text--p" />
+        <div className="editable-textarea--editing--buttons">
+          <ButtonIconC icon="edit-save" onClick={handleSave} />
+          <ButtonIconC icon="edit-cancel" onClick={handleCancel} />
+        </div>
       </div>
     ) : (
       <div className="editable-textarea--display" onClick={() => setIsEditing(true)}>
         {value && <p>{value}</p>}
-        {!value && <p className="placeholder">Click to add {label}</p>}
+        {!value && <p className="placeholder">{placeholder}</p>}
         <svg className="icon">
           <use xlinkHref="#icon-edit-start" />
         </svg>

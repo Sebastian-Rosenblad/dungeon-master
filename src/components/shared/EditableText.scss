@@ -18,6 +18,12 @@
   }
   &--editing {
     gap: $small-gap;
+
+    input {
+      border: none;
+      border-bottom: 1px solid $dark-gray;
+      padding: $small-text-padding;
+    }
   }
   &--display {
     gap: $large-gap;

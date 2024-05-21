@@ -31,19 +31,19 @@ h1, h2, h3, p, th, td, button, input, label, textarea {
   font-family: 'open sans', sans-serif;
   margin: 0px;
 }
-h1 {
+h1, .editable-text--h1 {
   font-size: 2rem;
   font-weight: 700;
 }
-h2 {
+h2, .editable-text--h2 {
   font-size: 1.5rem;
   font-weight: 700;
 }
-h3 {
+h3, .editable-text--h3 {
   font-size: 1.15rem;
   font-weight: 700;
 }
-p, button, input, label, textarea {
+p, .editable-text--p, button, input, label, textarea {
   font-size: 1rem;
 }
 button {

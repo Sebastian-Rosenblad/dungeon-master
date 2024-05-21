@@ -17,7 +17,7 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script>
-      fetch('/images/symbol-defs.svg')
+      fetch('/symbol-defs.svg')
         .then(response => response.text())
         .then(data => {
           const div = document.createElement('div');

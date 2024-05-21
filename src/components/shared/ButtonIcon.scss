@@ -1,20 +1,22 @@
 @import "../../assets/styles/variables.scss";
 
-.button {
+.button-icon {
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
-  gap: $large-gap;
-  padding: $large-text-padding;
+  justify-content: center;
   background-color: $light-blue;
   border: none;
-  border-radius: $larger-border-radius;
+  border-radius: 50%;
   box-shadow: $small-box-shadow;
   cursor: pointer;
-  
+
+  &.small {
+    width: 32px;
+    height: 32px;
+  }
   &:hover {
     background-color: $lighter-blue;
-  }
-  span {
-    padding-top: 1px;
   }
 }
