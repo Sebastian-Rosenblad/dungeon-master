@@ -3,12 +3,13 @@
 .project-list {
   display: flex;
   flex-direction: column;
-  gap: $large-gap;
+  gap: $larger-gap;
 
   &--row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
     &.center {
       justify-content: center;
     }

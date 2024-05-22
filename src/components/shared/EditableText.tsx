@@ -28,8 +28,8 @@ export function EditableTextC({ text, tag, onSave }: EditableTextProps): JSX.Ele
     {isEditing ? (
       <div className={"editable-text--editing"}>
         <input type="text" value={value} onChange={e => setValue(e.target.value)} className={`editable-text--${tag}`} />
-        <ButtonIconC icon="edit-save" small onClick={handleSave} />
-        <ButtonIconC icon="edit-cancel" small onClick={handleCancel} />
+        <ButtonIconC icon="edit-save" size="small" onClick={handleSave} />
+        <ButtonIconC icon="edit-cancel" size="small" onClick={handleCancel} />
       </div>
     ) : (
       <div className="editable-text--display" onClick={() => setIsEditing(true)}>

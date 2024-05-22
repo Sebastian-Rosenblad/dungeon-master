@@ -4,12 +4,22 @@ import { IconC } from "./Icon";
 
 interface ButtonIconPropsM {
   icon: string;
-  small?: boolean;
-  onClick: () => void;
+  size?: "small" | "medium" | "large";
+  transparent?: boolean;
+  onClick: (evt: React.MouseEvent) => void;
+  onMouseEnter?: (evt: React.MouseEvent) => void;
+  onMouseLeave?: (evt: React.MouseEvent) => void;
 }
 
-export function ButtonIconC({ icon, small, onClick }: ButtonIconPropsM): JSX.Element {
-  return <button className={["button-icon", small ? "small" : ""].join(" ")} onClick={onClick}>
-    {icon && <IconC name={icon} />}
-  </button>;
+export function ButtonIconC({ icon, size = "medium", transparent, onClick, onMouseEnter, onMouseLeave }: ButtonIconPropsM): JSX.Element {
+  return (
+    <button
+      className={["button-icon", size, transparent && "transparent"].join(" ")}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {icon && <IconC name={icon} size={size} />}
+    </button>
+  );
 }

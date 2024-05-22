@@ -9,6 +9,8 @@ import { InputSearchC } from "./shared/InputSearch";
 import { ProjectTableC } from "./ProjectTable";
 import { PaginationC } from "./shared/Pagination";
 import { ButtonC } from "./shared/Button";
+import { ButtonIconC } from "./shared/ButtonIcon";
+import { MenuPopupC } from "./shared/MenuPopup";
 import { ProjectM } from "../models/project.model";
 import { generateUniqueId } from "../utils/generateUniqueId";
 
@@ -20,6 +22,7 @@ export function ProjectListC(): JSX.Element {
   const [sortColumn, setSortColumn] = useState<"title" | "articles">("title");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [page, setPage] = useState<number>(1);
+  const [menuPosition, setMenuPosition] = useState<{ x: number, y: number } | null>(null);
   const projectsPerPage: number = 10;
 
   useEffect(() => {
@@ -58,15 +61,23 @@ export function ProjectListC(): JSX.Element {
   function handleProjectClick(project: ProjectM): void {
     navigate(`/project/${project.id}`);
   }
+  function handleShowMenu(event: React.MouseEvent): void {
+    event.stopPropagation();
+    setMenuPosition({ x: event.clientX, y: event.clientY });
+  }
+  function handleCloseMenu(): void {
+    setMenuPosition(null);
+  }
 
   return <div className="project-list">
     <div className="project-list--row">
+      <ButtonC icon="add" label="New" onClick={createNewProject} />
       <InputSearchC
         value={search}
         onChange={setSearch}
         placeholder="Search projects"
       />
-      <ButtonC icon="add" label="New" onClick={createNewProject} />
+      <ButtonIconC icon="dots-menu" size="large" transparent onClick={handleShowMenu} />
     </div>
     <div className="project-list--row">
       <ProjectTableC
@@ -84,5 +95,16 @@ export function ProjectListC(): JSX.Element {
         onPageChange={setPage}
       />
     </div>
+    {menuPosition && (
+      <MenuPopupC
+        x={menuPosition.x}
+        y={menuPosition.y}
+        items={[
+          { label: "Import", icon: "import", onClick: () => {} },
+          { label: "Export", icon: "export", onClick: () => {} }
+        ]}
+        onClose={handleCloseMenu}
+      />
+    )}
   </div>;
 }
