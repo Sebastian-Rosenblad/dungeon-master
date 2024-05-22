@@ -65,6 +65,53 @@ export function ProjectListC(): JSX.Element {
     event.stopPropagation();
     setMenuPosition({ x: event.clientX, y: event.clientY });
   }
+  function handleImport(): void {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".json";
+  
+    fileInput.onchange = async (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      if (target.files && target.files.length > 0) {
+        const file = target.files[0];
+        const fileContent = await file.text();
+        try {
+          const importedProjects: ProjectM[] = JSON.parse(fileContent);
+  
+          const updatedProjects = [...projects];
+          const projectMap = new Map<string, ProjectM>();
+  
+          updatedProjects.forEach(project => projectMap.set(project.id, project));
+          importedProjects.forEach(project => projectMap.set(project.id, project));
+  
+          const mergedProjects = Array.from(projectMap.values());
+          dispatch(setProjects(mergedProjects));
+        } catch (error) {
+          console.error("Failed to parse the imported file", error);
+          alert("Failed to import projects. Please make sure the file is a valid JSON.");
+        }
+      }
+    };
+  
+    fileInput.click();
+    handleCloseMenu();
+  }
+  function handleExport(): void {
+    const jsonContent = JSON.stringify(projects, null, 2);
+    const blob = new Blob([jsonContent], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+  
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "projects.json";
+  
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  
+    URL.revokeObjectURL(url);
+    handleCloseMenu();
+  }
   function handleCloseMenu(): void {
     setMenuPosition(null);
   }
@@ -100,8 +147,8 @@ export function ProjectListC(): JSX.Element {
         x={menuPosition.x}
         y={menuPosition.y}
         items={[
-          { label: "Import", icon: "import", onClick: () => {} },
-          { label: "Export", icon: "export", onClick: () => {} }
+          { label: "Import", icon: "import", onClick: handleImport },
+          { label: "Export", icon: "export", onClick: handleExport }
         ]}
         onClose={handleCloseMenu}
       />

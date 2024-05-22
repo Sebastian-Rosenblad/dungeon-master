@@ -8,6 +8,7 @@ import { IconC } from "./shared/Icon";
 import { MenuPopupC } from "./shared/MenuPopup";
 import { LightboxC } from "./shared/Lightbox";
 import { ProjectM } from "../models/project.model";
+import { toKebabCase } from "../utils/kebabCase";
 
 interface ProjectTablePropsM {
   projects: ProjectM[];
@@ -49,6 +50,23 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
   function handleDeleteProject(): void {
     dispatch(setProjects(projects.filter(project => project.id !== menuProject!.id)));
     handleCloseLightbox();
+  }
+  function handleExportProject(): void {
+    if (!menuProject) return;
+    const jsonContent = JSON.stringify([menuProject], null, 2);
+    const blob = new Blob([jsonContent], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+  
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `project_${toKebabCase(menuProject.title)}.json`;
+  
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  
+    URL.revokeObjectURL(url);
+    handleCloseMenu();
   }
   function handleCloseMenu(): void {
     setMenuProject(null);
@@ -109,7 +127,7 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
         x={menuPosition.x}
         y={menuPosition.y}
         items={[
-          { label: "Export", icon: "export", onClick: () => {} },
+          { label: "Export", icon: "export", onClick: handleExportProject },
           { label: "Delete", icon: "delete", onClick: handleShowLightbox }
         ]}
         onClose={handleCloseMenu}
