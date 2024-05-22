@@ -3,8 +3,10 @@ import "./ProjectTable.scss";
 import { fetchProjects, setProjects } from "../features/projects/project-slice";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { ButtonIconC } from "./shared/ButtonIcon";
+import { ButtonC } from "./shared/Button";
 import { IconC } from "./shared/Icon";
 import { MenuPopupC } from "./shared/MenuPopup";
+import { LightboxC } from "./shared/Lightbox";
 import { ProjectM } from "../models/project.model";
 
 interface ProjectTablePropsM {
@@ -20,6 +22,7 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
   const [buttonHover, setButtonHover] = React.useState<boolean>(false);
   const [menuPosition, setMenuPosition] = React.useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [menuProject, setMenuProject] = React.useState<ProjectM | null>(null);
+  const [showLightbox, setShowLightbox] = React.useState<boolean>(false);
 
   useEffect(() => {
     dispatch(fetchProjects());
@@ -45,9 +48,16 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
   }
   function handleDeleteProject(): void {
     dispatch(setProjects(projects.filter(project => project.id !== menuProject!.id)));
-    handleCloseMenu();
+    handleCloseLightbox();
   }
   function handleCloseMenu(): void {
+    setMenuProject(null);
+  }
+  function handleShowLightbox(): void {
+    setShowLightbox(true);
+  }
+  function handleCloseLightbox(): void {
+    setShowLightbox(false);
     setMenuProject(null);
   }
 
@@ -94,16 +104,25 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
         </div>
       ))}
     </div>
-    {menuProject && (
+    {!showLightbox && menuProject && (
       <MenuPopupC
         x={menuPosition.x}
         y={menuPosition.y}
         items={[
           { label: "Export", icon: "export", onClick: () => {} },
-          { label: "Delete", icon: "delete", onClick: handleDeleteProject }
+          { label: "Delete", icon: "delete", onClick: handleShowLightbox }
         ]}
         onClose={handleCloseMenu}
       />
+    )}
+    {showLightbox && (
+      <LightboxC title="Confirm" icon="delete" onClose={handleCloseLightbox}>
+        <p>Are you sure you want to delete the project?</p>
+        <div className="lightbox--buttons">
+          <ButtonC label="Yes" onClick={handleDeleteProject}></ButtonC>
+          <ButtonC label="No" onClick={handleCloseLightbox}></ButtonC>
+        </div>
+      </LightboxC>
     )}
   </div>;
 }
