@@ -1,6 +1,7 @@
 import React from "react";
 import "./EditableTextarea.scss";
 import { ButtonIconC } from "./ButtonIcon";
+import { IconC } from "./Icon";
 
 interface EditableTextareaProps {
   text: string;
@@ -34,9 +35,7 @@ export function EditableTextareaC({ text, placeholder, onSave }: EditableTextare
       <div className="editable-textarea--display" onClick={() => setIsEditing(true)}>
         {value && <p>{value}</p>}
         {!value && <p className="placeholder">{placeholder}</p>}
-        <svg className="icon">
-          <use xlinkHref="#icon-edit-start" />
-        </svg>
+        <IconC name="edit-start" />
       </div>
     )}
   </div>;

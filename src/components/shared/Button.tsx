@@ -1,5 +1,6 @@
 import React from "react";
 import "./Button.scss";
+import { IconC } from "./Icon";
 
 interface ButtonPropsM {
   icon?: string;
@@ -10,9 +11,7 @@ interface ButtonPropsM {
 
 export function ButtonC({ icon, label, onClick, active }: ButtonPropsM): JSX.Element {
   return <button className="button" onClick={onClick}>
-    {icon && <svg className="icon-small">
-      <use xlinkHref={`#icon-${icon}`} />
-    </svg>}
+    {icon && <IconC name={icon} size="small" />}
     <span>{label}</span>
   </button>;
 }

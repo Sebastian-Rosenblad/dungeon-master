@@ -1,5 +1,6 @@
 import React from "react";
 import './ProjectTable.scss';
+import { IconC } from "./shared/Icon";
 import { ProjectM } from "../models/project.model";
 
 interface ProjectTablePropsM {
@@ -15,6 +16,7 @@ export function ProjectTableC(props: ProjectTablePropsM): JSX.Element {
 
   function handleSort(column: "title" | "articles"): void {
     const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    console.log("Sorting by", column, newDirection);
     onSort(column, newDirection);
   }
   function handleImgError(event: React.SyntheticEvent<HTMLImageElement>): void {
@@ -26,31 +28,15 @@ export function ProjectTableC(props: ProjectTablePropsM): JSX.Element {
       <div className="project-table--head--row">
         <p className="project-table--head--row--thumbnail"></p>
         <p onClick={() => handleSort("title")} className="project-table--head--row--title sortable-column">
-          Title
-          {sortColumn === "title" && (
-            <svg className="icon">
-              <use xlinkHref={`#${sortDirection === "asc" ? "icon-sort-active-asc" : "icon-sort-active-desc"}`} />
-            </svg>
-          )}
-          {sortColumn !== "title" && (
-            <svg className="icon">
-              <use xlinkHref="#icon-sort-asc" />
-            </svg>
-          )}
+          <span>Title</span>
+          {sortColumn === "title" && <IconC name={sortDirection === "asc" ? "sort-active-asc" : "sort-active-desc"} size="small" />}
+          {sortColumn !== "title" && <IconC name="sort-asc" size="small" />}
         </p>
         <p className="project-table--head--row--description">Description</p>
         <p onClick={() => handleSort("articles")} className="project-table--head--row--articles sortable-column">
-          Articles
-          {sortColumn === "articles" && (
-            <svg className="icon">
-              <use xlinkHref={`#${sortDirection === "asc" ? "icon-sort-active-asc" : "icon-sort-active-desc"}`} />
-            </svg>
-          )}
-          {sortColumn !== "articles" && (
-            <svg className="icon">
-              <use xlinkHref="#icon-sort-asc" />
-            </svg>
-          )}
+          <span>Articles</span>
+          {sortColumn === "articles" && <IconC name={sortDirection === "asc" ? "sort-active-asc" : "sort-active-desc"} size="small" />}
+          {sortColumn !== "articles" && <IconC name="sort-asc" size="small" />}
         </p>
       </div>
     </div>

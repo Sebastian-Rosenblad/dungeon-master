@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import './ImageSelect.scss';
+import { IconC } from "./Icon";
 
 interface ImageSelectPropsM {
   value: string;
@@ -33,9 +34,7 @@ export function ImageSelectC({ value, onChange }: ImageSelectPropsM): JSX.Elemen
       onError={handleImgError}
     />
     <div className="image-select--hover" onClick={handleImageClick}>
-      <svg className="icon">
-        <use xlinkHref="#icon-folder" />
-      </svg>
+      <IconC name="image" />
     </div>
     <input
       type="file"

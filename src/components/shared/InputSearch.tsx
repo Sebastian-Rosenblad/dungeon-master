@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import "./InputSearch.scss";
+import { IconC } from "./Icon";
 
 interface InputSearchPropsM {
   label?: string;
@@ -20,9 +21,7 @@ export function InputSearchC({ label, placeholder, value, onChange }: InputSearc
   return <div className="input-search">
     {label && <label>{label}</label>}
     <div className="input-search--wrapper" onClick={handleWrapperClick}>
-      <svg className="icon-small">
-        <use xlinkHref={`#icon-search`} />
-      </svg>
+      <IconC name="search" size="small" />
       <input ref={inputRef} type="text" placeholder={placeholder} value={value} onChange={e => onChange(e.target.value)} />
     </div>
   </div>;

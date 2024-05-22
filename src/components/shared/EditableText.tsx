@@ -1,6 +1,7 @@
 import React from "react";
 import "./EditableText.scss";
 import { ButtonIconC } from "./ButtonIcon";
+import { IconC } from "./Icon";
 
 export interface EditableTextProps {
   text: string;
@@ -33,9 +34,7 @@ export function EditableTextC({ text, tag, onSave }: EditableTextProps): JSX.Ele
     ) : (
       <div className="editable-text--display" onClick={() => setIsEditing(true)}>
         <Tag>{value}</Tag>
-        <svg className="icon">
-          <use xlinkHref="#icon-edit-start" />
-        </svg>
+        <IconC name="edit-start" />
       </div>
     )}
   </div>;
