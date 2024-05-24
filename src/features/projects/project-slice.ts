@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { ProjectM } from '../../models/project.model';
 import axios from 'axios';
+import { ProjectM } from "../../models/project.model";
 
 interface ProjectState {
   projects: ProjectM[];
@@ -12,7 +12,7 @@ const initialState: ProjectState = {
 };
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
-const localKey = 'anciny--dungeon-master--projects';
+const localKey = "anciny--dungeon-master--projects";
 
 export const fetchProjects = createAsyncThunk('projects/fetchProjects', async (_, { rejectWithValue }) => {
   // Try fetching from the API endpoint
@@ -21,14 +21,14 @@ export const fetchProjects = createAsyncThunk('projects/fetchProjects', async (_
       const response = await axios.get<ProjectM[]>(`${baseURL}/projects`);
       return response.data;
     } catch (error) {
-      console.error('Fetching from API failed', error);
+      console.error("Fetching from API failed", error);
     }
   }
   // Try fetching from localStorage
   const projects = localStorage.getItem(localKey);
   if (projects) return JSON.parse(projects) as ProjectM[];
   // Try fetching from the JSON file
-  const response = await fetch('/projects.json');
+  const response = await fetch("/projects.json");
   if (response.ok) {
     const data = await response.json();
     return data as ProjectM[];
@@ -37,37 +37,37 @@ export const fetchProjects = createAsyncThunk('projects/fetchProjects', async (_
   return rejectWithValue([]);
 });
 
-export const fetchProjectById = createAsyncThunk('projects/fetchProjectById', async (projectId: string, { rejectWithValue }) => {
+export const fetchProjectById = createAsyncThunk("projects/fetchProjectById", async (projectId: string, { rejectWithValue }) => {
   // Try fetching from the API endpoint
   if (baseURL) {
     try {
       const response = await axios.get<ProjectM>(`${baseURL}/project/${projectId}`);
       return response.data;
     } catch (error) {
-      console.error('Fetching from API failed', error);
+      console.error("Fetching from API failed", error);
     }
   }
   // Try fetching from localStorage
   const projects = localStorage.getItem(localKey);
   if (projects) {
     const projectList = JSON.parse(projects) as ProjectM[];
-    const project = projectList.find(p => p.id === projectId);
+    const project = projectList.find(item => item.id === projectId);
     if (project) return project;
   }
   // Try fetching from the JSON file
-  const response = await fetch(`/projects.json`);
+  const response = await fetch("/projects.json");
   if (response.ok) {
     const projectList = await response.json() as ProjectM[];
-    const project = projectList.find(p => p.id === projectId);
+    const project = projectList.find(item => item.id === projectId);
     if (project) return project;
   }
-  console.error('Failed to fetch project by ID');
-  // Fallback to an empty array if all else fails
+  console.error("Failed to fetch project by ID");
+  // Fallback to undefined if all else fails
   return rejectWithValue(undefined);
 });
 
 const projectSlice = createSlice({
-  name: 'projects',
+  name: "projects",
   initialState,
   reducers: {
     setProjects(state, action: PayloadAction<ProjectM[]>) {
@@ -76,7 +76,7 @@ const projectSlice = createSlice({
     },
     setCurrentProject(state, action: PayloadAction<ProjectM | undefined>) {
       state.currentProject = action.payload;
-      const newProjects = state.projects.map(p => p.id === action.payload?.id ? action.payload : p);
+      const newProjects = state.projects.map(item => item.id === action.payload?.id ? action.payload : item);
       state.projects = newProjects;
       localStorage.setItem(localKey, JSON.stringify(newProjects));
     },
