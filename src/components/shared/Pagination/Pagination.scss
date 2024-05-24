@@ -1,0 +1,29 @@
+@import "../../../assets/styles/variables.scss";
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: $small-gap;
+
+  button {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $large-gap;
+    background-color: $white;
+    border: none;
+    border-radius: 50%;
+    box-sizing: border-box;
+    box-shadow: $small-box-shadow;
+    cursor: pointer;
+    
+    &.active {
+      background-color: $light-blue;
+    }
+    &:hover {
+      background-color: $light-gray;
+    }
+  }
+}

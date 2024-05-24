@@ -1,0 +1,1 @@
+export { InputTextC } from "./InputText";

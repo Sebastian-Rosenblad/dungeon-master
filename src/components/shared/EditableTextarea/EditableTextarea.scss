@@ -1,0 +1,43 @@
+@import "../../../assets/styles/variables.scss";
+
+.editable-textarea {
+  width: 100%;
+  
+  &--editing, &--display {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      border-radius: $border-radius;
+      cursor: pointer;
+    }
+    &:hover {
+      .icon {
+        fill: $dark-gray;
+      }
+    }
+  }
+  &--editing {
+    gap: $small-gap;
+
+    &--buttons {
+      display: flex;
+      flex-direction: column;
+      gap: $small-gap;
+    }
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: $text-padding;
+      resize: vertical;
+    }
+  }
+  &--display {
+    gap: $large-gap;
+    cursor: pointer;
+
+    .icon {
+      fill: rgba(0, 0, 0, 0);
+    }
+  }
+}

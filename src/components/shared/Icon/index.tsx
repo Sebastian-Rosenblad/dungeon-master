@@ -1,0 +1,1 @@
+export { IconC } from './Icon';

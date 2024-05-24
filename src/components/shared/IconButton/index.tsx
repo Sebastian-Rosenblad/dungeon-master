@@ -1,0 +1,1 @@
+export { IconButtonC } from './IconButton';
