@@ -25,4 +25,5 @@ yarn-error.log*
 /public/articles.json
 /public/projects.json
 /public/images/*
+!/public/images/default-thumbnail.png
 !.gitkeep
