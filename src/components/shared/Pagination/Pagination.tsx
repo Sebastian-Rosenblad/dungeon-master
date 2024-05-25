@@ -14,7 +14,7 @@ interface PaginationItemM {
 
 export function PaginationC({ page, totalPages, onPageChange }: PaginationPropsM): JSX.Element {
   useEffect(() => {
-    if (page > totalPages) onPageChange(totalPages);
+    if (page > totalPages && totalPages > 0) onPageChange(totalPages);
   }, [totalPages]);
 
   function pages(): PaginationItemM[] {
