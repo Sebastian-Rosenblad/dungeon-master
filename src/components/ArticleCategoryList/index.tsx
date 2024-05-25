@@ -1,0 +1,1 @@
+export { ArticleCategoryListC } from "./ArticleCategoryList";

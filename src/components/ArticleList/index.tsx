@@ -1,1 +1,0 @@
-export { ArticleListC } from "./ArticleList";

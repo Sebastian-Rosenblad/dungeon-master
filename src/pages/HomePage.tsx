@@ -1,10 +1,11 @@
 import React from "react";
+import "./HomePage.scss";
 import { ProjectListC } from "../components/ProjectList";
 
 export function HomePageP(): JSX.Element {
   return (
     <div className="page">
-      <h2>My projects</h2>
+      <h1>My projects</h1>
       <ProjectListC />
     </div>
   );

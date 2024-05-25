@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { EditableTextC } from "../components/shared/EditableText";
 import { EditableTextareaC } from "../components/shared/EditableTextarea";
 import { ImageSelectC } from "../components/shared/ImageSelect";
-import { ArticleListC } from "../components/ArticleList";
+import { ArticleCategoryListC } from "../components/ArticleCategoryList";
 
 export function ProjectPageP(): JSX.Element {
   const { projectId } = useParams<{ projectId: string }>();
@@ -48,8 +48,9 @@ export function ProjectPageP(): JSX.Element {
           <EditableTextareaC text={project.description} placeholder="Click to add a description" onSave={handleUpdateDescription} />
         </div>
       </div>
+      <div className="page--separator"></div>
       <div className="project-content">
-        <ArticleListC project={project} />
+        <ArticleCategoryListC project={project} />
       </div>
     </div>
   );

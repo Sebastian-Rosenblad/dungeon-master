@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './ArticleList.scss';
+import './ArticleCategoryList.scss';
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { addArticle, fetchArticles } from "../../features/articles/article-slice";
@@ -14,11 +14,11 @@ import { ArticleM } from "../../models/article.model";
 import { generateUniqueId } from "../../utils/generateUniqueId";
 import { updateProjectArticles } from "../../features/projects/project-slice";
 
-interface ArticleListPropsM {
+interface ArticleCategoryListPropsM {
   project: ProjectM;
 }
 
-export function ArticleListC({ project }: ArticleListPropsM): JSX.Element {
+export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const articles: ArticleM[] = useSelector((state: RootState) => state.articles.articles);
@@ -65,8 +65,8 @@ export function ArticleListC({ project }: ArticleListPropsM): JSX.Element {
   }
 
   return (
-    <div className="article-list">
-      <div className="article-list--row">
+    <div className="article-category-list">
+      <div className="article-category-list--row">
         <ButtonC icon="add" label="New" onClick={createNewArticle} />
         <InputSearchC
           value={search}
@@ -74,7 +74,7 @@ export function ArticleListC({ project }: ArticleListPropsM): JSX.Element {
           placeholder="Search articles"
         />
       </div>
-      <div className="article-list--row">
+      <div className="article-category-list--row">
         <ArticleTableC
           articles={getFilteredArticles()}
           categories={project.categories}
@@ -84,7 +84,7 @@ export function ArticleListC({ project }: ArticleListPropsM): JSX.Element {
           onArticleClick={handleArticleClick}
         />
       </div>
-      <div className="article-list--row center">
+      <div className="article-category-list--row center">
         <PaginationC
           page={page}
           totalPages={Math.ceil(articles.length / articlesPerPage)}
