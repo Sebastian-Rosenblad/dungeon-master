@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ProjectM } from "../../models/project.model";
+import { CategoryM } from '../../models/category.model';
 
 interface ProjectState {
   projects: ProjectM[];
@@ -107,6 +108,19 @@ const projectSlice = createSlice({
         ]);
       }
     },
+    updateProjectCategories(state, action: PayloadAction<{ projectId: string, categories: CategoryM[] }>) {
+      const { projectId, categories } = action.payload;
+      const projectIndex = state.projects.findIndex(p => p.id === projectId);
+      if (projectIndex !== -1) {
+        const project = state.projects[projectIndex];
+        const updatedProject = { ...project, categories: categories };
+        updateProjects(state, [
+          ...state.projects.slice(0, projectIndex),
+          updatedProject,
+          ...state.projects.slice(projectIndex + 1),
+        ]);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProjects.fulfilled, (state, action: PayloadAction<ProjectM[]>) => {
@@ -124,5 +138,5 @@ const projectSlice = createSlice({
   },
 });
 
-export const { setProjects, addProject, removeProjectById, setCurrentProject, updateProjectArticles } = projectSlice.actions;
+export const { setProjects, addProject, removeProjectById, setCurrentProject, updateProjectArticles, updateProjectCategories } = projectSlice.actions;
 export default projectSlice.reducer;
