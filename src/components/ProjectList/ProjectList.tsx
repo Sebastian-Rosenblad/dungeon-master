@@ -125,7 +125,7 @@ export function ProjectListC(): JSX.Element {
   return (
     <div className="project-list">
       <div className="project-list--row">
-        <ButtonC icon="add" label="New" onClick={createNewProject} />
+        <ButtonC icon="add" label="New project" onClick={createNewProject} />
         <InputSearchC
           value={search}
           onChange={setSearch}
