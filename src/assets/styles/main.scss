@@ -25,6 +25,11 @@ body {
   padding: $page-padding;
   background-color: $white;
   border-radius: $large-border-radius;
+
+  &--separator {
+    margin: $separator-margin;
+    border: 1px solid $light-gray;
+  }
 }
 
 h1, h2, h3, p, th, td, button, input, label, textarea {
