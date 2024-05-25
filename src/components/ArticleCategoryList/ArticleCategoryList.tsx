@@ -6,14 +6,15 @@ import { addArticle, fetchArticles } from "../../features/articles/article-slice
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
 import { ArticleTableC } from "../ArticleTable";
+import { CategoryTableC } from "../CategoryTable";
 import { InputSearchC } from "../shared/InputSearch";
 import { PaginationC } from "../shared/Pagination";
 import { ButtonC } from "../shared/Button";
+import { ToggleButtonC } from "../shared/ToggleButton";
 import { ProjectM } from "../../models/project.model";
 import { ArticleM } from "../../models/article.model";
 import { generateUniqueId } from "../../utils/generateUniqueId";
 import { updateProjectArticles } from "../../features/projects/project-slice";
-import { ToggleButtonC } from "../shared/ToggleButton";
 
 interface ArticleCategoryListPropsM {
   project: ProjectM;
@@ -94,13 +95,7 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
           />
         )}
         {view === "category" && (
-          <div className="article-category-list--category">
-            {project.categories.map(category => (
-              <div key={category.id} className="article-category-list--category-item">
-                <p>{category.name}</p>
-              </div> 
-            ))}
-          </div>
+          <CategoryTableC />
         )}
       </div>
       <div className="article-category-list--row center">
