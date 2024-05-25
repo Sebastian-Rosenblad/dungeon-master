@@ -66,18 +66,30 @@ export const fetchArticleById = createAsyncThunk("articles/fetchArticlwById", as
   return rejectWithValue(undefined);
 });
 
+function updateArticles(state: ArticleState, articles: ArticleM[]) {
+  state.articles = articles;
+  localStorage.setItem(localKey, JSON.stringify(articles));
+}
+
 const articleSlice = createSlice({
   name: "articles",
   initialState,
   reducers: {
     setArticles(state, action: PayloadAction<ArticleM[]>) {
-      state.articles = action.payload;
+      updateArticles(state, action.payload);
+    },
+    addArticle(state, action: PayloadAction<ArticleM>) {
+      updateArticles(state, [...state.articles, action.payload]);
+    },
+    removeArticleById(state, action: PayloadAction<string>) {
+      updateArticles(state, state.articles.filter(article => article.id !== action.payload));
     },
     setCurrentArticle(state, action: PayloadAction<ArticleM | undefined>) {
       state.currentArticle = action.payload;
-      const newArticles = state.articles.map(item => item.id === action.payload?.id ? action.payload : item);
-      state.articles = newArticles;
-      localStorage.setItem(localKey, JSON.stringify(newArticles));
+      if (action.payload) {
+        const newArticles = state.articles.map(item => item.id === action.payload?.id ? action.payload : item);
+        updateArticles(state, newArticles);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -96,5 +108,5 @@ const articleSlice = createSlice({
   },
 });
 
-export const { setArticles, setCurrentArticle } = articleSlice.actions;
+export const { setArticles, addArticle, removeArticleById, setCurrentArticle } = articleSlice.actions;
 export default articleSlice.reducer;

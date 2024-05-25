@@ -66,19 +66,46 @@ export const fetchProjectById = createAsyncThunk("projects/fetchProjectById", as
   return rejectWithValue(undefined);
 });
 
+function updateProjects(state: ProjectState, projects: ProjectM[]) {
+  state.projects = projects;
+  localStorage.setItem(localKey, JSON.stringify(projects));
+}
+
 const projectSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {
     setProjects(state, action: PayloadAction<ProjectM[]>) {
-      state.projects = action.payload;
-      localStorage.setItem(localKey, JSON.stringify(action.payload));
+      updateProjects(state, action.payload);
+    },
+    addProject(state, action: PayloadAction<ProjectM>) {
+      updateProjects(state, [...state.projects, action.payload]);
+    },
+    removeProjectById(state, action: PayloadAction<string>) {
+      updateProjects(state, state.projects.filter(project => project.id !== action.payload));
     },
     setCurrentProject(state, action: PayloadAction<ProjectM | undefined>) {
       state.currentProject = action.payload;
-      const newProjects = state.projects.map(item => item.id === action.payload?.id ? action.payload : item);
-      state.projects = newProjects;
-      localStorage.setItem(localKey, JSON.stringify(newProjects));
+      if (action.payload) {
+        const newProjects = state.projects.map(item => item.id === action.payload?.id ? action.payload : item);
+        updateProjects(state, newProjects);
+      }
+    },
+    updateProjectArticles(state, action: PayloadAction<{ projectId: string, articleId: string, type: 'add' | 'remove' }>) {
+      const { projectId, articleId, type } = action.payload;
+      const projectIndex = state.projects.findIndex(p => p.id === projectId);
+      if (projectIndex !== -1) {
+        const project = state.projects[projectIndex];
+        const updatedArticles = type === 'add' ?
+          [...project.articles, articleId] :
+          project.articles.filter(article => article !== articleId);
+        const updatedProject = { ...project, articles: updatedArticles };
+        updateProjects(state, [
+          ...state.projects.slice(0, projectIndex),
+          updatedProject,
+          ...state.projects.slice(projectIndex + 1),
+        ]);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -97,5 +124,5 @@ const projectSlice = createSlice({
   },
 });
 
-export const { setProjects, setCurrentProject } = projectSlice.actions;
+export const { setProjects, addProject, removeProjectById, setCurrentProject, updateProjectArticles } = projectSlice.actions;
 export default projectSlice.reducer;
