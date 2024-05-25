@@ -49,8 +49,7 @@ export function ProjectPageP(): JSX.Element {
         </div>
       </div>
       <div className="project-content">
-        <h2>Articles</h2>
-        <ArticleListC />
+        <ArticleListC project={project} />
       </div>
     </div>
   );

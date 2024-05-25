@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './ProjectList.scss';
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { fetchProjects, setProjects } from "../../features/projects/project-slice";
+import { addProject, fetchProjects, setProjects } from "../../features/projects/project-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
 import { ProjectTableC } from "../ProjectTable";
@@ -35,11 +35,17 @@ export function ProjectListC(): JSX.Element {
       thumbnail: "",
       title: "New Project",
       description: "",
-      categories: [],
+      categories: [{
+        id: generateUniqueId([]),
+        name: "Uncategorized",
+        icon: "category-article",
+        textColor: "#000",
+        primaryColor: "#c2e7ff",
+        primaryLightColor: "#f0f9ff"
+      }],
       articles: []
     };
-    const updatedProjects: ProjectM[] = [...projects, newProject];
-    dispatch(setProjects(updatedProjects));
+    dispatch(addProject(newProject));
     navigate(`/project/${newProject.id}`);
   }
   function getFilteredProjects(): ProjectM[] {

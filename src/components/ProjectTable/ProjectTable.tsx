@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./ProjectTable.scss";
-import { fetchProjects, setProjects } from "../../features/projects/project-slice";
+import { fetchProjects, removeProjectById, setProjects } from "../../features/projects/project-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { ButtonC } from "../shared/Button";
 import { IconC } from "../shared/Icon";
@@ -25,16 +25,12 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
   const [menuProject, setMenuProject] = React.useState<ProjectM | null>(null);
   const [showLightbox, setShowLightbox] = React.useState<boolean>(false);
 
-  useEffect(() => {
-    dispatch(fetchProjects());
-  }, [dispatch]);
-
   function handleSort(column: "title" | "articles"): void {
     const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
     onSort(column, newDirection);
   }
   function handleImgError(event: React.SyntheticEvent<HTMLImageElement>): void {
-    event.currentTarget.src = "./images/default-thumbnail.png";
+    event.currentTarget.src = "/images/default-thumbnail.png";
   }
   function handleMouseEnter(): void {
     setButtonHover(true);
@@ -48,24 +44,26 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
     setMenuProject(project);
   }
   function handleDeleteProject(): void {
-    dispatch(setProjects(projects.filter(project => project.id !== menuProject!.id)));
+    if (menuProject)
+      dispatch(removeProjectById(menuProject.id));
     handleCloseLightbox();
   }
   function handleExportProject(): void {
-    if (!menuProject) return;
-    const jsonContent = JSON.stringify([menuProject], null, 2);
-    const blob = new Blob([jsonContent], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-  
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = `project_${toKebabCase(menuProject.title)}.json`;
-  
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
-  
-    URL.revokeObjectURL(url);
+    if (menuProject) {
+      const jsonContent = JSON.stringify([menuProject], null, 2);
+      const blob = new Blob([jsonContent], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+    
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `project_${toKebabCase(menuProject.title)}.json`;
+    
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    
+      URL.revokeObjectURL(url);
+    }
     handleCloseMenu();
   }
   function handleCloseMenu(): void {
@@ -106,7 +104,7 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
             onClick={() => onProjectClick(project)}
           >
             <div className="project-table--body--row--thumbnail">
-              <img src={`./images/${project.thumbnail}`} alt={project.title} onError={handleImgError} />
+              <img src={`/images/${project.thumbnail}`} alt={project.title} onError={handleImgError} />
             </div>
             <h3 className="project-table--body--row--title">{project.title}</h3>
             <p className="project-table--body--row--description">{project.description}</p>
