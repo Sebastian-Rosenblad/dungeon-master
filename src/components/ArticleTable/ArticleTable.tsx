@@ -1,5 +1,6 @@
 import React from "react";
 import "./ArticleTable.scss";
+import { updateProjectArticles } from "../../features/projects/project-slice";
 import { removeArticleById } from "../../features/articles/article-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { ButtonC } from "../shared/Button";
@@ -9,7 +10,6 @@ import { MenuPopupC } from "../shared/MenuPopup";
 import { LightboxC } from "../shared/Lightbox";
 import { ArticleM } from "../../models/article.model";
 import { CategoryM } from "../../models/category.model";
-import { updateProjectArticles } from "../../features/projects/project-slice";
 
 interface ArticleTablePropsM {
   articles: ArticleM[];

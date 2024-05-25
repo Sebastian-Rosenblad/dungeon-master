@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./ProjectTable.scss";
 import { removeProjectById } from "../../features/projects/project-slice";
 import { removeArticlesById } from "../../features/articles/article-slice";

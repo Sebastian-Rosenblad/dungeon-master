@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import './ArticleCategoryList.scss';
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { updateProjectArticles } from "../../features/projects/project-slice";
 import { addArticle, fetchArticles } from "../../features/articles/article-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +15,6 @@ import { ToggleButtonC } from "../shared/ToggleButton";
 import { ProjectM } from "../../models/project.model";
 import { ArticleM } from "../../models/article.model";
 import { generateUniqueId } from "../../utils/generateUniqueId";
-import { updateProjectArticles } from "../../features/projects/project-slice";
 
 interface ArticleCategoryListPropsM {
   project: ProjectM;
