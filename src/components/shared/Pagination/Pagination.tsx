@@ -37,7 +37,7 @@ export function PaginationC({ page, totalPages, onPageChange }: PaginationPropsM
 
   return (
     <div className="pagination">
-      {pages().map(p => (
+      {page > 0 && pages().map(p => (
         <button
           key={"pagination-" + p.value}
           className={p.active ? "active" : ""}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './ProjectList.scss';
+import "./ProjectList.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { addProject, fetchProjects, setProjects } from "../../features/projects/project-slice";
