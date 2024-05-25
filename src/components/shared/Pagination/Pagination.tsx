@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Pagination.scss";
 
 interface PaginationPropsM {
@@ -13,6 +13,10 @@ interface PaginationItemM {
 }
 
 export function PaginationC({ page, totalPages, onPageChange }: PaginationPropsM): JSX.Element {
+  useEffect(() => {
+    if (page > totalPages) onPageChange(totalPages);
+  }, [totalPages]);
+
   function pages(): PaginationItemM[] {
     const pages: PaginationItemM[] = [{ label: "1", value: 1, active: page === 1 }];
     const from: number = page - 2 > 1 ? page - 2 : 2, to: number = page + 2 < totalPages ? page + 2 : totalPages - 1;
