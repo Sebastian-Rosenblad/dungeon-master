@@ -3,16 +3,18 @@
 .toggle-button {
   display: flex;
   border: 1px solid $gray;
-  border-radius: $border-radius;
+  border-radius: $larger-border-radius;
+  box-shadow: $small-box-shadow;
   overflow: hidden;
+  cursor: pointer;
 
   &--option {
     flex: 1;
     align-items: center;
     justify-content: center;
     gap: $small-gap;
-    padding: $text-padding;
-    cursor: pointer;
+    padding: $large-text-padding;
+    border: none;
 
     &:not(:last-child) {
       border-right: 1px solid $gray;
