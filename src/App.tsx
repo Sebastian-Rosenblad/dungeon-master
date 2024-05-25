@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import { HomePageP } from './pages/HomePage';
 import { ProjectPageP } from './pages/ProjectPage';
+import { ArticlePageP } from './pages/ArticlePage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route index element={<HomePageP />} />
         <Route path="project/:projectId" element={<ProjectPageP />} />
+        <Route path="article/:articleId" element={<ArticlePageP />} />
       </Routes>
     </div>
   );
