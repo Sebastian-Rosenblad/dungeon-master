@@ -1,0 +1,27 @@
+@import "../../../assets/styles/variables.scss";
+
+.toggle-button {
+  display: flex;
+  border: 1px solid $gray;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  &--option {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: $small-gap;
+    padding: $text-padding;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      border-right: 1px solid $gray;
+    }
+    &:hover:not(.active) {
+      background-color: $lighter-blue;
+    }
+    &.active {
+      background-color: $light-blue;
+    }
+  }
+}

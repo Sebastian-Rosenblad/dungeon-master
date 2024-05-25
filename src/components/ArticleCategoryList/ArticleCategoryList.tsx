@@ -13,6 +13,7 @@ import { ProjectM } from "../../models/project.model";
 import { ArticleM } from "../../models/article.model";
 import { generateUniqueId } from "../../utils/generateUniqueId";
 import { updateProjectArticles } from "../../features/projects/project-slice";
+import { ToggleButtonC } from "../shared/ToggleButton";
 
 interface ArticleCategoryListPropsM {
   project: ProjectM;
@@ -22,6 +23,7 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const articles: ArticleM[] = useSelector((state: RootState) => state.articles.articles);
+  const [view, setView] = useState<"articles" | "categories">("articles");
   const [search, setSearch] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<"title" | "category">("title");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
@@ -72,6 +74,12 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
           value={search}
           onChange={setSearch}
           placeholder="Search articles"
+        />
+        <ToggleButtonC
+          left={{ label: "Articles", value: "articles" }}
+          right={{ label: "Categories", value: "categories" }}
+          value={view}
+          onChange={(value) => setView(value as "articles" | "categories")}
         />
       </div>
       <div className="article-category-list--row">
