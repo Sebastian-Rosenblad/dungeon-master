@@ -84,6 +84,9 @@ const articleSlice = createSlice({
     removeArticleById(state, action: PayloadAction<string>) {
       updateArticles(state, state.articles.filter(article => article.id !== action.payload));
     },
+    removeArticlesById(state, action: PayloadAction<string[]>) {
+      updateArticles(state, state.articles.filter(article => !action.payload.includes(article.id)));
+    },
     setCurrentArticle(state, action: PayloadAction<ArticleM | undefined>) {
       state.currentArticle = action.payload;
       if (action.payload) {
@@ -108,5 +111,5 @@ const articleSlice = createSlice({
   },
 });
 
-export const { setArticles, addArticle, removeArticleById, setCurrentArticle } = articleSlice.actions;
+export const { setArticles, addArticle, removeArticleById, removeArticlesById, setCurrentArticle } = articleSlice.actions;
 export default articleSlice.reducer;

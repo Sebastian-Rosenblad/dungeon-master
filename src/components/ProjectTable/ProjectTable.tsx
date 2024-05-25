@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./ProjectTable.scss";
-import { fetchProjects, removeProjectById, setProjects } from "../../features/projects/project-slice";
+import { removeProjectById } from "../../features/projects/project-slice";
+import { removeArticlesById } from "../../features/articles/article-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { ButtonC } from "../shared/Button";
 import { IconC } from "../shared/Icon";
@@ -44,8 +45,10 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
     setMenuProject(project);
   }
   function handleDeleteProject(): void {
-    if (menuProject)
+    if (menuProject) {
       dispatch(removeProjectById(menuProject.id));
+      dispatch(removeArticlesById(menuProject.articles));
+    }
     handleCloseLightbox();
   }
   function handleExportProject(): void {
@@ -120,6 +123,11 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
             </p>
           </div>
         ))}
+        {projects.length === 0 && (
+          <div className="project-table--body--row no-hover">
+            <p className="project-table--body--row--empty">You have no projects created yet, click the "New project" button to get started!</p>
+          </div>
+        )}
       </div>
       {!showLightbox && menuProject && (
         <MenuPopupC

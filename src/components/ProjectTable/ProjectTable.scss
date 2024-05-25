@@ -66,6 +66,12 @@
     &--row {
       cursor: pointer;
 
+      &--empty {
+        width: 100%;
+        padding: $text-padding;
+        text-align: center;
+        cursor: initial;
+      }
       &:nth-child(odd) {
         background-color: $lighter-gray;
       }
