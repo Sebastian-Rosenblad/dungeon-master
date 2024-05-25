@@ -1,3 +1,17 @@
 @import "../../assets/styles/variables.scss";
 
-.article-list {}
+.article-list {
+  display: flex;
+  flex-direction: column;
+  gap: $larger-gap;
+
+  &--row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    &.center {
+      justify-content: center;
+    }
+  }
+}
