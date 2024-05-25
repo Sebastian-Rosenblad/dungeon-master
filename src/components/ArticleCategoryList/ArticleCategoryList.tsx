@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './ArticleCategoryList.scss';
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { updateProjectArticles } from "../../features/projects/project-slice";
+import { updateProjectArticles, updateProjectCategories } from "../../features/projects/project-slice";
 import { addArticle, fetchArticles } from "../../features/articles/article-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ import { ButtonC } from "../shared/Button";
 import { ToggleButtonC } from "../shared/ToggleButton";
 import { ProjectM } from "../../models/project.model";
 import { ArticleM } from "../../models/article.model";
+import { CategoryM } from "../../models/category.model";
 import { generateUniqueId } from "../../utils/generateUniqueId";
 
 interface ArticleCategoryListPropsM {
@@ -59,6 +60,22 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
         }
       });
   }
+  function createNewCategory(): void {
+    const newCategory: CategoryM = {
+      id: generateUniqueId(project.categories.map(category => category.id)),
+      name: "New Category",
+      icon: "category-article",
+      textColor: "#000",
+      primaryColor: "#c2e7ff",
+      secondaryColor: "#f0f9ff"
+    };
+    dispatch(updateProjectCategories({ projectId: project.id, categories: [...project.categories, newCategory] }));
+  }
+  function getFilteredCategories(): CategoryM[] {
+    return project.categories
+      .filter(category => category.name.toLowerCase().includes(search.toLowerCase()))
+      .sort((a, b) => sortDirection === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+  }
   function updateSort(direction: "asc" | "desc", column?: "title" | "category"): void {
     if (column) setSortColumn(column);
     setSortDirection(direction);
@@ -70,7 +87,7 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
   return (
     <div className="article-category-list">
       <div className="article-category-list--row">
-        <ButtonC icon="add" label={`New ${view}`} onClick={createNewArticle} />
+        <ButtonC icon="add" label={`New ${view}`} onClick={view === "article" ? createNewArticle : createNewCategory} />
         <InputSearchC
           value={search}
           onChange={setSearch}
@@ -96,7 +113,7 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
         )}
         {view === "category" && (
           <CategoryTableC
-            categories={project.categories}
+            categories={getFilteredCategories()}
             sortDirection={sortDirection}
             onSort={updateSort}
           />
