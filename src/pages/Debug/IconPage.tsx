@@ -13,7 +13,7 @@ export function IconPageP(): JSX.Element {
         const parser = new DOMParser();
         const svgDoc = parser.parseFromString(data, 'image/svg+xml');
         const symbols = svgDoc.getElementsByTagName('symbol');
-        const iconNames = Array.from(symbols).map(symbol => symbol.id.slice(5));
+        const iconNames = Array.from(symbols).map(symbol => symbol.id.slice(5)).sort((a, b) => a.localeCompare(b));
         setIcons(iconNames);
       })
       .catch(error => console.error('Error loading SVG symbols:', error));
