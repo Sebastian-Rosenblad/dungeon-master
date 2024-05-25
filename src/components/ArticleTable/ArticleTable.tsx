@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ArticleTable.scss";
 import { updateProjectArticles } from "../../features/projects/project-slice";
 import { removeArticleById } from "../../features/articles/article-slice";
@@ -16,20 +16,20 @@ interface ArticleTablePropsM {
   categories: CategoryM[];
   sortColumn: "title" | "category";
   sortDirection: "asc" | "desc";
-  onSort: (column: "title" | "category", direction: "asc" | "desc") => void;
+  onSort: (direction: "asc" | "desc", column: "title" | "category") => void;
   onArticleClick: (article: ArticleM) => void;
 }
 
 export function ArticleTableC({ articles, categories, sortColumn, sortDirection, onSort, onArticleClick }: ArticleTablePropsM): JSX.Element {
   const dispatch = useAppDispatch();
-  const [buttonHover, setButtonHover] = React.useState<boolean>(false);
-  const [menuPosition, setMenuPosition] = React.useState<{ x: number, y: number }>({ x: 0, y: 0 });
-  const [menuArticle, setMenuArticle] = React.useState<ArticleM | null>(null);
-  const [showLightbox, setShowLightbox] = React.useState<boolean>(false);
+  const [buttonHover, setButtonHover] = useState<boolean>(false);
+  const [menuPosition, setMenuPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+  const [deleteArticle, setDeleteArticle] = useState<ArticleM | null>(null);
+  const [showLightbox, setShowLightbox] = useState<boolean>(false);
 
   function handleSort(column: "title" | "category"): void {
     const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
-    onSort(column, newDirection);
+    onSort(newDirection, column);
   }
   function handleMouseEnter(): void {
     setButtonHover(true);
@@ -40,24 +40,24 @@ export function ArticleTableC({ articles, categories, sortColumn, sortDirection,
   function handleShowMenu(event: React.MouseEvent, article: ArticleM): void {
     event.stopPropagation();
     setMenuPosition({ x: event.clientX, y: event.clientY });
-    setMenuArticle(article);
+    setDeleteArticle(article);
   }
   function handleDeleteArticle(): void {
-    if (menuArticle) {
-      dispatch(removeArticleById(menuArticle.id));
-      dispatch(updateProjectArticles({ projectId: menuArticle.projectId, articleId: menuArticle.id, type: "remove" }));
+    if (deleteArticle) {
+      dispatch(removeArticleById(deleteArticle.id));
+      dispatch(updateProjectArticles({ projectId: deleteArticle.projectId, articleId: deleteArticle.id, type: "remove" }));
     }
     handleCloseLightbox();
   }
   function handleCloseMenu(): void {
-    setMenuArticle(null);
+    setDeleteArticle(null);
   }
   function handleShowLightbox(): void {
     setShowLightbox(true);
   }
   function handleCloseLightbox(): void {
     setShowLightbox(false);
-    setMenuArticle(null);
+    setDeleteArticle(null);
   }
 
   function getCategory(id: string): CategoryM {
@@ -91,7 +91,7 @@ export function ArticleTableC({ articles, categories, sortColumn, sortDirection,
           >
             <div className="article-table--body--row--icon">
               <div className="article-table--body--row--icon-background" style={{ backgroundColor: getCategory(article.category).primaryColor }}>
-                <IconC name={getCategory(article.category).icon} fill={getCategory(article.category).primaryLightColor} />
+                <IconC name={getCategory(article.category).icon} fill={getCategory(article.category).secondaryColor} />
               </div>
             </div>
             <h3 className="article-table--body--row--title">{article.title}</h3>
@@ -113,7 +113,7 @@ export function ArticleTableC({ articles, categories, sortColumn, sortDirection,
           </div>
         )}
       </div>
-      {!showLightbox && menuArticle && (
+      {!showLightbox && deleteArticle && (
         <MenuPopupC
           x={menuPosition.x}
           y={menuPosition.y}

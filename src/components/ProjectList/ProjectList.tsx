@@ -41,7 +41,7 @@ export function ProjectListC(): JSX.Element {
         icon: "category-article",
         textColor: "#000",
         primaryColor: "#c2e7ff",
-        primaryLightColor: "#f0f9ff"
+        secondaryColor: "#f0f9ff"
       }],
       articles: []
     };

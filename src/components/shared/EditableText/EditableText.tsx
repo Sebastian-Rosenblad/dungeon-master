@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./EditableText.scss";
 import { IconC } from "../Icon";
 import { IconButtonC } from "../IconButton";
@@ -10,8 +10,8 @@ export interface EditableTextProps {
 }
 
 export function EditableTextC({ text, tag, onSave }: EditableTextProps): JSX.Element {
-  const [isEditing, setIsEditing] = React.useState<boolean>(false);
-  const [value, setValue] = React.useState<string>(text);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [value, setValue] = useState<string>(text);
   const Tag = tag;
 
   function handleSave(): void {

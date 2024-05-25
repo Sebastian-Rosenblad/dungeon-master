@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ProjectTable.scss";
 import { removeProjectById } from "../../features/projects/project-slice";
 import { removeArticlesById } from "../../features/articles/article-slice";
@@ -21,10 +21,10 @@ interface ProjectTablePropsM {
 
 export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onProjectClick }: ProjectTablePropsM): JSX.Element {
   const dispatch = useAppDispatch();
-  const [buttonHover, setButtonHover] = React.useState<boolean>(false);
-  const [menuPosition, setMenuPosition] = React.useState<{ x: number, y: number }>({ x: 0, y: 0 });
-  const [menuProject, setMenuProject] = React.useState<ProjectM | null>(null);
-  const [showLightbox, setShowLightbox] = React.useState<boolean>(false);
+  const [buttonHover, setButtonHover] = useState<boolean>(false);
+  const [menuPosition, setMenuPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+  const [menuProject, setMenuProject] = useState<ProjectM | null>(null);
+  const [showLightbox, setShowLightbox] = useState<boolean>(false);
 
   function handleSort(column: "title" | "articles"): void {
     const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";

@@ -59,8 +59,8 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
         }
       });
   }
-  function updateSort(column: "title" | "category", direction: "asc" | "desc"): void {
-    setSortColumn(column);
+  function updateSort(direction: "asc" | "desc", column?: "title" | "category"): void {
+    if (column) setSortColumn(column);
     setSortDirection(direction);
   }
   function handleArticleClick(article: ArticleM): void {
@@ -95,7 +95,11 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
           />
         )}
         {view === "category" && (
-          <CategoryTableC />
+          <CategoryTableC
+            categories={project.categories}
+            sortDirection={sortDirection}
+            onSort={updateSort}
+          />
         )}
       </div>
       <div className="article-category-list--row center">

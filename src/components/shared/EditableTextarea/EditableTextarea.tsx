@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./EditableTextarea.scss";
 import { IconC } from "../Icon";
 import { IconButtonC } from "../IconButton";
@@ -10,8 +10,8 @@ interface EditableTextareaProps {
 }
 
 export function EditableTextareaC({ text, placeholder, onSave }: EditableTextareaProps): JSX.Element {
-  const [isEditing, setIsEditing] = React.useState<boolean>(false);
-  const [value, setValue] = React.useState<string>(text);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [value, setValue] = useState<string>(text);
 
   function handleSave(): void {
     setIsEditing(false);

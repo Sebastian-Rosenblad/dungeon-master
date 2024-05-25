@@ -4,5 +4,5 @@ export interface CategoryM {
   icon: string;
   textColor: string;
   primaryColor: string;
-  primaryLightColor: string;
+  secondaryColor: string;
 }

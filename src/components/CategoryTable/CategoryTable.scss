@@ -1,3 +1,83 @@
 @import "../../assets/styles/variables.scss";
 
-.category-table {}
+.category-table {
+  width: 100%;
+
+  &--head, &--body {
+    &--row {
+      display: flex;
+      align-items: center;
+      gap: $large-gap;
+      border-bottom: 1px solid $gray;
+      box-sizing: border-box;
+
+      &--icon, &--name, &--text-color, &--primary-color, &--secondary-color, &--menu {
+        display: flex;
+        align-items: center;
+        padding: $text-padding;
+      }
+      &--icon, &--text-color, &--primary-color, &--secondary-color {
+        flex: 0 0 90px;
+        justify-content: center;
+      }
+      &--name {
+        flex: 1;
+      }
+      &--menu {
+        flex: 0 0 50px;
+        justify-content: center;
+      }
+    }
+  }
+  &--head {
+    p {
+      font-weight: 700;
+    }
+    .sortable-column {
+      display: flex;
+      align-items: center;
+      gap: $small-gap;
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $light-gray;
+      }
+    }
+  }
+  &--body {
+    &--row {
+      cursor: pointer;
+
+      &--icon-background {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: $padding;
+        border-radius: 50%;
+        box-sizing: border-box;
+      }
+      &--empty {
+        width: 100%;
+        padding: $large-text-padding;
+        text-align: center;
+        cursor: initial;
+      }
+      &:nth-child(odd) {
+        background-color: $lighter-gray;
+      }
+      &:hover {
+        background-color: $light-gray;
+      }
+      &.no-hover {
+        background-color: initial;
+      }
+      &:nth-child(odd).no-hover {
+        background-color: $lighter-gray;
+      }
+    }
+  }
+}
