@@ -23,7 +23,7 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const articles: ArticleM[] = useSelector((state: RootState) => state.articles.articles);
-  const [view, setView] = useState<"articles" | "categories">("articles");
+  const [view, setView] = useState<"article" | "category">("article");
   const [search, setSearch] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<"title" | "category">("title");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
@@ -69,28 +69,39 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
   return (
     <div className="article-category-list">
       <div className="article-category-list--row">
-        <ButtonC icon="add" label="New" onClick={createNewArticle} />
+        <ButtonC icon="add" label={`New ${view}`} onClick={createNewArticle} />
         <InputSearchC
           value={search}
           onChange={setSearch}
-          placeholder="Search articles"
+          placeholder={`Search ${view === "article" ? "articles" : "categories"}`}
         />
         <ToggleButtonC
-          left={{ label: "Articles", value: "articles" }}
-          right={{ label: "Categories", value: "categories" }}
+          left={{ label: "Articles", value: "article" }}
+          right={{ label: "Categories", value: "category" }}
           value={view}
-          onChange={(value) => setView(value as "articles" | "categories")}
+          onChange={(value) => setView(value as "article" | "category")}
         />
       </div>
       <div className="article-category-list--row">
-        <ArticleTableC
-          articles={getFilteredArticles()}
-          categories={project.categories}
-          sortColumn={sortColumn}
-          sortDirection={sortDirection}
-          onSort={updateSort}
-          onArticleClick={handleArticleClick}
-        />
+        {view === "article" && (
+          <ArticleTableC
+            articles={getFilteredArticles()}
+            categories={project.categories}
+            sortColumn={sortColumn}
+            sortDirection={sortDirection}
+            onSort={updateSort}
+            onArticleClick={handleArticleClick}
+          />
+        )}
+        {view === "category" && (
+          <div className="article-category-list--category">
+            {project.categories.map(category => (
+              <div key={category.id} className="article-category-list--category-item">
+                <p>{category.name}</p>
+              </div> 
+            ))}
+          </div>
+        )}
       </div>
       <div className="article-category-list--row center">
         <PaginationC
