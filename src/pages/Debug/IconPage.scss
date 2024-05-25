@@ -1,0 +1,28 @@
+@import "../../assets/styles/variables.scss";
+
+.icons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: $small-gap;
+
+  &--icon {
+    display: flex;
+    align-items: center;
+    gap: $small-gap;
+    padding: $text-padding;
+    border: 1px solid $gray;
+    border-radius: $larger-border-radius;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $light-gray;
+    }
+  }
+}
+.copied {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $small-gap;
+}
