@@ -1,8 +1,7 @@
 export interface ArticleM {
   id: string;
+  projectId: string;
   title: string;
-  thumbnail: string;
-  description: string;
   category: string;
   content: string[];
 }
