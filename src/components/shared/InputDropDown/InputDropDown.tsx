@@ -24,8 +24,12 @@ export function InputDropdownC({ label, value, options, onChange }: InputDropdow
   const dropdownRef = useRef<HTMLDivElement>(null);
   const selectedItem = options.find(option => option.value === value);
 
-  function handleToggle(event: React.MouseEvent) {
-    setMenuPosition({ x: event.clientX, y: event.clientY });
+  function handleToggle() {
+    if (dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      console.log(rect.left, rect.bottom);
+      setMenuPosition({ x: rect.left, y: rect.bottom + 1 });
+    }
     setIsOpen(!isOpen);
   }
   function handleSelect(optionValue: string) {
@@ -37,9 +41,9 @@ export function InputDropdownC({ label, value, options, onChange }: InputDropdow
   }
 
   return (
-    <div className="input-dropdown" ref={dropdownRef}>
+    <div className="input-dropdown">
       {label && <label><b>{label}</b></label>}
-      <div className="input-dropdown--header" onClick={handleToggle}>
+      <div className="input-dropdown--header" ref={dropdownRef} onClick={handleToggle}>
         {selectedItem?.icon && <IconC name={selectedItem.icon} />}
         <p>{selectedItem?.label}</p>
         <IconC name="cheveron-down" />
