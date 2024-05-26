@@ -6,10 +6,11 @@ import { IconButtonC } from "../IconButton";
 export interface EditableTextProps {
   text: string;
   tag: "h1" | "h2" | "h3" | "p";
+  color?: string;
   onSave: (text: string) => void;
 }
 
-export function EditableTextC({ text, tag, onSave }: EditableTextProps): JSX.Element {
+export function EditableTextC({ text, tag, color, onSave }: EditableTextProps): JSX.Element {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [value, setValue] = useState<string>(text);
   const Tag = tag;
@@ -33,7 +34,7 @@ export function EditableTextC({ text, tag, onSave }: EditableTextProps): JSX.Ele
         </div>
       ) : (
         <div className="editable-text--display" onClick={() => setIsEditing(true)}>
-          <Tag>{value}</Tag>
+          <Tag style={{ color: color }}>{value}</Tag>
           <IconC name="edit-start" />
         </div>
       )}

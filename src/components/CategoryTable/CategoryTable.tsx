@@ -10,6 +10,7 @@ import { MenuPopupC } from "../shared/MenuPopup";
 import { LightboxC } from "../shared/Lightbox";
 import { CategoryM } from "../../models/category.model";
 import { IconSelectC } from "../shared/IconSelect";
+import { ColorSelectC } from "../shared/ColorSelect";
 
 interface CategoryTablePropsM {
   categories: CategoryM[];
@@ -75,11 +76,17 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
               />
             </div>
             <div className="category-table--body--row--name">
-              <EditableTextC text={category.name} tag="h3" onSave={(value) => handleUpdateCategory({ ...category, name: value })} />
+              <EditableTextC text={category.name} tag="h3" color={category.textColor} onSave={(value) => handleUpdateCategory({ ...category, name: value })} />
             </div>
-            <div className="category-table--body--row--text-color"></div>
-            <div className="category-table--body--row--primary-color"></div>
-            <div className="category-table--body--row--secondary-color"></div>
+            <div className="category-table--body--row--text-color">
+              <ColorSelectC value={category.textColor} onChange={(value) => handleUpdateCategory({ ...category, textColor: value })} />
+            </div>
+            <div className="category-table--body--row--primary-color">
+              <ColorSelectC value={category.primaryColor} onChange={(value) => handleUpdateCategory({ ...category, primaryColor: value })} />
+            </div>
+            <div className="category-table--body--row--secondary-color">
+              <ColorSelectC value={category.secondaryColor} onChange={(value) => handleUpdateCategory({ ...category, secondaryColor: value })} />
+            </div>
             <p className="article-table--head--row--menu">
               {categories.length > 1 && <IconButtonC
                 icon="dots-menu"
