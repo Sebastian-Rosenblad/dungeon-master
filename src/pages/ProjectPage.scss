@@ -1,5 +1,18 @@
 @import "../assets/styles/variables.scss";
 
+.project-navigation {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+
+  h1 {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 .project-header {
   display: flex;
   justify-content: space-between;
