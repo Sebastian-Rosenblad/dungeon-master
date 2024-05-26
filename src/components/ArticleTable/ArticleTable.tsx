@@ -37,9 +37,9 @@ export function ArticleTableC({ articles, categories, sortColumn, sortDirection,
   function handleMouseLeave(): void {
     setButtonHover(false);
   }
-  function handleShowMenu(event: React.MouseEvent, article: ArticleM): void {
-    event.stopPropagation();
-    setMenuPosition({ x: event.clientX, y: event.clientY });
+  function handleShowMenu(evt: React.MouseEvent, article: ArticleM): void {
+    evt.stopPropagation();
+    setMenuPosition({ x: evt.clientX, y: evt.clientY });
     setDeleteArticle(article);
   }
   function handleDeleteArticle(): void {
@@ -99,7 +99,7 @@ export function ArticleTableC({ articles, categories, sortColumn, sortDirection,
             <p className="article-table--head--row--menu">
               <IconButtonC
                 icon="dots-menu"
-                transparent
+                background="transparent"
                 onClick={(evt) => handleShowMenu(evt, article)}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

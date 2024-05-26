@@ -1,0 +1,1 @@
+export { IconSelectC } from "./IconSelect";

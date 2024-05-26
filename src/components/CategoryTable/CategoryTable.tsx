@@ -9,6 +9,7 @@ import { EditableTextC } from "../shared/EditableText";
 import { MenuPopupC } from "../shared/MenuPopup";
 import { LightboxC } from "../shared/Lightbox";
 import { CategoryM } from "../../models/category.model";
+import { IconSelectC } from "../shared/IconSelect";
 
 interface CategoryTablePropsM {
   categories: CategoryM[];
@@ -25,9 +26,9 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
   function handleUpdateCategory(category: CategoryM): void {
     dispatch(updateProjectCategory({ category, type: "update" }));
   }
-  function handleShowMenu(event: React.MouseEvent, category: CategoryM): void {
-    event.stopPropagation();
-    setMenuPosition({ x: event.clientX, y: event.clientY });
+  function handleShowMenu(evt: React.MouseEvent, category: CategoryM): void {
+    evt.stopPropagation();
+    setMenuPosition({ x: evt.clientX, y: evt.clientY });
     setDeleteCategory(category);
   }
   function handleDeleteCategory(): void {
@@ -66,9 +67,12 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
         {categories.map(category => (
           <div key={category.id} className="category-table--body--row">
             <div className="category-table--body--row--icon">
-              <div className="category-table--body--row--icon-background" style={{ backgroundColor: category.primaryColor }}>
-                <IconC name={category.icon} fill={category.secondaryColor} />
-              </div>
+              <IconSelectC
+                value={category.icon}
+                fill={category.secondaryColor}
+                background={category.primaryColor}
+                onChange={(value) => handleUpdateCategory({ ...category, icon: value })}
+              />
             </div>
             <div className="category-table--body--row--name">
               <EditableTextC text={category.name} tag="h3" onSave={(value) => handleUpdateCategory({ ...category, name: value })} />
@@ -79,7 +83,7 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
             <p className="article-table--head--row--menu">
               {categories.length > 1 && <IconButtonC
                 icon="dots-menu"
-                transparent
+                background="transparent"
                 onClick={(evt) => handleShowMenu(evt, category)}
               />}
             </p>

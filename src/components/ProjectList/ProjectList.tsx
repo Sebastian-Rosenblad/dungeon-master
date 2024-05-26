@@ -67,17 +67,17 @@ export function ProjectListC(): JSX.Element {
   function handleProjectClick(project: ProjectM): void {
     navigate(`/project/${project.id}`);
   }
-  function handleShowMenu(event: React.MouseEvent): void {
-    event.stopPropagation();
-    setMenuPosition({ x: event.clientX, y: event.clientY });
+  function handleShowMenu(evt: React.MouseEvent): void {
+    evt.stopPropagation();
+    setMenuPosition({ x: evt.clientX, y: evt.clientY });
   }
   function handleImport(): void {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.accept = ".json";
   
-    fileInput.onchange = async (event: Event) => {
-      const target = event.target as HTMLInputElement;
+    fileInput.onchange = async (evt: Event) => {
+      const target = evt.target as HTMLInputElement;
       if (target.files && target.files.length > 0) {
         const file = target.files[0];
         const fileContent = await file.text();
@@ -131,7 +131,7 @@ export function ProjectListC(): JSX.Element {
           onChange={setSearch}
           placeholder="Search projects"
         />
-        <IconButtonC icon="dots-menu" size="large" transparent onClick={handleShowMenu} />
+        <IconButtonC icon="dots-menu" size="large" background="transparent" onClick={handleShowMenu} />
       </div>
       <div className="project-list--row">
         <ProjectTableC

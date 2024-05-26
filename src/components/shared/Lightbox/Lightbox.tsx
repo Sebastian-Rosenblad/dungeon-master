@@ -14,8 +14,8 @@ export function LightboxC({ title, icon, onClose, children }: LightboxProps) {
   const lightboxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (lightboxRef.current && !lightboxRef.current.contains(event.target as Node)) {
+    function handleClickOutside(evt: MouseEvent) {
+      if (lightboxRef.current && !lightboxRef.current.contains(evt.target as Node)) {
         onClose();
       }
     }
@@ -32,7 +32,7 @@ export function LightboxC({ title, icon, onClose, children }: LightboxProps) {
         <div className="lightbox--header">
           {icon && <IconC name={icon} />}
           <h2 className="lightbox--title">{title}</h2>
-          <IconButtonC icon="close" transparent onClick={onClose} />
+          <IconButtonC icon="close" background="transparent" onClick={onClose} />
         </div>
         <div className="lightbox--body">{children}</div>
       </div>

@@ -30,8 +30,8 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
     const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
     onSort(column, newDirection);
   }
-  function handleImgError(event: React.SyntheticEvent<HTMLImageElement>): void {
-    event.currentTarget.src = "/images/default-thumbnail.png";
+  function handleImgError(evt: React.SyntheticEvent<HTMLImageElement>): void {
+    evt.currentTarget.src = "/images/default-thumbnail.png";
   }
   function handleMouseEnter(): void {
     setButtonHover(true);
@@ -39,9 +39,9 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
   function handleMouseLeave(): void {
     setButtonHover(false);
   }
-  function handleShowMenu(event: React.MouseEvent, project: ProjectM): void {
-    event.stopPropagation();
-    setMenuPosition({ x: event.clientX, y: event.clientY });
+  function handleShowMenu(evt: React.MouseEvent, project: ProjectM): void {
+    evt.stopPropagation();
+    setMenuPosition({ x: evt.clientX, y: evt.clientY });
     setMenuProject(project);
   }
   function handleDeleteProject(): void {
@@ -115,7 +115,7 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
             <p className="project-table--head--row--menu">
               <IconButtonC
                 icon="dots-menu"
-                transparent
+                background="transparent"
                 onClick={(evt) => handleShowMenu(evt, project)}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
