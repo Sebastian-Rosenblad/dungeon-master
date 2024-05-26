@@ -51,7 +51,7 @@ export function ProjectPageP(): JSX.Element {
           <ImageSelectC value={project.thumbnail} onChange={handleUpdateThumbnail} />
         </div>
         <div className="project-header--right">
-          <EditableTextareaC text={project.description} placeholder="Click to add a description" onSave={handleUpdateDescription} />
+          <EditableTextareaC text={project.description} label="Description" placeholder="Click to add a description" onSave={handleUpdateDescription} />
         </div>
       </div>
       <div className="page--separator"></div>

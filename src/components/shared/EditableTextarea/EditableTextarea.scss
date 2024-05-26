@@ -2,6 +2,9 @@
 
 .editable-textarea {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
   
   &--editing, &--display {
     display: flex;
