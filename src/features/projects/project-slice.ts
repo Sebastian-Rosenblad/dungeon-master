@@ -109,12 +109,13 @@ const projectSlice = createSlice({
         updateCurrentProject(state, { ...project, articles: updatedArticles });
       }
     },
-    updateProjectCategory(state, action: PayloadAction<{ category: CategoryM, type: "add" | "remove" }>) {
+    updateProjectCategory(state, action: PayloadAction<{ category: CategoryM, type: "add" | "update" | "remove" }>) {
       const { category, type } = action.payload;
       const project = state.projects.find(project => project.id === state.currentProject?.id);
       if (project !== undefined) {
         const updatedCategories = type === "add" ?
-          [...project.categories, category] :
+          [...project.categories, category] : type === "update" ?
+          project.categories.map(cat => cat.id === category.id ? category : cat) :
           project.categories.filter(cat => cat.id !== category.id);
         updateCurrentProject(state, { ...project, categories: updatedCategories });
       }

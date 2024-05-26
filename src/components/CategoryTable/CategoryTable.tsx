@@ -4,10 +4,11 @@ import { updateProjectCategory } from "../../features/projects/project-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { ButtonC } from "../shared/Button";
 import { IconC } from "../shared/Icon";
+import { IconButtonC } from "../shared/IconButton";
+import { EditableTextC } from "../shared/EditableText";
 import { MenuPopupC } from "../shared/MenuPopup";
 import { LightboxC } from "../shared/Lightbox";
 import { CategoryM } from "../../models/category.model";
-import { IconButtonC } from "../shared/IconButton";
 
 interface CategoryTablePropsM {
   categories: CategoryM[];
@@ -17,16 +18,12 @@ interface CategoryTablePropsM {
 
 export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTablePropsM): JSX.Element {
   const dispatch = useAppDispatch();
-  const [buttonHover, setButtonHover] = useState<boolean>(false);
   const [menuPosition, setMenuPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [deleteCategory, setDeleteCategory] = useState<CategoryM | null>(null);
   const [showLightbox, setShowLightbox] = useState<boolean>(false);
 
-  function handleMouseEnter(): void {
-    setButtonHover(true);
-  }
-  function handleMouseLeave(): void {
-    setButtonHover(false);
+  function handleUpdateCategory(category: CategoryM): void {
+    dispatch(updateProjectCategory({ category, type: "update" }));
   }
   function handleShowMenu(event: React.MouseEvent, category: CategoryM): void {
     event.stopPropagation();
@@ -67,13 +64,15 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
       </div>
       <div className="category-table--body">
         {categories.map(category => (
-          <div key={category.id} className={["category-table--body--row", buttonHover && "no-hover"].join(" ")}>
+          <div key={category.id} className="category-table--body--row">
             <div className="category-table--body--row--icon">
               <div className="category-table--body--row--icon-background" style={{ backgroundColor: category.primaryColor }}>
                 <IconC name={category.icon} fill={category.secondaryColor} />
               </div>
             </div>
-            <h3 className="category-table--body--row--name">{category.name}</h3>
+            <div className="category-table--body--row--name">
+              <EditableTextC text={category.name} tag="h3" onSave={(value) => handleUpdateCategory({ ...category, name: value })} />
+            </div>
             <div className="category-table--body--row--text-color"></div>
             <div className="category-table--body--row--primary-color"></div>
             <div className="category-table--body--row--secondary-color"></div>
@@ -82,8 +81,6 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
                 icon="dots-menu"
                 transparent
                 onClick={(evt) => handleShowMenu(evt, category)}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
               />}
             </p>
           </div>

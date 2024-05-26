@@ -20,9 +20,10 @@
     gap: $small-gap;
 
     input {
+      padding: $small-text-padding;
+      background-color: transparent;
       border: none;
       border-bottom: 1px solid $dark-gray;
-      padding: $small-text-padding;
     }
   }
   &--display {

@@ -52,8 +52,6 @@
   }
   &--body {
     &--row {
-      cursor: pointer;
-
       &--icon-background {
         width: 36px;
         height: 36px;
@@ -71,15 +69,6 @@
         cursor: initial;
       }
       &:nth-child(odd) {
-        background-color: $lighter-gray;
-      }
-      &:hover {
-        background-color: $light-gray;
-      }
-      &.no-hover {
-        background-color: initial;
-      }
-      &:nth-child(odd).no-hover {
         background-color: $lighter-gray;
       }
     }
