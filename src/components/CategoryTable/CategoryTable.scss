@@ -16,12 +16,16 @@
         align-items: center;
         padding: $text-padding;
       }
-      &--icon, &--text-color, &--primary-color, &--secondary-color {
-        flex: 0 0 90px;
+      &--icon {
+        flex: 0 0 36px;
         justify-content: center;
       }
       &--name {
         flex: 1;
+      }
+      &--text-color, &--primary-color, &--secondary-color {
+        flex: 0 0 90px;
+        justify-content: center;
       }
       &--menu {
         flex: 0 0 50px;

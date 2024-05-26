@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./CategoryTable.scss";
-import { updateProjectArticles } from "../../features/projects/project-slice";
-import { removeArticleById } from "../../features/articles/article-slice";
+import { updateProjectCategory } from "../../features/projects/project-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { ButtonC } from "../shared/Button";
 import { IconC } from "../shared/Icon";
@@ -36,7 +35,7 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
   }
   function handleDeleteCategory(): void {
     if (deleteCategory) {
-      //dispatch
+      dispatch(updateProjectCategory({ category: deleteCategory, type: "remove" }));
     }
     handleCloseLightbox();
   }

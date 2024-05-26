@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import './ArticleCategoryList.scss';
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { updateProjectArticles, updateProjectCategories } from "../../features/projects/project-slice";
-import { addArticle, fetchArticles } from "../../features/articles/article-slice";
+import { fetchProjects, updateProjectArticles, updateProjectCategory } from "../../features/projects/project-slice";
+import { fetchArticles, addArticle } from "../../features/articles/article-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
 import { ArticleTableC } from "../ArticleTable";
@@ -12,18 +12,14 @@ import { InputSearchC } from "../shared/InputSearch";
 import { PaginationC } from "../shared/Pagination";
 import { ButtonC } from "../shared/Button";
 import { ToggleButtonC } from "../shared/ToggleButton";
-import { ProjectM } from "../../models/project.model";
 import { ArticleM } from "../../models/article.model";
 import { CategoryM } from "../../models/category.model";
 import { generateUniqueId } from "../../utils/generateUniqueId";
 
-interface ArticleCategoryListPropsM {
-  project: ProjectM;
-}
-
-export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JSX.Element {
+export function ArticleCategoryListC(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const project = useSelector((state: RootState) => state.projects.currentProject);
   const articles: ArticleM[] = useSelector((state: RootState) => state.articles.articles);
   const [view, setView] = useState<"article" | "category">("article");
   const [search, setSearch] = useState<string>("");
@@ -34,9 +30,11 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
 
   useEffect(() => {
     dispatch(fetchArticles());
+    dispatch(fetchProjects());
   }, [dispatch]);
 
   function createNewArticle(): void {
+    if (!project) return;
     const newArticle: ArticleM = {
       id: generateUniqueId(articles.map(article => article.id)),
       projectId: project.id,
@@ -45,7 +43,7 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
       content: []
     };
     dispatch(addArticle(newArticle));
-    dispatch(updateProjectArticles({ projectId: project.id, articleId: newArticle.id, type: "add" }));
+    dispatch(updateProjectArticles({ articleId: newArticle.id, type: "add" }));
     navigate(`/article/${newArticle.id}`);
   }
   function getFilteredArticles(): ArticleM[] {
@@ -61,6 +59,7 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
       });
   }
   function createNewCategory(): void {
+    if (!project) return;
     const newCategory: CategoryM = {
       id: generateUniqueId(project.categories.map(category => category.id)),
       name: "New Category",
@@ -69,12 +68,12 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
       primaryColor: "#c2e7ff",
       secondaryColor: "#f0f9ff"
     };
-    dispatch(updateProjectCategories({ projectId: project.id, categories: [...project.categories, newCategory] }));
+    dispatch(updateProjectCategory({ category: newCategory, type: "add" }));
   }
   function getFilteredCategories(): CategoryM[] {
-    return project.categories
+    return project?.categories
       .filter(category => category.name.toLowerCase().includes(search.toLowerCase()))
-      .sort((a, b) => sortDirection === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+      .sort((a, b) => sortDirection === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)) || [];
   }
   function updateSort(direction: "asc" | "desc", column?: "title" | "category"): void {
     if (column) setSortColumn(column);
@@ -104,7 +103,7 @@ export function ArticleCategoryListC({ project }: ArticleCategoryListPropsM): JS
         {view === "article" && (
           <ArticleTableC
             articles={getFilteredArticles()}
-            categories={project.categories}
+            categories={project?.categories || []}
             sortColumn={sortColumn}
             sortDirection={sortDirection}
             onSort={updateSort}

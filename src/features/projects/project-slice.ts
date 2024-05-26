@@ -71,6 +71,13 @@ function updateProjects(state: ProjectState, projects: ProjectM[]) {
   state.projects = projects;
   localStorage.setItem(localKey, JSON.stringify(projects));
 }
+function updateCurrentProject(state: ProjectState, project: ProjectM | undefined) {
+  state.currentProject = project;
+  if (project) {
+    const newProjects = state.projects.map(item => item.id === project.id ? project : item);
+    updateProjects(state, newProjects);
+  }
+}
 
 const projectSlice = createSlice({
   name: "projects",
@@ -92,33 +99,24 @@ const projectSlice = createSlice({
         updateProjects(state, newProjects);
       }
     },
-    updateProjectArticles(state, action: PayloadAction<{ projectId: string, articleId: string, type: 'add' | 'remove' }>) {
-      const { projectId, articleId, type } = action.payload;
-      const projectIndex = state.projects.findIndex(p => p.id === projectId);
-      if (projectIndex !== -1) {
-        const project = state.projects[projectIndex];
-        const updatedArticles = type === 'add' ?
+    updateProjectArticles(state, action: PayloadAction<{ articleId: string, type: "add" | "remove" }>) {
+      const { articleId, type } = action.payload;
+      const project = state.projects.find(project => project.id === state.currentProject?.id);
+      if (project !== undefined) {
+        const updatedArticles = type === "add" ?
           [...project.articles, articleId] :
           project.articles.filter(article => article !== articleId);
-        const updatedProject = { ...project, articles: updatedArticles };
-        updateProjects(state, [
-          ...state.projects.slice(0, projectIndex),
-          updatedProject,
-          ...state.projects.slice(projectIndex + 1),
-        ]);
+        updateCurrentProject(state, { ...project, articles: updatedArticles });
       }
     },
-    updateProjectCategories(state, action: PayloadAction<{ projectId: string, categories: CategoryM[] }>) {
-      const { projectId, categories } = action.payload;
-      const projectIndex = state.projects.findIndex(p => p.id === projectId);
-      if (projectIndex !== -1) {
-        const project = state.projects[projectIndex];
-        const updatedProject = { ...project, categories: categories };
-        updateProjects(state, [
-          ...state.projects.slice(0, projectIndex),
-          updatedProject,
-          ...state.projects.slice(projectIndex + 1),
-        ]);
+    updateProjectCategory(state, action: PayloadAction<{ category: CategoryM, type: "add" | "remove" }>) {
+      const { category, type } = action.payload;
+      const project = state.projects.find(project => project.id === state.currentProject?.id);
+      if (project !== undefined) {
+        const updatedCategories = type === "add" ?
+          [...project.categories, category] :
+          project.categories.filter(cat => cat.id !== category.id);
+        updateCurrentProject(state, { ...project, categories: updatedCategories });
       }
     },
   },
@@ -138,5 +136,5 @@ const projectSlice = createSlice({
   },
 });
 
-export const { setProjects, addProject, removeProjectById, setCurrentProject, updateProjectArticles, updateProjectCategories } = projectSlice.actions;
+export const { setProjects, addProject, removeProjectById, setCurrentProject, updateProjectArticles, updateProjectCategory } = projectSlice.actions;
 export default projectSlice.reducer;

@@ -45,7 +45,7 @@ export function ArticleTableC({ articles, categories, sortColumn, sortDirection,
   function handleDeleteArticle(): void {
     if (deleteArticle) {
       dispatch(removeArticleById(deleteArticle.id));
-      dispatch(updateProjectArticles({ projectId: deleteArticle.projectId, articleId: deleteArticle.id, type: "remove" }));
+      dispatch(updateProjectArticles({ articleId: deleteArticle.id, type: "remove" }));
     }
     handleCloseLightbox();
   }

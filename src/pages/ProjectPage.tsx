@@ -50,7 +50,7 @@ export function ProjectPageP(): JSX.Element {
       </div>
       <div className="page--separator"></div>
       <div className="project-content">
-        <ArticleCategoryListC project={project} />
+        <ArticleCategoryListC />
       </div>
     </div>
   );
