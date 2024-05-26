@@ -99,7 +99,7 @@ export function ArticleTableC({ articles, categories, sortColumn, sortDirection,
             <p className="article-table--head--row--menu">
               <IconButtonC
                 icon="dots-menu"
-                background="transparent"
+                transparent
                 onClick={(evt) => handleShowMenu(evt, article)}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

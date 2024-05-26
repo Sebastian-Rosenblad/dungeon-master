@@ -131,7 +131,7 @@ export function ProjectListC(): JSX.Element {
           onChange={setSearch}
           placeholder="Search projects"
         />
-        <IconButtonC icon="dots-menu" size="large" background="transparent" onClick={handleShowMenu} />
+        <IconButtonC icon="dots-menu" size="large" transparent onClick={handleShowMenu} />
       </div>
       <div className="project-list--row">
         <ProjectTableC

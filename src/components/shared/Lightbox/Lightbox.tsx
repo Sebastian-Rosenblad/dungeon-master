@@ -32,7 +32,7 @@ export function LightboxC({ title, icon, onClose, children }: LightboxProps) {
         <div className="lightbox--header">
           {icon && <IconC name={icon} />}
           <h2 className="lightbox--title">{title}</h2>
-          <IconButtonC icon="close" background="transparent" onClick={onClose} />
+          <IconButtonC icon="close" transparent onClick={onClose} />
         </div>
         <div className="lightbox--body">{children}</div>
       </div>

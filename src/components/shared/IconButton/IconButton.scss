@@ -32,4 +32,7 @@
       box-shadow: $small-box-shadow;
     }
   }
+  &.has-background:hover {
+    border: 1px solid $dark-gray;
+  }
 }

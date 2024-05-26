@@ -21,7 +21,7 @@ export function IconSelectC({ value, fill, background, onChange }: IconSelectPro
         const parser = new DOMParser();
         const svgDoc = parser.parseFromString(data, 'image/svg+xml');
         const symbols = svgDoc.getElementsByTagName('symbol');
-        const iconNames = Array.from(symbols).map(symbol => symbol.id.slice(5)).sort((a, b) => a.localeCompare(b));
+        const iconNames = Array.from(symbols).map(symbol => symbol.id.slice(5)).filter(id => id.startsWith('category-')).sort((a, b) => a.localeCompare(b));
         setIcons(iconNames);
       })
       .catch(error => console.error('Error loading SVG symbols:', error));
@@ -35,9 +35,14 @@ export function IconSelectC({ value, fill, background, onChange }: IconSelectPro
     <IconButtonC icon={value} fill={fill} background={background} onClick={(evt) => handleOpenMenu(evt)} />
     {menuPosition !== null && (
       <PopupWrapperC x={menuPosition.x} y={menuPosition.y} onClose={() => setMenuPosition(null)}>
-        {icons.map(icon => (
-          <IconButtonC key={icon} icon={icon} fill={fill} background={background} onClick={() => { onChange(icon); setMenuPosition(null); }} />
-        ))}
+        <div className="icon-select--popup-menu">
+          <h3 className="icon-select--popup-menu--header">Select icon</h3>
+          <div className="icon-select--popup-menu--icons">
+            {icons.map(icon => (
+              <IconButtonC key={icon} icon={icon} fill={fill} background={background} size="large" onClick={() => { onChange(icon); setMenuPosition(null); }} />
+            ))}
+          </div>
+        </div>
       </PopupWrapperC>
     )}
   </div>;

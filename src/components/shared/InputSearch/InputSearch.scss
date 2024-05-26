@@ -2,13 +2,13 @@
 
 .input-search {
   display: flex;
-  gap: $small-gap;
+  gap: $gap;
   
   &--wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    gap: $small-gap;
+    gap: $gap;
     padding: $large-text-padding;
     background-color: $grey-blue;
     border-radius: $larger-border-radius;

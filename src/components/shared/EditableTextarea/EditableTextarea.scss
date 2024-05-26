@@ -18,12 +18,12 @@
     }
   }
   &--editing {
-    gap: $small-gap;
+    gap: $gap;
 
     &--buttons {
       display: flex;
       flex-direction: column;
-      gap: $small-gap;
+      gap: $gap;
     }
     textarea {
       width: 100%;

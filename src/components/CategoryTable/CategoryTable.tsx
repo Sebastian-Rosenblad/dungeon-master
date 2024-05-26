@@ -83,7 +83,7 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
             <p className="article-table--head--row--menu">
               {categories.length > 1 && <IconButtonC
                 icon="dots-menu"
-                background="transparent"
+                transparent
                 onClick={(evt) => handleShowMenu(evt, category)}
               />}
             </p>

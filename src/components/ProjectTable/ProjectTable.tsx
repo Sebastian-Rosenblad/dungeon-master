@@ -115,7 +115,7 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
             <p className="project-table--head--row--menu">
               <IconButtonC
                 icon="dots-menu"
-                background="transparent"
+                transparent
                 onClick={(evt) => handleShowMenu(evt, project)}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
