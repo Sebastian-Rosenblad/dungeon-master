@@ -54,7 +54,7 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
       <div className="category-table--head">
         <div className="category-table--head--row">
           <p className="category-table--head--row--icon">Icon</p>
-          <p onClick={() => onSort("asc")} className="category-table--head--row--name sortable-column">
+          <p onClick={() => onSort(sortDirection === "asc" ? "desc" : "asc")} className="category-table--head--row--name sortable-column">
             <span>Category</span>
             <IconC name={sortDirection === "asc" ? "sort-active-asc" : "sort-active-desc"} size="small" />
           </p>
