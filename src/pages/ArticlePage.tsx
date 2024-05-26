@@ -7,6 +7,7 @@ import { fetchArticleById, setCurrentArticle } from "../features/articles/articl
 import useAppDispatch from "../hooks/useAppDispatch";
 import { useParams } from "react-router-dom";
 import { BreadcrumbC } from "../components/shared/Breadcrumb";
+import { InputDropdownC } from "../components/shared/InputDropdown";
 
 export function ArticlePageP(): JSX.Element {
   const { articleId } = useParams<{ articleId: string }>();
@@ -47,7 +48,21 @@ export function ArticlePageP(): JSX.Element {
           ]}
         />
       </div>
-      <div className="article--settings"></div>
+      <div className="article--settings">
+        <InputDropdownC
+          label="Category"
+          value={article.category}
+          options={project?.categories.map(category => ({
+            icon: category.icon,
+            label: category.name,
+            textColor: category.textColor,
+            iconFill: category.secondaryColor,
+            iconBackground: category.primaryColor,
+            value: category.id
+          })) || []}
+          onChange={category => dispatch(setCurrentArticle({ ...article, category }))}
+        />
+      </div>
       <div className="page--separator"></div>
       <div className="article--content"></div>
     </div>

@@ -28,7 +28,7 @@ export function BreadcrumbC({ items }: BreadcrumbPropsM): JSX.Element {
           ) : (
             <h1>{item.label}</h1>
           )}
-          {index < items.length - 1 && <IconC name="breadcrumb-separator" size="large" />}
+          {index < items.length - 1 && <IconC name="cheveron-right" size="large" />}
         </React.Fragment>
       ))}
     </div>
