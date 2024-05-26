@@ -59,8 +59,8 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
             <IconC name={sortDirection === "asc" ? "sort-active-asc" : "sort-active-desc"} size="small" />
           </p>
           <p className="category-table--head--row--text-color">Text</p>
-          <p className="category-table--head--row--primary-color">Primary</p>
-          <p className="category-table--head--row--secondary-color">Secondary</p>
+          <p className="category-table--head--row--primary-color">Prim.</p>
+          <p className="category-table--head--row--secondary-color">Sec.</p>
           <p className="article-table--head--row--menu"></p>
         </div>
       </div>
