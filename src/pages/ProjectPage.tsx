@@ -4,17 +4,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchProjectById, setCurrentProject } from "../features/projects/project-slice";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { useNavigate, useParams } from "react-router-dom";
-import { EditableTextC } from "../components/shared/EditableText";
-import { EditableTextareaC } from "../components/shared/EditableTextarea";
+import { useParams } from "react-router-dom";
+import { BreadcrumbC } from "../components/shared/Breadcrumb";
 import { ImageSelectC } from "../components/shared/ImageSelect";
+import { EditableTextareaC } from "../components/shared/EditableTextarea";
 import { ArticleCategoryListC } from "../components/ArticleCategoryList";
-import { IconC } from "../components/shared/Icon";
 
 export function ProjectPageP(): JSX.Element {
   const { projectId } = useParams<{ projectId: string }>();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const project = useSelector((state: RootState) => state.projects.currentProject);
 
   useEffect(() => {
@@ -41,21 +39,24 @@ export function ProjectPageP(): JSX.Element {
 
   return !project ? (<div className="page"><p>Loading...</p></div>) : (
     <div className="page">
-      <div className="project-navigation">
-        <h1 onClick={() => navigate("/")}>My projects</h1>
-        <IconC name="breadcrumb-separator" size="large" />
-        <EditableTextC text={project.title} tag="h1" onSave={handleUpdateTitle} />
+      <div className="project--header">
+        <BreadcrumbC
+          items={[
+            { label: "My projects", link: "/" },
+            { label: project.title, editable: true, onSave: handleUpdateTitle },
+          ]}
+        />
       </div>
-      <div className="project-header">
-        <div className="project-header--left">
+      <div className="project--settings">
+        <div className="project--settings--left">
           <ImageSelectC value={project.thumbnail} onChange={handleUpdateThumbnail} />
         </div>
-        <div className="project-header--right">
+        <div className="project--settings--right">
           <EditableTextareaC text={project.description} label="Description" placeholder="Click to add a description" onSave={handleUpdateDescription} />
         </div>
       </div>
       <div className="page--separator"></div>
-      <div className="project-content">
+      <div className="project--content">
         <ArticleCategoryListC />
       </div>
     </div>

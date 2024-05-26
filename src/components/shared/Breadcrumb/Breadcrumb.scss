@@ -1,0 +1,15 @@
+@import "../../../assets/styles/variables.scss";
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+
+  &--link {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
