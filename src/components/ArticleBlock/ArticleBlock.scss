@@ -1,0 +1,21 @@
+@import "../../assets/styles/variables.scss";
+
+.article-block {
+  border: 1px solid;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  &--header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $text-padding;
+  }
+  &--content {
+    display: flex;
+    flex-direction: column;
+    gap: $large-gap;
+    padding: $large-text-padding;
+    box-sizing: border-box;
+  }
+}

@@ -5,13 +5,14 @@ import { IconC } from "../Icon";
 interface ButtonPropsM {
   icon?: string;
   label: string;
-  active?: boolean;
+  size?: "small" | "medium";
+  transparent?: boolean;
   onClick: () => void;
 }
 
-export function ButtonC({ icon, label, active, onClick }: ButtonPropsM): JSX.Element {
+export function ButtonC({ icon, label, size = "medium", transparent, onClick }: ButtonPropsM): JSX.Element {
   return (
-    <button className={`button ${active && "active"}`} onClick={onClick}>
+    <button className={`button ${size} ${transparent ? "transparent" : ""}`} onClick={onClick}>
       {icon && <IconC name={icon} size="small" />}
       <span>{label}</span>
     </button>

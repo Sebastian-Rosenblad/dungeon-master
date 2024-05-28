@@ -37,12 +37,12 @@ export const fetchArticles = createAsyncThunk("articles/fetchArticles", async (_
   return rejectWithValue([]);
 });
 
-export const fetchArticleById = createAsyncThunk("articles/fetchArticlwById", async (articleId: string, { rejectWithValue }) => {
+export const fetchArticleById = createAsyncThunk("articles/fetchArticlwById", async ({ articleId, setAsCurrent }: { articleId: string, setAsCurrent: boolean }, { rejectWithValue }) => {
   // Try fetching from the API endpoint
   if (baseURL) {
     try {
       const response = await axios.get<ArticleM>(`${baseURL}/article/${articleId}`);
-      return response.data;
+      return { article: response.data, setAsCurrent };
     } catch (error) {
       console.error("Fetching from API failed", error);
     }
@@ -52,14 +52,14 @@ export const fetchArticleById = createAsyncThunk("articles/fetchArticlwById", as
   if (articles) {
     const articleList = JSON.parse(articles) as ArticleM[];
     const article = articleList.find(item => item.id === articleId);
-    if (article) return article;
+    if (article) return { article, setAsCurrent };
   }
   // Try fetching from the JSON file
   const response = await fetch("/articles.json");
   if (response.ok) {
     const articleList = await response.json() as ArticleM[];
     const article = articleList.find(item => item.id === articleId);
-    if (article) return article;
+    if (article) return { article, setAsCurrent };
   }
   console.error("Failed to fetch article by ID");
   // Fallback to undefined if all else fails
@@ -102,8 +102,9 @@ const articleSlice = createSlice({
     builder.addCase(fetchArticles.rejected, (state, action) => {
       state.articles = action.payload as ArticleM[] || [];
     });
-    builder.addCase(fetchArticleById.fulfilled, (state, action: PayloadAction<ArticleM>) => {
-      state.currentArticle = action.payload;
+    builder.addCase(fetchArticleById.fulfilled, (state, action) => {
+      const { article, setAsCurrent } = action.payload as { article: ArticleM, setAsCurrent: boolean };
+      if (setAsCurrent) state.currentArticle = article;
     });
     builder.addCase(fetchArticleById.rejected, (state) => {
       state.currentArticle = undefined;

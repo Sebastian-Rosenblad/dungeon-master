@@ -40,7 +40,7 @@ export function ArticleCategoryListC(): JSX.Element {
       projectId: project.id,
       title: "New Article",
       category: project.categories[0].id,
-      content: []
+      content: ""
     };
     dispatch(addArticle(newArticle));
     dispatch(updateProjectArticles({ articleId: newArticle.id, type: "add" }));

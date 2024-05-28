@@ -23,6 +23,9 @@
       &--name {
         flex: 1;
       }
+      &--preview {
+        flex: 0 0 200px;
+      }
       &--text-color, &--primary-color, &--secondary-color {
         flex: 0 0 48px;
         justify-content: center;
@@ -52,6 +55,18 @@
   }
   &--body {
     &--row {
+      &--preview {
+        display: flex;
+        justify-content: flex-start;
+
+        &--tag {
+          padding: $padding;
+          border: 1px solid;
+          border-radius: $border-radius;
+          box-shadow: $small-box-shadow;
+          box-sizing: border-box;
+        }
+      }
       &--icon-background {
         width: 36px;
         height: 36px;

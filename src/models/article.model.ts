@@ -3,5 +3,5 @@ export interface ArticleM {
   projectId: string;
   title: string;
   category: string;
-  content: string[];
+  content: string;
 }

@@ -22,4 +22,17 @@
       gap: $large-gap;
     }
   }
+  &--content {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0px auto;
+
+    &--display, .ql-editor {
+      display: flex;
+      flex-direction: column;
+      gap: $large-gap;
+      padding: $article-padding;
+      box-sizing: border-box;
+    }
+  }
 }

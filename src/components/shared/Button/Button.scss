@@ -11,10 +11,22 @@
   box-shadow: $small-box-shadow;
   cursor: pointer;
   
+  &.small {
+    gap: $gap;
+    padding: $text-padding;
+  }
   &:hover {
     background-color: $lighter-blue;
   }
   span {
     padding-top: 1px;
+  }
+  &.transparent {
+    background-color: transparent;
+    box-shadow: none;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.075);
+    }
   }
 }

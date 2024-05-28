@@ -58,6 +58,7 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
             <span>Category</span>
             <IconC name={sortDirection === "asc" ? "sort-active-asc" : "sort-active-desc"} size="small" />
           </p>
+          <p className="category-table--head--row--preview">Tag preview</p>
           <p className="category-table--head--row--text-color">Text</p>
           <p className="category-table--head--row--primary-color">Prim.</p>
           <p className="category-table--head--row--secondary-color">Sec.</p>
@@ -78,6 +79,9 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
             <div className="category-table--body--row--name">
               <EditableTextC text={category.name} tag="h3" color={category.textColor} onSave={(value) => handleUpdateCategory({ ...category, name: value })} />
             </div>
+            <div className="category-table--body--row--preview">
+              <div className="category-table--body--row--preview--tag" style={{ backgroundColor: category.secondaryColor, color: category.textColor, borderColor: category.primaryColor }}><p><b>{category.name}</b></p></div>
+            </div>
             <div className="category-table--body--row--text-color">
               <ColorSelectC value={category.textColor} onChange={(value) => handleUpdateCategory({ ...category, textColor: value })} />
             </div>
@@ -87,7 +91,7 @@ export function CategoryTableC({ categories, sortDirection, onSort }: CategoryTa
             <div className="category-table--body--row--secondary-color">
               <ColorSelectC value={category.secondaryColor} onChange={(value) => handleUpdateCategory({ ...category, secondaryColor: value })} />
             </div>
-            <p className="article-table--head--row--menu">
+            <p className="article-table--body--row--menu">
               {categories.length > 1 && <IconButtonC
                 icon="dots-menu"
                 transparent

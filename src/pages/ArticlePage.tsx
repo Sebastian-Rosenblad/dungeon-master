@@ -1,31 +1,55 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ArticlePage.scss";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchProjectById, setCurrentProject } from "../features/projects/project-slice";
 import { fetchArticleById, setCurrentArticle } from "../features/articles/article-slice";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { useParams } from "react-router-dom";
+import { debounce } from "lodash";
 import { BreadcrumbC } from "../components/shared/Breadcrumb";
 import { InputDropdownC } from "../components/shared/InputDropdown";
+import { ButtonC } from "../components/shared/Button";
+import { ArticleBlockC } from "../components/ArticleBlock";
 
 export function ArticlePageP(): JSX.Element {
   const { articleId } = useParams<{ articleId: string }>();
   const dispatch = useAppDispatch();
   const project = useSelector((state: RootState) => state.projects.currentProject);
   const article = useSelector((state: RootState) => state.articles.currentArticle);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [content, setContent] = useState<string>("");
+  const [lastSavedContent, setLastSavedContent] = useState<string>("");
+  const quillRef = useRef<ReactQuill | null>(null);
+
+  const autosave = useRef(
+    debounce((value: string) => {
+      console.log("autosave", value);
+      if (value !== lastSavedContent && article) {
+        console.log('Autosave');
+        dispatch(setCurrentArticle({ ...article, content: value }));
+        setLastSavedContent(value);
+      }
+    }, 5000)
+  ).current;
 
   useEffect(() => {
     if (articleId) {
-      dispatch(fetchArticleById(articleId));
+      dispatch(fetchArticleById({ articleId, setAsCurrent: true }));
     }
     return () => {
       dispatch(setCurrentArticle(undefined));
     };
   }, [dispatch, articleId]);
+
   useEffect(() => {
     if (article) {
       dispatch(fetchProjectById(article.projectId));
+      console.log("load", article.content);
+      setContent(article.content);
+      setLastSavedContent(article.content);
     }
     return () => {
       dispatch(setCurrentProject(undefined));
@@ -33,9 +57,27 @@ export function ArticlePageP(): JSX.Element {
   }, [article]);
 
   function handleUpdateTitle(title: string): void {
-    if (!article) return;
-    dispatch(setCurrentArticle({ ...article, title }));
+    if (article) dispatch(setCurrentArticle({ ...article, title }));
   }
+  function handleContentChange(value: string): void {
+    setContent(value);
+    autosave(value);
+  }
+  function handleSave() {
+    console.log("manual save", content);
+    autosave.flush();
+    if (article) {
+      dispatch(setCurrentArticle({ ...article, content }));
+      setLastSavedContent(content);
+    }
+    setEditing(false);
+  }
+
+  const editorModules = {
+    clipboard: {
+      matchVisual: false,
+    },
+  };
 
   return !article ? (<div className="page"><p>Loading...</p></div>) : (
     <div className="page">
@@ -62,9 +104,24 @@ export function ArticlePageP(): JSX.Element {
           })) || []}
           onChange={category => dispatch(setCurrentArticle({ ...article, category }))}
         />
+        <ButtonC
+          icon={editing ? "edit-save" : "edit-start"}
+          label={editing ? "Save" : "Edit"}
+          onClick={editing ? handleSave : () => setEditing(true)}
+        />
       </div>
       <div className="page--separator"></div>
-      <div className="article--content"></div>
+      <div className="article--content">
+        {editing ?
+          <ReactQuill
+            ref={quillRef}
+            value={content}
+            onChange={handleContentChange}
+            modules={editorModules}
+          /> :
+          <div className="article--content--display" dangerouslySetInnerHTML={{ __html: content }} />
+        }
+      </div>
     </div>
   );
 }
