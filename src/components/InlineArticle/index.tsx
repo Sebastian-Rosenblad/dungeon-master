@@ -1,0 +1,1 @@
+export { InlineArticleC } from "./InlineArticle";

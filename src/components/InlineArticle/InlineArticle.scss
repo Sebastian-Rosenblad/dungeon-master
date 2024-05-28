@@ -1,0 +1,9 @@
+@import "../../assets/styles/variables.scss";
+
+.inline-article {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
