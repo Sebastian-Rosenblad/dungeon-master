@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { fetchArticleById } from "../../features/articles/article-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
-import { useNavigate } from "react-router-dom";
 import { ButtonC } from "../shared/Button";
 import { parseContent } from "../../utils/parseContent";
 
@@ -14,7 +13,6 @@ interface ArticleBlockPropsM {
 
 export function ArticleBlockC({ articleId }: ArticleBlockPropsM): JSX.Element {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const article = useSelector((state: RootState) => state.articles.articles.find(a => a.id === articleId));
   const category = useSelector((state: RootState) => state.projects.currentProject?.categories.find(cat => cat.id === article?.category) || null);
   const [isExpanded, setIsExpanded] = useState(false);
