@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import "./PopupWrapper.scss";
 
 export interface PopupWrapperPropsM {
@@ -11,20 +11,7 @@ export interface PopupWrapperPropsM {
 export function PopupWrapperC({ x, y, children, onClose }: PopupWrapperPropsM) {
   const popupRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    function handleClickOutside(evt: MouseEvent) {
-      if (popupRef.current && !popupRef.current.contains(evt.target as Node)) {
-        onClose();
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [onClose]);
-
-  useEffect(() => {
+  const adjustPosition = useCallback(() => {
     if (popupRef.current) {
       const popup = popupRef.current;
       const rect = popup.getBoundingClientRect();
@@ -42,8 +29,38 @@ export function PopupWrapperC({ x, y, children, onClose }: PopupWrapperPropsM) {
     }
   }, [x, y]);
 
+  useEffect(() => {
+    function handleClickOutside(evt: MouseEvent) {
+      if (popupRef.current && !popupRef.current.contains(evt.target as Node)) {
+        onClose();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
+  useEffect(() => {
+    adjustPosition();
+    const observer = new ResizeObserver(() => {
+      adjustPosition();
+    });
+
+    if (popupRef.current) {
+      observer.observe(popupRef.current);
+    }
+
+    return () => {
+      if (popupRef.current) {
+        observer.unobserve(popupRef.current);
+      }
+    };
+  }, [adjustPosition]);
+
   return (
-    <div className="popup-wrapper" ref={popupRef}>
+    <div className="popup-wrapper" ref={popupRef} style={{ top: y, left: x }}>
       {children}
     </div>
   );
