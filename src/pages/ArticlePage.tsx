@@ -13,6 +13,8 @@ import { BreadcrumbC } from "../components/shared/Breadcrumb";
 import { InputDropdownC } from "../components/shared/InputDropdown";
 import { ButtonC } from "../components/shared/Button";
 import { ArticleBlockC } from "../components/ArticleBlock";
+import { parseContent } from "../utils/parseContent";
+import { CategoryM } from "../models/category.model";
 
 export function ArticlePageP(): JSX.Element {
   const { articleId } = useParams<{ articleId: string }>();
@@ -26,9 +28,7 @@ export function ArticlePageP(): JSX.Element {
 
   const autosave = useRef(
     debounce((value: string) => {
-      console.log("autosave", value);
       if (value !== lastSavedContent && article) {
-        console.log('Autosave');
         dispatch(setCurrentArticle({ ...article, content: value }));
         setLastSavedContent(value);
       }
@@ -47,7 +47,6 @@ export function ArticlePageP(): JSX.Element {
   useEffect(() => {
     if (article) {
       dispatch(fetchProjectById(article.projectId));
-      console.log("load", article.content);
       setContent(article.content);
       setLastSavedContent(article.content);
     }
@@ -64,7 +63,6 @@ export function ArticlePageP(): JSX.Element {
     autosave(value);
   }
   function handleSave() {
-    console.log("manual save", content);
     autosave.flush();
     if (article) {
       dispatch(setCurrentArticle({ ...article, content }));
@@ -94,7 +92,7 @@ export function ArticlePageP(): JSX.Element {
         <InputDropdownC
           label="Category"
           value={article.category}
-          options={project?.categories.map(category => ({
+          options={project?.categories.map((category: CategoryM) => ({
             icon: category.icon,
             label: category.name,
             textColor: category.textColor,
@@ -119,7 +117,7 @@ export function ArticlePageP(): JSX.Element {
             onChange={handleContentChange}
             modules={editorModules}
           /> :
-          <div className="article--content--display" dangerouslySetInnerHTML={{ __html: content }} />
+          <div className="article--content--display">{parseContent(content)}</div>
         }
       </div>
     </div>

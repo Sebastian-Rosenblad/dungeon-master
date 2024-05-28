@@ -6,6 +6,7 @@ import { fetchArticleById } from "../../features/articles/article-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
 import { ButtonC } from "../shared/Button";
+import { parseContent } from "../../utils/parseContent";
 
 interface ArticleBlockPropsM {
   articleId: string;
@@ -32,7 +33,7 @@ export function ArticleBlockC({ articleId }: ArticleBlockPropsM): JSX.Element {
         <ButtonC icon={isExpanded ? "cheveron-up" : "cheveron-down"} label={isExpanded ? "Collapse" : "Expand"} size="small" transparent onClick={() => setIsExpanded(!isExpanded)} />
       </div>
       {isExpanded && (
-        <div className="article-block--content" dangerouslySetInnerHTML={{ __html: article.content }} />
+        <div className="article-block--content">{parseContent(article.content)}</div>
       )}
     </div>
   );
