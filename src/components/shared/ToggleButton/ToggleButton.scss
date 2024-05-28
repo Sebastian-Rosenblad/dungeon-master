@@ -10,9 +10,10 @@
 
   &--option {
     flex: 1;
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: $gap;
+    gap: $large-gap;
     padding: $large-text-padding;
     border: none;
 

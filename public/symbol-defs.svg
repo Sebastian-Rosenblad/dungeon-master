@@ -102,5 +102,8 @@
     <symbol id="icon-cheveron-up" viewBox="0 0 20 20">
       <path d="M10.707 7.050l-0.707-0.707-5.657 5.657 1.414 1.414 4.243-4.242 4.243 4.242 1.414-1.414z"></path>
     </symbol>
+    <symbol id="icon-category" viewBox="0 0 20 20">
+      <path d="M0 0h9v9h-9v-9zM2 2v5h5v-5h-5zM0 11h9v9h-9v-9zM2 13v5h5v-5h-5zM11 0h9v9h-9v-9zM13 2v5h5v-5h-5zM11 11h9v9h-9v-9zM13 13v5h5v-5h-5z"></path>
+    </symbol>
   </defs>
 </svg>

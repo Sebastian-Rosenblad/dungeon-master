@@ -22,14 +22,14 @@ export function ToggleButtonC({ left, right, value, onChange }: ToggleButtonProp
         className={`toggle-button--option ${value === left.value ? 'active' : ''}`}
         onClick={() => handleClick(left.value)}
       >
-        {left.icon && <IconC name={left.icon} />}
+        {left.icon && <IconC name={left.icon} size="small" />}
         <span>{left.label}</span>
       </button>
       <button
         className={`toggle-button--option ${value === right.value ? 'active' : ''}`}
         onClick={() => handleClick(right.value)}
       >
-        {right.icon && <IconC name={right.icon} />}
+        {right.icon && <IconC name={right.icon} size="small" />}
         <span>{right.label}</span>
       </button>
     </div>

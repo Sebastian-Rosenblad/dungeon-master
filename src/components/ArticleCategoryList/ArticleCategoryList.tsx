@@ -93,8 +93,8 @@ export function ArticleCategoryListC(): JSX.Element {
           placeholder={`Search ${view === "article" ? "articles" : "categories"}`}
         />
         <ToggleButtonC
-          left={{ label: "Articles", value: "article" }}
-          right={{ label: "Categories", value: "category" }}
+          left={{ icon: "category-article", label: "Articles", value: "article" }}
+          right={{ icon: "category", label: "Categories", value: "category" }}
           value={view}
           onChange={(value) => setView(value as "article" | "category")}
         />
