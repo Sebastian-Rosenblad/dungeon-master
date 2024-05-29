@@ -28,12 +28,6 @@ export const fetchProjects = createAsyncThunk('projects/fetchProjects', async (_
   // Try fetching from localStorage
   const projects = localStorage.getItem(localKey);
   if (projects) return JSON.parse(projects) as ProjectM[];
-  // Try fetching from the JSON file
-  const response = await fetch("/projects.json");
-  if (response.ok) {
-    const data = await response.json();
-    return data as ProjectM[];
-  }
   // Fallback to an empty array if all else fails
   return rejectWithValue([]);
 });
@@ -55,14 +49,6 @@ export const fetchProjectById = createAsyncThunk("projects/fetchProjectById", as
     const project = projectList.find(item => item.id === projectId);
     if (project) return project;
   }
-  // Try fetching from the JSON file
-  const response = await fetch("/projects.json");
-  if (response.ok) {
-    const projectList = await response.json() as ProjectM[];
-    const project = projectList.find(item => item.id === projectId);
-    if (project) return project;
-  }
-  console.error("Failed to fetch project by ID");
   // Fallback to undefined if all else fails
   return rejectWithValue(undefined);
 });

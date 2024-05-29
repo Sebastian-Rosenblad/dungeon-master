@@ -27,7 +27,6 @@ export function InputDropdownC({ label, value, options, onChange }: InputDropdow
   function handleToggle() {
     if (dropdownRef.current) {
       const rect = dropdownRef.current.getBoundingClientRect();
-      console.log(rect.left, rect.bottom);
       setMenuPosition({ x: rect.left, y: rect.bottom + 1 });
     }
     setIsOpen(!isOpen);

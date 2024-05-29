@@ -27,12 +27,6 @@ export const fetchArticles = createAsyncThunk("articles/fetchArticles", async (_
   // Try fetching from localStorage
   const articles = localStorage.getItem(localKey);
   if (articles) return JSON.parse(articles) as ArticleM[];
-  // Try fetching from the JSON file
-  const response = await fetch("/articles.json");
-  if (response.ok) {
-    const data = await response.json();
-    return data as ArticleM[];
-  }
   // Fallback to an empty array if all else fails
   return rejectWithValue([]);
 });
@@ -54,14 +48,6 @@ export const fetchArticleById = createAsyncThunk("articles/fetchArticlwById", as
     const article = articleList.find(item => item.id === articleId);
     if (article) return { article, setAsCurrent };
   }
-  // Try fetching from the JSON file
-  const response = await fetch("/articles.json");
-  if (response.ok) {
-    const articleList = await response.json() as ArticleM[];
-    const article = articleList.find(item => item.id === articleId);
-    if (article) return { article, setAsCurrent };
-  }
-  console.error("Failed to fetch article by ID");
   // Fallback to undefined if all else fails
   return rejectWithValue(undefined);
 });
