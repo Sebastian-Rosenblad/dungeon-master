@@ -12,8 +12,9 @@ import { debounce } from "lodash";
 import { BreadcrumbC } from "../components/shared/Breadcrumb";
 import { ButtonC } from "../components/shared/Button";
 import { InputDropdownC } from "../components/shared/InputDropdown";
-import { parseContent } from "../utils/parseContent";
+import { ArticleM } from "../models/article.model";
 import { CategoryM } from "../models/category.model";
+import { parseContent } from "../utils/parseContent";
 
 export function ArticlePageP(): JSX.Element {
   const { articleId } = useParams<{ articleId: string }>();
@@ -26,12 +27,12 @@ export function ArticlePageP(): JSX.Element {
   const quillRef = useRef<ReactQuill | null>(null);
 
   const autosave = useRef(
-    debounce((value: string) => {
+    debounce((value: string, article: ArticleM) => {
       if (value !== lastSavedContent && article) {
         dispatch(setCurrentArticle({ ...article, content: value }));
         setLastSavedContent(value);
       }
-    }, 5000)
+    }, 1000)
   ).current;
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export function ArticlePageP(): JSX.Element {
   }
   function handleContentChange(value: string): void {
     setContent(value);
-    autosave(value);
+    if (article) autosave(value, article);
   }
   function handleSave() {
     autosave.flush();
