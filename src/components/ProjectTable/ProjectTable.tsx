@@ -53,7 +53,7 @@ export function ProjectTableC({ projects, sortColumn, sortDirection, onSort, onP
   }
   function handleExportProject(): void {
     if (menuProject) {
-      const jsonContent = JSON.stringify([menuProject], null, 2);
+      const jsonContent = JSON.stringify({ projects: [menuProject], atricles: [] });
       const blob = new Blob([jsonContent], { type: "application/json" });
       const url = URL.createObjectURL(blob);
     

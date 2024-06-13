@@ -3,6 +3,7 @@ import "./ProjectList.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { addProject, fetchProjects, setProjects } from "../../features/projects/project-slice";
+import { setArticles } from "../../features/articles/article-slice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
 import { ProjectTableC } from "../ProjectTable";
@@ -12,12 +13,14 @@ import { ButtonC } from "../shared/Button";
 import { IconButtonC } from "../shared/IconButton";
 import { MenuPopupC } from "../shared/MenuPopup";
 import { ProjectM } from "../../models/project.model";
+import { ArticleM } from "../../models/article.model";
 import { generateUniqueId } from "../../utils/generateUniqueId";
 
 export function ProjectListC(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const projects: ProjectM[] = useSelector((state: RootState) => state.projects.projects);
+  const articles: ArticleM[] = useSelector((state: RootState) => state.articles.articles);
   const [search, setSearch] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<"title" | "articles">("title");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
@@ -82,16 +85,21 @@ export function ProjectListC(): JSX.Element {
         const file = target.files[0];
         const fileContent = await file.text();
         try {
-          const importedProjects: ProjectM[] = JSON.parse(fileContent);
+          const imported: { projects: ProjectM[], articles: ArticleM[] } = JSON.parse(fileContent);
   
-          const updatedProjects = [...projects];
+          const updated = { projects: [...projects], articles: [...articles] };
           const projectMap = new Map<string, ProjectM>();
+          const articleMap = new Map<string, ArticleM>();
   
-          updatedProjects.forEach(project => projectMap.set(project.id, project));
-          importedProjects.forEach(project => projectMap.set(project.id, project));
+          updated.projects.forEach(project => projectMap.set(project.id, project));
+          imported.projects.forEach(project => projectMap.set(project.id, project));
+          updated.articles.forEach(article => articleMap.set(article.id, article));
+          imported.articles.forEach(article => articleMap.set(article.id, article));
   
           const mergedProjects = Array.from(projectMap.values());
+          const mergedArticles = Array.from(articleMap.values());
           dispatch(setProjects(mergedProjects));
+          dispatch(setArticles(mergedArticles));
         } catch (error) {
           console.error("Failed to parse the imported file", error);
           alert("Failed to import projects. Please make sure the file is a valid JSON.");
@@ -103,13 +111,13 @@ export function ProjectListC(): JSX.Element {
     handleCloseMenu();
   }
   function handleExport(): void {
-    const jsonContent = JSON.stringify(projects, null, 2);
+    const jsonContent = JSON.stringify({ projects, articles });
     const blob = new Blob([jsonContent], { type: "application/json" });
     const url = URL.createObjectURL(blob);
   
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = "projects.json";
+    anchor.download = "dungeon-master.json";
   
     document.body.appendChild(anchor);
     anchor.click();
