@@ -48,15 +48,16 @@ export function ArticleCategoryListC(): JSX.Element {
   }
   function getFilteredArticles(): ArticleM[] {
     return articles
+      .filter(article => project?.articles.includes(article.id))
       .filter(article => article.title.toLowerCase().includes(search.toLowerCase()))
-      .slice((page - 1) * articlesPerPage, page * articlesPerPage)
       .sort((a, b) => {
         if (sortColumn === "title") {
           return sortDirection === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
         } else {
           return sortDirection === "asc" ? a.category.localeCompare(b.category) : b.category.localeCompare(a.category);
         }
-      });
+      })
+      .slice((page - 1) * articlesPerPage, page * articlesPerPage);
   }
   function createNewCategory(): void {
     if (!project) return;
@@ -121,7 +122,7 @@ export function ArticleCategoryListC(): JSX.Element {
       <div className="article-category-list--row center">
         <PaginationC
           page={page}
-          totalPages={Math.ceil(articles.length / articlesPerPage)}
+          totalPages={Math.ceil(getFilteredArticles().length / articlesPerPage)}
           onPageChange={setPage}
         />
       </div>

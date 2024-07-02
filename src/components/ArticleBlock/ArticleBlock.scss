@@ -10,6 +10,13 @@
     align-items: center;
     justify-content: space-between;
     padding: $text-padding;
+
+    &--buttons {
+      display: flex;
+      align-items: center;
+      justify-self: center;
+      gap: $small-gap;
+    }
   }
   &--content {
     display: flex;

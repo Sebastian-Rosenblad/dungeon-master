@@ -54,14 +54,14 @@ export function ProjectListC(): JSX.Element {
   function getFilteredProjects(): ProjectM[] {
     return projects
       .filter(project => project.title.toLowerCase().includes(search.toLowerCase()))
-      .slice((page - 1) * projectsPerPage, page * projectsPerPage)
       .sort((a, b) => {
         if (sortColumn === "title") {
           return sortDirection === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
         } else {
           return sortDirection === "asc" ? a.articles.length - b.articles.length : b.articles.length - a.articles.length;
         }
-      });
+      })
+      .slice((page - 1) * projectsPerPage, page * projectsPerPage);
   }
   function updateSort(column: "title" | "articles", direction: "asc" | "desc"): void {
     setSortColumn(column);

@@ -33,6 +33,10 @@
       gap: $large-gap;
       padding: $article-padding;
       box-sizing: border-box;
+
+      img {
+        max-width: 100%;
+      }
     }
   }
 }
